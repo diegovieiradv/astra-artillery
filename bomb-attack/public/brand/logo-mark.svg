@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="astraMarkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#a855f7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <g transform="translate(60, 60)" filter="url(#glow)">
+    <!-- Outer ring -->
+    <circle cx="0" cy="0" r="52" fill="none" stroke="url(#astraMarkGradient)" stroke-width="4" stroke-dasharray="327" stroke-dashoffset="82">
+      <animate attributeName="stroke-dashoffset" from="327" to="0" dur="3s" repeatCount="indefinite" fill="freeze"/>
+    </circle>
+    <!-- Core -->
+    <circle cx="0" cy="0" r="24" fill="url(#coreGlow)"/>
+    <!-- Cannon -->
+    <g transform="rotate(-30)">
+      <rect x="-20" y="-4" width="40" height="8" rx="4" fill="url(#astraMarkGradient)">
+        <animate attributeName="width" values="40;44;40" dur="2s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Flash -->
+      <ellipse cx="20" cy="0" rx="10" ry="5" fill="url(#coreGlow)" opacity="0">
+        <animate attributeName="opacity" values="0;0.9;0" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="10;14;10" dur="1.5s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Projectile -->
+      <circle cx="24" cy="0" r="4" fill="#fff" opacity="0">
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="cx" values="24;44;24" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="4;6;4" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- Orbiting energy particles -->
+    <circle cx="48" cy="-8" r="3" fill="#f97316" opacity="0.9">
+      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="-8;-12;-8" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="-44" cy="18" r="2.5" fill="#6366f1" opacity="0.9">
+      <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="-44;-48;-44" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="34" cy="40" r="2" fill="#ec4899" opacity="0.9">
+      <animateTransform attributeName="transform" type="rotate" from="180 0 0" to="-180 0 0" dur="7s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

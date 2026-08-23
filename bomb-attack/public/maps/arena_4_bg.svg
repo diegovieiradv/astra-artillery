@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d6a4f"/>
+      <stop offset="50%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <radialGradient id="crystalGlow4" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skyGrad4)"/>
+  <g fill="url(#crystalGlow4)">
+    <polygon points="300,800 280,880 320,880" fill="#4ade80" opacity="0.5"/>
+    <polygon points="600,750 570,850 630,850" fill="#4ade80" opacity="0.5"/>
+    <polygon points="1200,780 1175,880 1225,880" fill="#4ade80" opacity="0.5"/>
+    <polygon points="1600,820 1575,920 1625,920" fill="#4ade80" opacity="0.5"/>
+  </g>
+  <g fill="#22c55e" opacity="0.3">
+    <ellipse cx="200" cy="950" rx="100" ry="30"/>
+    <ellipse cx="600" cy="970" rx="80" ry="25"/>
+    <ellipse cx="1100" cy="960" rx="120" ry="35"/>
+    <ellipse cx="1700" cy="940" rx="90" ry="30"/>
+  </g>
+  <g fill="#166534" opacity="0.4">
+    <polygon points="400,900 350,1080 450,1080"/>
+    <polygon points="1000,920 940,1080 1060,1080"/>
+    <polygon points="1500,880 1450,1080 1550,1080"/>
+  </g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="boltBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f87171"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+    <linearGradient id="boltAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fca5a5"/>
+      <stop offset="100%" stop-color="#f87171"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="32" cy="44" r="22" fill="url(#boltBody)" filter="drop-shadow(0 2px 4px rgba(239,68,68,0.4))"/>
+  
+  <ellipse cx="32" cy="28" rx="20" ry="18" fill="#1e293b"/>
+  <ellipse cx="32" cy="28" rx="18" ry="16" fill="#334155"/>
+  
+  <ellipse cx="23" cy="24" rx="5" ry="6" fill="#94a3b8"/>
+  <ellipse cx="23" cy="24" rx="2.5" ry="3" fill="#f87171"/>
+  <ellipse cx="41" cy="24" rx="5" ry="6" fill="#94a3b8"/>
+  <ellipse cx="41" cy="24" rx="2.5" ry="3" fill="#f87171"/>
+  
+  <path d="M23 35 Q32 38 41 35" stroke="#f87171" strokeWidth="2" fill="none" strokeLinecap="round"/>
+  
+  <ellipse cx="32" cy="54" rx="16" ry="8" fill="url(#boltAccent)" opacity="0.8"/>
+  
+  <path d="M28 18 L30 12 L34 18" stroke="#f87171" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M36 18 L34 12 L30 18" stroke="#f87171" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+</svg>

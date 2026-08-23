@@ -1,0 +1,27 @@
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad6" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="50%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skyGrad6)"/>
+  <g fill="#fbbf24" opacity="0.2">
+    <path d="M0,980 Q480,680 960,980 Q1440,680 1920,980 L1920,1080 L0,1080 Z"/>
+    <path d="M0,900 Q480,600 960,900 Q1440,600 1920,900 L1920,1080 L0,1080 Z" opacity="0.15"/>
+  </g>
+  <g fill="#fbbf24" opacity="0.3">
+    <ellipse cx="200" cy="950" rx="100" ry="35"/>
+    <ellipse cx="1720" cy="940" rx="100" ry="35"/>
+  </g>
+  <g fill="#60a5fa" opacity="0.6">
+    <ellipse cx="960" cy="520" rx="100" ry="80"/>
+    <ellipse cx="960" cy="540" rx="80" ry="60" fill="#34d399"/>
+    <ellipse cx="960" cy="560" rx="60" ry="40" fill="#fbbf24"/>
+  </g>
+  <g fill="#22c55e" opacity="0.5">
+    <rect x="860" y="600" width="200" height="20" rx="5"/>
+    <polygon points="960,600 920,580 1000,580" fill="#22c55e"/>
+  </g>
+</svg>

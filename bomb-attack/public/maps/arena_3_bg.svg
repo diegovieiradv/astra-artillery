@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="skyGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a237e"/>
+      <stop offset="30%" stop-color="#283593"/>
+      <stop offset="70%" stop-color="#3949ab"/>
+      <stop offset="100%" stop-color="#5c6bc0"/>
+    </linearGradient>
+    <linearGradient id="groundGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#37474f"/>
+      <stop offset="50%" stop-color="#263238"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+    <radialGradient id="crystalGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#81d4fa"/>
+      <stop offset="50%" stop-color="#03a9f4" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#01579b" stop-opacity="0.2"/>
+    </radialGradient>
+    <radialGradient id="platformGlow" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#80deea" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#006064" stop-opacity="0.1"/>
+    </radialGradient>
+    <filter id="glowEffect" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="floatAnim" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1"/>
+    </filter>
+  </defs>
+  
+  <rect width="1920" height="1080" fill="url(#skyGradient3)"/>
+  
+  <g opacity="0.4">
+    <circle cx="200" cy="200" r="3" fill="#fff">
+      <animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="400" cy="150" r="2" fill="#fff">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="600" cy="300" r="1.5" fill="#fff">
+      <animate attributeName="opacity" values="1;0.5;1" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1200" cy="100" r="2.5" fill="#fff">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1500" cy="250" r="2" fill="#fff">
+      <animate attributeName="opacity" values="1;0.4;1" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1700" cy="180" r="1.5" fill="#fff">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <circle cx="960" cy="180" r="80" fill="url(#crystalGlow)" filter="url(#glowEffect)">
+    <animate attributeName="r" values="80;90;80" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="960" cy="180" r="40" fill="#03a9f4" opacity="0.6">
+    <animate attributeName="r" values="40;45;40" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="960" cy="180" r="15" fill="#fff" opacity="0.9"/>
+  
+  <rect x="0" y="900" width="1920" height="180" fill="url(#groundGradient3)"/>
+  
+  <rect x="150" y="720" width="220" height="45" fill="#37474f" rx="8" filter="url(#platformGlow)"/>
+  <rect x="150" y="720" width="220" height="10" fill="#546e7a" rx="8"/>
+  
+  <rect x="1550" y="720" width="220" height="45" fill="#37474f" rx="8" filter="url(#platformGlow)"/>
+  <rect x="1550" y="720" width="220" height="10" fill="#546e7a" rx="8"/>
+  
+  <rect x="450" y="580" width="160" height="40" fill="#37474f" rx="8" filter="url(#platformGlow)"/>
+  <rect x="450" y="580" width="160" height="8" fill="#546e7a" rx="8"/>
+  
+  <rect x="1310" y="580" width="160" height="40" fill="#37474f" rx="8" filter="url(#platformGlow)"/>
+  <rect x="1310" y="580" width="160" height="8" fill="#546e7a" rx="8"/>
+  
+  <rect x="850" y="440" width="220" height="50" fill="#37474f" rx="8" filter="url(#platformGlow)"/>
+  <rect x="850" y="440" width="220" height="10" fill="#546e7a" rx="8"/>
+  
+  <rect x="750" y="300" width="140" height="40" fill="#37474f" rx="8" filter="url(#platformGlow)"/>
+  <rect x="750" y="300" width="140" height="8" fill="#546e7a" rx="8"/>
+  
+  <rect x="1030" y="300" width="140" height="40" fill="#37474f" rx="8" filter="url(#platformGlow)"/>
+  <rect x="1030" y="300" width="140" height="8" fill="#546e7a" rx="8"/>
+  
+  <rect x="890" y="160" width="140" height="40" fill="#0277bd" rx="8" filter="url(#glowEffect)"/>
+  <rect x="890" y="160" width="140" height="10" fill="#4fc3f7" rx="8"/>
+  
+  <g fill="#263238" opacity="0.5">
+    <ellipse cx="260" cy="700" rx="110" ry="15"/>
+    <ellipse cx="1660" cy="700" rx="110" ry="15"/>
+    <ellipse cx="530" cy="560" rx="80" ry="12"/>
+    <ellipse cx="1390" cy="560" rx="80" ry="12"/>
+    <ellipse cx="960" cy="420" rx="110" ry="18"/>
+    <ellipse cx="820" cy="280" rx="70" ry="12"/>
+    <ellipse cx="1100" cy="280" rx="70" ry="12"/>
+  </g>
+  
+  <g fill="#0288d1" opacity="0.3">
+    <circle cx="200" cy="690" r="4">
+      <animate attributeName="cy" values="690;680;690" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1720" cy="690" r="4">
+      <animate attributeName="cy" values="690;680;690" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="530" cy="550" r="3">
+      <animate attributeName="cy" values="550;540;550" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1390" cy="550" r="3">
+      <animate attributeName="cy" values="550;540;550" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="960" cy="410" r="5">
+      <animate attributeName="cy" values="410;400;410" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="explosionHeavyGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef3c7" stop-opacity="1"/>
+      <stop offset="30%" stop-color="#fde68a" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#fb923c" stop-opacity="0.7"/>
+      <stop offset="80%" stop-color="#ef4444" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coreHeavyGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef9c3" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#fbbf24" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#ef4444" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="80" fill="url(#explosionHeavyGlow)" opacity="0.6"/>
+  <circle cx="64" cy="64" r="50" fill="url(#coreHeavyGlow)" opacity="0.9"/>
+  <g fill="#fef3c7" opacity="0.8">
+    <polygon points="64,10 68,28 56,28"/>
+    <polygon points="64,118 68,100 56,100"/>
+    <polygon points="10,64 28,68 28,60"/>
+    <polygon points="118,64 100,68 100,60"/>
+    <polygon points="22,22 16,30 30,16"/>
+    <polygon points="106,22 112,30 98,16"/>
+    <polygon points="22,106 16,98 30,110"/>
+    <polygon points="106,106 112,98 98,112"/>
+  </g>
+  <g fill="#fb923c" opacity="0.7">
+    <circle cx="64" cy="64" r="35"/>
+    <circle cx="30" cy="40" r="12"/>
+    <circle cx="98" cy="40" r="12"/>
+    <circle cx="30" cy="88" r="12"/>
+    <circle cx="98" cy="88" r="12"/>
+  </g>
+  <g fill="#fbbf24" opacity="0.5">
+    <circle cx="64" cy="64" r="20"/>
+    <circle cx="40" cy="50" r="8"/>
+    <circle cx="88" cy="50" r="8"/>
+    <circle cx="40" cy="78" r="8"/>
+    <circle cx="88" cy="78" r="8"/>
+  </g>
+</svg>

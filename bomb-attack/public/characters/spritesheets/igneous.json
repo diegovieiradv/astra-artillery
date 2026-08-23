@@ -1,0 +1,30 @@
+{
+  "frames": {
+    "igneous_idle_0": { "frame": { "x": 0, "y": 0, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_idle_1": { "frame": { "x": 64, "y": 0, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_idle_2": { "frame": { "x": 128, "y": 0, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_idle_3": { "frame": { "x": 192, "y": 0, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_walk_0": { "frame": { "x": 0, "y": 64, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_walk_1": { "frame": { "x": 64, "y": 64, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_walk_2": { "frame": { "x": 128, "y": 64, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_walk_3": { "frame": { "x": 192, "y": 64, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_aim_0": { "frame": { "x": 0, "y": 128, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_aim_1": { "frame": { "x": 64, "y": 128, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_charge_0": { "frame": { "x": 128, "y": 128, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_charge_1": { "frame": { "x": 192, "y": 128, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_attack_0": { "frame": { "x": 0, "y": 192, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_attack_1": { "frame": { "x": 64, "y": 192, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_hit_0": { "frame": { "x": 128, "y": 192, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_special_0": { "frame": { "x": 192, "y": 192, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_victory_0": { "frame": { "x": 0, "y": 256, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } },
+    "igneous_defeat_0": { "frame": { "x": 64, "y": 256, "w": 64, "h": 64 }, "rotated": false, "trimmed": false, "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 64 }, "sourceSize": { "w": 64, "h": 64 } }
+  },
+  "meta": {
+    "app": "Astra Artillery",
+    "version": "1.0",
+    "image": "igneous.png",
+    "format": "RGBA8888",
+    "size": { "w": 256, "h": 320 },
+    "scale": "1"
+  }
+}

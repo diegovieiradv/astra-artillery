@@ -1,0 +1,22 @@
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad13" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78716c"/>
+      <stop offset="50%" stop-color="#57534e"/>
+      <stop offset="100%" stop-color="#1c1917"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skyGrad13)"/>
+  <g fill="#78716c" opacity="0.3">
+    <path d="M0,980 Q480,750 960,980 Q1440,750 1920,980 L1920,1080 L0,1080 Z"/>
+  </g>
+  <g fill="#a3a3a3" opacity="0.2">
+    <ellipse cx="300" cy="950" rx="120" ry="35"/>
+    <ellipse cx="1620" cy="940" rx="120" ry="35"/>
+  </g>
+  <g fill="#fbbf24" opacity="0.3">
+    <ellipse cx="960" cy="500" rx="80" ry="60"/>
+    <ellipse cx="960" cy="520" rx="60" ry="40" fill="#34d399"/>
+    <ellipse cx="960" cy="540" rx="40" ry="20" fill="#60a5fa"/>
+  </g>
+</svg>

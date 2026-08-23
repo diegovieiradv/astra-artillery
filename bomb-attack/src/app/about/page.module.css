@@ -1,0 +1,149 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0f172a;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #1e293b;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: #94a3b8;
+  transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+  color: #f8fafc;
+  background: #1e293b;
+}
+
+.backBtn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #f8fafc;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.section {
+  max-width: 800px;
+  margin: 0 auto 2.5rem;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #334155;
+}
+
+.sectionTitle svg {
+  width: 24px;
+  height: 24px;
+  color: #4ade80;
+}
+
+.content {
+  color: #94a3b8;
+  line-height: 1.7;
+}
+
+.content p {
+  margin-bottom: 1rem;
+}
+
+.content p:last-child {
+  margin-bottom: 0;
+}
+
+.content strong {
+  color: #f8fafc;
+}
+
+.content em {
+  color: #64748b;
+}
+
+.creditsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.creditsList div {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.creditsList dt {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #4ade80;
+  margin-bottom: 0.5rem;
+}
+
+.creditsList dd {
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.techList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.techList li {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #cbd5e1;
+  list-style: none;
+}
+
+.techList strong {
+  color: #f8fafc;
+}
+
+.version {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionTitle, .creditsList div, .techList li { transition: none; }
+}

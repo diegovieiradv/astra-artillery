@@ -1,0 +1,27 @@
+<svg viewBox="0 0 3840 2160" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="crystalGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g fill="url(#crystalGlow)">
+    <polygon points="400,1600 380,1680 420,1680" fill="#4ade80" opacity="0.6"/>
+    <polygon points="400,1600 370,1700 430,1700" fill="#4ade80" opacity="0.4"/>
+    <polygon points="400,1600 360,1720 440,1720" fill="#4ade80" opacity="0.2"/>
+    
+    <polygon points="1200,1550 1175,1640 1225,1640" fill="#4ade80" opacity="0.6"/>
+    <polygon points="1200,1550 1165,1670 1235,1670" fill="#4ade80" opacity="0.4"/>
+    <polygon points="1200,1550 1155,1700 1245,1700" fill="#4ade80" opacity="0.2"/>
+    
+    <polygon points="2000,1650 1985,1720 2015,1720" fill="#4ade80" opacity="0.6"/>
+    <polygon points="2000,1650 1975,1750 2025,1750" fill="#4ade80" opacity="0.4"/>
+    
+    <polygon points="2800,1580 2780,1660 2820,1660" fill="#4ade80" opacity="0.6"/>
+    <polygon points="2800,1580 2770,1690 2830,1690" fill="#4ade80" opacity="0.4"/>
+    <polygon points="2800,1580 2760,1720 2840,1720" fill="#4ade80" opacity="0.2"/>
+    
+    <polygon points="3400,1620 3385,1700 3415,1700" fill="#4ade80" opacity="0.6"/>
+    <polygon points="3400,1620 3375,1730 3425,1730" fill="#4ade80" opacity="0.4"/>
+  </g>
+</svg>

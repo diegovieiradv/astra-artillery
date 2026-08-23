@@ -1,0 +1,42 @@
+{
+  "name": "Astra Artillery",
+  "short_name": "Astra Artillery",
+  "description": "Jogo web original de artilharia 2D em turnos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#4ade80",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Jogar",
+      "short_name": "Jogar",
+      "description": "Iniciar nova partida",
+      "url": "/characters",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Oficina",
+      "short_name": "Oficina",
+      "description": "Abrir oficina de melhorias",
+      "url": "/workshop",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

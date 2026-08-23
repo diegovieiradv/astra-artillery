@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bombGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#dc2626" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#b91c1c" stop-opacity="0.3"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="28" fill="url(#bombGlow)" stroke="#dc2626" stroke-width="2"/>
+  <ellipse cx="32" cy="18" rx="12" ry="6" fill="#fecaca" opacity="0.8"/>
+  <ellipse cx="32" cy="16" rx="8" ry="3" fill="#fca5a5" opacity="0.6"/>
+  <path d="M32 10 Q38 8 32 6 Q26 8 32 10" fill="#fca5a5" opacity="0.8"/>
+  <circle cx="32" cy="38" r="14" fill="#ef4444" opacity="0.9"/>
+  <circle cx="32" cy="38" r="10" fill="#f87171" opacity="0.7"/>
+  <circle cx="32" cy="38" r="6" fill="#fecaca" opacity="0.8"/>
+  <path d="M32 26 Q35 30 32 34 Q29 30 32 26" fill="#fecaca" opacity="0.9"/>
+</svg>

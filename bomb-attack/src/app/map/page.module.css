@@ -1,0 +1,307 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0f172a;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+  color: #94a3b8;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #334155;
+  border-top-color: #4ade80;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #1e293b;
+}
+
+.backBtn, .changeChar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: #94a3b8;
+  transition: all 0.2s ease;
+}
+
+.backBtn:hover, .changeChar:hover {
+  color: #f8fafc;
+  background: #1e293b;
+}
+
+.backBtn svg, .changeChar svg {
+  width: 22px;
+  height: 22px;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #f8fafc;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.levelList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.levelCard {
+  position: relative;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.levelCard:hover:not(.locked) {
+  border-color: #4ade80;
+  transform: translateX(4px);
+}
+
+.levelCard:focus-visible {
+  outline: 2px solid #4ade80;
+  outline-offset: 2px;
+}
+
+.levelCard.selected {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 2px #4ade80, 0 8px 30px rgba(74, 222, 128, 0.15);
+}
+
+.levelCard.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.levelCard.locked:hover {
+  transform: none;
+  border-color: #334155;
+}
+
+.levelCard.boss {
+  border-color: #fbbf24;
+  background: linear-gradient(135deg, #1e293b, #2d1b0e);
+}
+
+.levelCard.boss.selected {
+  border-color: #fbbf24;
+  box-shadow: 0 0 0 2px #fbbf24, 0 8px 30px rgba(251, 191, 36, 0.15);
+}
+
+.levelHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.levelNumber {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.levelCard.boss .levelNumber {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.levelName {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.levelDifficulty {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #94a3b8;
+  background: #334155;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.levelCard.boss .levelDifficulty {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.stars {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.stars svg {
+  width: 20px;
+  height: 20px;
+}
+
+.levelDesc {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.lockOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.lockOverlay svg {
+  width: 32px;
+  height: 32px;
+}
+
+.footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.selectedInfo {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .selectedInfo {
+    text-align: left;
+    flex: 1;
+  }
+}
+
+.selectedInfo h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 0.5rem;
+}
+
+.selectedInfo p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+.difficultyBadge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+}
+
+.startBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #0f172a;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.startBtn:hover:not(.disabled) {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(74, 222, 128, 0.4);
+}
+
+.startBtn:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.startBtn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.startBtn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner, .levelCard { animation: none; transition: none; }
+}

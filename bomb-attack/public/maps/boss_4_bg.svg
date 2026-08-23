@@ -1,0 +1,25 @@
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyBoss4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="50%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#1c1917"/>
+    </linearGradient>
+    <radialGradient id="magmaGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skyBoss4)"/>
+  <g fill="url(#magmaGlow)">
+    <polygon points="960,200 900,400 1020,400" fill="#fbbf24" opacity="0.6"/>
+    <polygon points="960,250 850,450 1070,450" fill="#fbbf24" opacity="0.4"/>
+    <polygon points="960,300 800,500 1120,500" fill="#fbbf24" opacity="0.2"/>
+  </g>
+  <g fill="#fbbf24" opacity="0.2">
+    <path d="M0,980 Q480,680 960,980 Q1440,680 1920,980 L1920,1080 L0,1080 Z"/>
+  </g>
+  <g fill="#fbbf24" opacity="0.3">
+    <ellipse cx="960" cy="980" rx="300" ry="80"/>
+  </g>
+</svg>

@@ -1,0 +1,237 @@
+<svg viewBox="0 0 256 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wind { fill: #a78bfa; }
+      .wind-dark { fill: #8b5cf6; }
+      .wind-light { fill: #c4b5fd; }
+      .skin { fill: #fef3c7; }
+      .hair { fill: #a78bfa; }
+      .eyes { fill: #60a5fa; }
+      .clothing { fill: #8b5cf6; }
+    </style>
+  </defs>
+  <!-- Idle frames (row 0) -->
+  <g id="idle_0">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <path d="M0 0 Q-10 -5 -15 0 Q-10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+    <g transform="translate(54,30)">
+      <path d="M0 0 Q10 -5 15 0 Q10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+  </g>
+  <g id="idle_1" transform="translate(64,0)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <path d="M0 0 Q-10 -5 -15 0 Q-10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+    <g transform="translate(54,30)">
+      <path d="M0 0 Q10 -5 15 0 Q10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+  </g>
+  <g id="idle_2" transform="translate(128,0)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <path d="M0 0 Q-10 -5 -15 0 Q-10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+    <g transform="translate(54,30)">
+      <path d="M0 0 Q10 -5 15 0 Q10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+  </g>
+  <g id="idle_3" transform="translate(192,0)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <path d="M0 0 Q-10 -5 -15 0 Q-10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+    <g transform="translate(54,30)">
+      <path d="M0 0 Q10 -5 15 0 Q10 5 0 0" class="wind" opacity="0.5"/>
+    </g>
+  </g>
+  <!-- Walk frames (row 1) -->
+  <g id="walk_0" transform="translate(0,64)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(8,30)">
+      <path d="M0 0 Q-15 -10 -25 -5 Q-15 0 0 0" class="wind" opacity="0.6"/>
+    </g>
+    <g transform="translate(56,35)">
+      <path d="M0 0 Q15 -5 25 5 Q15 10 0 0" class="wind" opacity="0.6"/>
+    </g>
+  </g>
+  <g id="walk_1" transform="translate(64,64)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(5,30)">
+      <path d="M0 0 Q-15 -10 -25 -5 Q-15 0 0 0" class="wind" opacity="0.6"/>
+    </g>
+    <g transform="translate(59,35)">
+      <path d="M0 0 Q15 -5 25 5 Q15 10 0 0" class="wind" opacity="0.6"/>
+    </g>
+  </g>
+  <g id="walk_2" transform="translate(128,64)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(8,30)">
+      <path d="M0 0 Q-15 -10 -25 -5 Q-15 0 0 0" class="wind" opacity="0.6"/>
+    </g>
+    <g transform="translate(56,35)">
+      <path d="M0 0 Q15 -5 25 5 Q15 10 0 0" class="wind" opacity="0.6"/>
+    </g>
+  </g>
+  <g id="walk_3" transform="translate(192,64)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(5,30)">
+      <path d="M0 0 Q-15 -10 -25 -5 Q-15 0 0 0" class="wind" opacity="0.6"/>
+    </g>
+    <g transform="translate(59,35)">
+      <path d="M0 0 Q15 -5 25 5 Q15 10 0 0" class="wind" opacity="0.6"/>
+    </g>
+  </g>
+  <!-- Aim frames (row 2) -->
+  <g id="aim_0" transform="translate(0,128)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(8,30)">
+      <path d="M0 0 Q-10 -15 -5 -30" class="wind" stroke="#a78bfa" stroke-width="2" fill="none"/>
+      <path d="M0 0 Q-5 -10 0 -25" class="wind" stroke="#a78bfa" stroke-width="2" fill="none"/>
+    </g>
+  </g>
+  <g id="aim_1" transform="translate(64,128)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(8,30)">
+      <path d="M0 0 Q-10 -15 -5 -30" class="wind" stroke="#a78bfa" stroke-width="2" fill="none"/>
+      <path d="M0 0 Q-5 -10 0 -25" class="wind" stroke="#a78bfa" stroke-width="2" fill="none"/>
+    </g>
+  </g>
+  <!-- Charge frames -->
+  <g id="charge_0" transform="translate(128,128)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <circle cx="0" cy="0" r="8" class="wind-light" opacity="0.5"/>
+    </g>
+  </g>
+  <g id="charge_1" transform="translate(192,128)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <circle cx="0" cy="0" r="12" class="wind-light" opacity="0.6"/>
+      <circle cx="0" cy="0" r="6" class="wind" opacity="0.4"/>
+    </g>
+  </g>
+  <!-- Attack frames (row 3) -->
+  <g id="attack_0" transform="translate(0,192)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(15,25)">
+      <path d="M0 0 L-25 -30 L-20 -35 L0 0" class="wind"/>
+    </g>
+  </g>
+  <g id="attack_1" transform="translate(64,192)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(15,25)">
+      <path d="M0 0 L-25 -30 L-20 -35 L0 0" class="wind"/>
+      <circle cx="-25" cy="-30" r="6" class="wind-light"/>
+    </g>
+  </g>
+  <!-- Hit frame -->
+  <g id="hit_0" transform="translate(128,192)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <path d="M-10 -5 L-5 5 M-5 -5 L-10 5" class="wind-dark" stroke-width="2"/>
+      <path d="M10 -5 L5 5 M5 -5 L10 5" class="wind-dark" stroke-width="2"/>
+    </g>
+  </g>
+  <!-- Special frame -->
+  <g id="special_0" transform="translate(192,192)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,20)">
+      <circle cx="0" cy="0" r="15" class="wind-light" opacity="0.3"/>
+      <circle cx="0" cy="0" r="10" class="wind" opacity="0.5"/>
+      <circle cx="0" cy="0" r="5" class="wind-light" opacity="0.7"/>
+    </g>
+  </g>
+  <!-- Victory frame (row 4) -->
+  <g id="victory_0" transform="translate(0,256)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(8,20)">
+      <path d="M0 0 Q-15 -15 -30 -5 Q-15 0 0 0" class="wind" opacity="0.6"/>
+    </g>
+    <g transform="translate(56,20)">
+      <path d="M0 0 Q15 -15 30 -5 Q15 0 0 0" class="wind" opacity="0.6"/>
+    </g>
+  </g>
+  <!-- Defeat frame -->
+  <g id="defeat_0" transform="translate(64,256)">
+    <ellipse cx="32" cy="50" rx="20" ry="28" class="clothing"/>
+    <ellipse cx="32" cy="22" rx="16" ry="16" class="skin"/>
+    <ellipse cx="26" cy="18" rx="3" ry="3" class="eyes"/>
+    <ellipse cx="38" cy="18" rx="3" ry="3" class="eyes"/>
+    <path d="M32 40 Q38 45 32 48 Q26 45 32 40" class="wind"/>
+    <g transform="translate(10,30)">
+      <path d="M-10 -5 L-5 5 M-5 -5 L-10 5" class="wind-dark" stroke-width="2"/>
+      <path d="M10 -5 L5 5 M5 -5 L10 5" class="wind-dark" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

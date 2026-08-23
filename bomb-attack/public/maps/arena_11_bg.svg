@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad11" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="50%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <radialGradient id="crystalGlow11" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a5f3fc" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#a5f3fc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skyGrad11)"/>
+  <g fill="url(#crystalGlow11)">
+    <polygon points="200,800 170,900 230,900" fill="#a5f3fc" opacity="0.6"/>
+    <polygon points="600,750 565,870 635,870" fill="#a5f3fc" opacity="0.5"/>
+    <polygon points="1200,780 1160,900 1240,900" fill="#a5f3fc" opacity="0.6"/>
+    <polygon points="1600,820 1560,940 1640,940" fill="#a5f3fc" opacity="0.5"/>
+  </g>
+  <g fill="#e0e7ff" opacity="0.2">
+    <path d="M0,980 Q480,700 960,980 Q1440,700 1920,980 L1920,1080 L0,1080 Z"/>
+  </g>
+  <g fill="#a5f3fc" opacity="0.4">
+    <ellipse cx="960" cy="400" rx="120" ry="80"/>
+    <ellipse cx="960" cy="420" rx="90" ry="60" fill="#60a5fa"/>
+    <ellipse cx="960" cy="440" rx="60" ry="40" fill="#3b82f6"/>
+  </g>
+</svg>

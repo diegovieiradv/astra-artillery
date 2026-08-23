@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="favGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <radialGradient id="favCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#a855f7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="favGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <circle cx="32" cy="32" r="28" fill="#0f172a" filter="url(#favGlow)"/>
+  
+  <g transform="translate(32, 32)" filter="url(#favGlow)">
+    <circle cx="0" cy="0" r="26" fill="none" stroke="url(#favGradient)" stroke-width="3"/>
+    <circle cx="0" cy="0" r="12" fill="url(#favCore)"/>
+    <g transform="rotate(-30)">
+      <rect x="-10" y="-2" width="20" height="4" rx="2" fill="url(#favGradient)"/>
+      <circle cx="12" cy="0" r="2" fill="#fff"/>
+    </g>
+    <circle cx="24" cy="-6" r="2" fill="#f97316" opacity="0.8"/>
+    <circle cx="-22" cy="10" r="1.5" fill="#6366f1" opacity="0.8"/>
+  </g>
+</svg>

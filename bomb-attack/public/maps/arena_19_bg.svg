@@ -1,0 +1,22 @@
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad19" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="50%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skyGrad19)"/>
+  <g fill="#e0e7ff" opacity="0.2">
+    <path d="M0,980 Q480,700 960,980 Q1440,700 1920,980 L1920,1080 L0,1080 Z"/>
+  </g>
+  <g fill="#a78bfa" opacity="0.3">
+    <ellipse cx="300" cy="950" rx="120" ry="35"/>
+    <ellipse cx="1620" cy="940" rx="120" ry="35"/>
+  </g>
+  <g fill="#a78bfa" opacity="0.5">
+    <polygon points="960,150 900,300 1020,300"/>
+    <polygon points="960,180 850,350 1070,350" opacity="0.6"/>
+    <polygon points="960,210 800,400 1120,400" opacity="0.3"/>
+  </g>
+</svg>

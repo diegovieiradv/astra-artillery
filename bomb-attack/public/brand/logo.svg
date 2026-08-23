@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="320" height="120">
+  <defs>
+    <linearGradient id="astraTextGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="30%" stop-color="#8b5cf6"/>
+      <stop offset="60%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="astraMarkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.8"/>
+      <stop offset="40%" stop-color="#a855f7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="textGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Emblem/Mark -->
+  <g transform="translate(60, 60)" filter="url(#glow)">
+    <!-- Outer ring with energy -->
+    <circle cx="0" cy="0" r="50" fill="none" stroke="url(#astraMarkGradient)" stroke-width="3" stroke-dasharray="314" stroke-dashoffset="78">
+      <animate attributeName="stroke-dashoffset" from="314" to="0" dur="3s" repeatCount="indefinite" fill="freeze"/>
+    </circle>
+    <!-- Inner core -->
+    <circle cx="0" cy="0" r="22" fill="url(#coreGlow)"/>
+    <!-- Cannon/Projectile symbol -->
+    <g transform="rotate(-30)">
+      <!-- Cannon barrel -->
+      <rect x="-18" y="-3" width="36" height="6" rx="3" fill="url(#astraMarkGradient)">
+        <animate attributeName="width" values="36;40;36" dur="2s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Muzzle flash -->
+      <ellipse cx="18" cy="0" rx="8" ry="4" fill="url(#coreGlow)" opacity="0">
+        <animate attributeName="opacity" values="0;0.8;0" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="8;12;8" dur="1.5s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- Projectile -->
+      <circle cx="22" cy="0" r="3" fill="#fff" opacity="0">
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="cx" values="22;40;22" dur="1.5s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="3;5;3" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- Orbiting particles -->
+    <g>
+      <circle cx="45" cy="-10" r="2.5" fill="#f97316" opacity="0.8">
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="8s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="-10;-15;-10" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="-40" cy="15" r="2" fill="#6366f1" opacity="0.8">
+        <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="10s" repeatCount="indefinite"/>
+        <animate attributeName="cx" values="-40;-45;-40" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="30" cy="35" r="1.5" fill="#ec4899" opacity="0.8">
+        <animateTransform attributeName="transform" type="rotate" from="180 0 0" to="-180 0 0" dur="7s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+  
+  <!-- Text -->
+  <text x="140" y="72" font-family="system-ui, sans-serif" font-size="48" font-weight="800" fill="url(#astraTextGradient)" letter-spacing="3" text-anchor="start" filter="url(#textGlow)">
+    ASTRA ARTILLERY
+  </text>
+</svg>
