@@ -305,21 +305,93 @@ export default function SettingsPage() {
             </svg>
             Dados
           </h2>
-          
-          <button
-            className={styles.dangerBtn}
-            onClick={() => {
-              if (confirm('Tem certeza? Isso apagará todo seu progresso, personagens desbloqueados e configurações.')) {
-                useGameStore.getState().resetProgress();
-              }
-            }}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Resetar Progresso
-          </button>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>Exportar Save</span>
+              <span className={styles.settingDesc}>Copia os dados do jogo para a área de transferência</span>
+            </div>
+            <button
+              className={styles.actionBtn}
+              onClick={() => {
+                try {
+                  const raw = localStorage.getItem('astra-artillery-save');
+                  if (raw) {
+                    navigator.clipboard.writeText(raw).then(() => {
+                      alert('Save copiado para a área de transferência!');
+                    });
+                  } else {
+                    alert('Nenhum save encontrado.');
+                  }
+                } catch {
+                  alert('Erro ao exportar save.');
+                }
+              }}
+            >
+              Exportar
+            </button>
+          </div>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>Importar Save</span>
+              <span className={styles.settingDesc}>Cole um save JSON para restaurar o progresso</span>
+            </div>
+            <button
+              className={styles.actionBtn}
+              onClick={() => {
+                const json = prompt('Cole o JSON do save abaixo:');
+                if (!json) return;
+                try {
+                  const parsed = JSON.parse(json);
+                  if (!parsed || typeof parsed !== 'object') throw new Error('Formato invalido');
+                  localStorage.setItem('astra-artillery-save', JSON.stringify(parsed));
+                  alert('Save importado! Recarregando...');
+                  window.location.reload();
+                } catch {
+                  alert('JSON invalido. Verifique o formato e tente novamente.');
+                }
+              }}
+            >
+              Importar
+            </button>
+          </div>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>Limpar Save</span>
+              <span className={styles.settingDesc}>Remove apenas o arquivo de save (mantem configuracoes)</span>
+            </div>
+            <button
+              className={styles.dangerBtn}
+              onClick={() => {
+                if (confirm('Tem certeza? Isso apagara apenas o save do jogo.')) {
+                  localStorage.removeItem('astra-artillery-save');
+                  alert('Save removido! Recarregando...');
+                  window.location.reload();
+                }
+              }}
+            >
+              Limpar
+            </button>
+          </div>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>Resetar Progresso</span>
+              <span className={styles.settingDesc}>Apaga todo progresso, personagens e configuracoes</span>
+            </div>
+            <button
+              className={styles.dangerBtn}
+              onClick={() => {
+                if (confirm('Tem certeza? Isso apagara todo seu progresso, personagens desbloqueados e configuracoes.')) {
+                  useGameStore.getState().resetProgress();
+                }
+              }}
+            >
+              Resetar
+            </button>
+          </div>
         </section>
       </main>
     </div>

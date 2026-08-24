@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { usePhaserGame, useGameControls } from '@/hooks/usePhaserGame';
 import { useGameStore, useBattleStore } from '@/stores/gameStore';
 import { MobileControls } from '@/components/game/MobileControls';
+import { WeatherIndicator } from '@/components/game/WeatherIndicator';
 import { GameLoader } from '@/components/loading/GameLoader';
 import { CHARACTERS, LEVELS } from '@/game/characters/registry';
+import { getRandomWeather } from '@/game/data/weather';
 import { audioManager, initAudioFromSettings, vibrationManager } from '@/utils/audio';
 import styles from './page.module.css';
 
@@ -20,6 +22,7 @@ const containerRef = useRef<HTMLDivElement>(null);
   const [winner, setWinner] = useState<'player' | 'cpu' | null>(null);
   const [loading, setLoading] = useState(true);
   const [orientationWarning, setOrientationWarning] = useState(false);
+  const [currentWeather, setCurrentWeather] = useState<ReturnType<typeof getRandomWeather>>('clear');
   
   const { controls } = useGameControls();
   
@@ -27,6 +30,9 @@ const containerRef = useRef<HTMLDivElement>(null);
     initAudioFromSettings(settings);
     audioManager.preloadAll().catch(console.warn);
     audioManager.play('bgm_battle', 'music', { loop: true, volume: 0.5 });
+    
+    const weather = getRandomWeather();
+    setCurrentWeather(weather);
     
     return () => {
       audioManager.stopMusic();
@@ -157,6 +163,10 @@ const containerRef = useRef<HTMLDivElement>(null);
       <div className={styles.gameContainer} ref={containerRef} role="application" aria-label="Área de jogo">
         <div className={styles.canvasWrapper}>
           <div id="game-container" className={styles.canvas} />
+        </div>
+        
+        <div className={styles.hudOverlay}>
+          <WeatherIndicator weather={currentWeather} wind={0} />
         </div>
         
         {orientationWarning && (

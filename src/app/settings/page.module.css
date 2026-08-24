@@ -220,6 +220,25 @@
   height: 20px;
 }
 
+.actionBtn {
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.actionBtn:hover {
+  background: rgba(74, 222, 128, 0.2);
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .spinner, .toggleSlider, .toggleSlider:before, .slider::-webkit-slider-thumb { animation: none; transition: none; }
 }

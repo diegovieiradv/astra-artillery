@@ -2139,8 +2139,10 @@ interface BattleState {
   turnsPlayed: number;
   playerDamageDealt: number;
   cpuDamageDealt: number;
+  weather: 'clear' | 'windy' | 'rain' | 'storm' | 'fog' | 'sandstorm' | 'snow';
   
   setBattleConfig: (config: { playerCharacter: Character; cpuCharacter: Character; levelId: string; difficulty: 'easy' | 'normal' | 'hard' }) => void;
+  setWeather: (weather: BattleState['weather']) => void;
   recordDamage: (isPlayer: boolean, damage: number) => void;
   incrementTurns: () => void;
   setBattleResult: (result: BattleState['battleResult']) => void;
@@ -2156,8 +2158,11 @@ export const useBattleStore = create<BattleState>((set) => ({
   turnsPlayed: 0,
   playerDamageDealt: 0,
   cpuDamageDealt: 0,
+  weather: 'clear',
   
   setBattleConfig: (config) => set(config),
+  
+  setWeather: (weather) => set({ weather }),
   
   recordDamage: (isPlayer, damage) => set((state) => ({
     playerDamageDealt: isPlayer ? state.playerDamageDealt + damage : state.playerDamageDealt,
@@ -2177,5 +2182,6 @@ export const useBattleStore = create<BattleState>((set) => ({
     turnsPlayed: 0,
     playerDamageDealt: 0,
     cpuDamageDealt: 0,
+    weather: 'clear',
   }),
 }));

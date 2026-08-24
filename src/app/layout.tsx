@@ -4,6 +4,9 @@ import './globals.css';
 import { LayoutTransition } from '@/components/ui/PageTransition';
 import { ReduceMotionProvider } from '@/components/ui/ReduceMotionProvider';
 import { LoadingProvider } from '@/context/LoadingContext';
+import { NavMenu } from '@/components/nav/NavMenu';
+import { NavigationLoader } from '@/components/loading/NavigationLoader';
+import { LoadingScreen } from '@/components/loading/LoadingScreen';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -64,9 +67,12 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col">
         <LoadingProvider>
+          <NavigationLoader />
           <ReduceMotionProvider>
             <LayoutTransition>{children}</LayoutTransition>
           </ReduceMotionProvider>
+          <NavMenu />
+          <LoadingScreen />
           <script
             dangerouslySetInnerHTML={{
               __html: `
