@@ -262,11 +262,72 @@ export function getStoredData(): SaveDataV2 | null {
 
 export function saveData(data: SaveDataV2): void {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.setItem('astra-artillery-save', JSON.stringify(data));
   } catch (error) {
     console.error('Failed to save game data:', error);
+  }
+}
+
+export function backupSave(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem('astra-artillery-save');
+    if (!raw) return null;
+    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+    localStorage.setItem(`astra-artillery-backup-${ts}`, raw);
+    return ts;
+  } catch {
+    return null;
+  }
+}
+
+export function validateSaveImport(json: string): { valid: boolean; error?: string; data?: SaveDataV2 } {
+  try {
+    const parsed = JSON.parse(json);
+    if (typeof parsed !== 'object' || parsed === null) {
+      return { valid: false, error: 'Invalid format: not an object' };
+    }
+    if (!('version' in parsed) || !('state' in parsed)) {
+      return { valid: false, error: 'Invalid format: missing version or state' };
+    }
+    if (parsed.version !== 2 && parsed.version !== 1) {
+      return { valid: false, error: `Unsupported version: ${parsed.version}` };
+    }
+    const state = parsed.state;
+    if (!state || typeof state !== 'object') {
+      return { valid: false, error: 'Invalid state object' };
+    }
+    const requiredKeys = ['selectedCharacterId', 'unlockedLevels', 'completedLevels', 'settings'];
+    for (const key of requiredKeys) {
+      if (!(key in state)) {
+        return { valid: false, error: `Missing required field: ${key}` };
+      }
+    }
+    return { valid: true };
+  } catch {
+    return { valid: false, error: 'Invalid JSON' };
+  }
+}
+
+export function importSave(json: string): { success: boolean; error?: string } {
+  const backupTs = backupSave();
+  const result = validateSaveImport(json);
+  if (!result.valid) {
+    return { success: false, error: result.error };
+  }
+  try {
+    const parsed = JSON.parse(json);
+    if (parsed.version === 1) {
+      const migrated = migrateV1toV2(parsed);
+      saveData(migrated);
+    } else {
+      saveData(parsed);
+    }
+    return { success: true };
+  } catch {
+    return { success: false, error: 'Failed to import save' };
   }
 }
 

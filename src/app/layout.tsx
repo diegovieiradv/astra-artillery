@@ -7,6 +7,8 @@ import { LoadingProvider } from '@/context/LoadingContext';
 import { NavMenu } from '@/components/nav/NavMenu';
 import { NavigationLoader } from '@/components/loading/NavigationLoader';
 import { LoadingScreen } from '@/components/loading/LoadingScreen';
+import { ClientErrorBoundary } from '@/components/game/ClientErrorBoundary';
+import { AccessibilityEnforcer } from '@/components/ui/AccessibilityEnforcer';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -69,7 +71,11 @@ export default function RootLayout({
         <LoadingProvider>
           <NavigationLoader />
           <ReduceMotionProvider>
-            <LayoutTransition>{children}</LayoutTransition>
+            <ClientErrorBoundary>
+              <AccessibilityEnforcer>
+                <LayoutTransition>{children}</LayoutTransition>
+              </AccessibilityEnforcer>
+            </ClientErrorBoundary>
           </ReduceMotionProvider>
           <NavMenu />
           <LoadingScreen />

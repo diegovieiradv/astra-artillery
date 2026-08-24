@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useGameStore } from '@/stores/gameStore';
+import { importSave, backupSave } from '@/utils/storage';
 import { audioManager } from '@/utils/audio';
 import { useI18n } from '@/hooks/useI18n';
 import { GraphicsQuality, resolveQuality, getQualityLabel, QUALITY_OPTIONS } from '@/utils/graphicsQuality';
@@ -396,8 +397,8 @@ export default function SettingsPage() {
 
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
-              <span className={styles.settingLabel}>Exportar Save</span>
-              <span className={styles.settingDesc}>Copia os dados do jogo para a área de transferência</span>
+              <span className={styles.settingLabel}>{t('settings.exportSave')}</span>
+              <span className={styles.settingDesc}>{t('settings.exportSaveDesc')}</span>
             </div>
             <button
               className={styles.actionBtn}
@@ -406,56 +407,54 @@ export default function SettingsPage() {
                   const raw = localStorage.getItem('astra-artillery-save');
                   if (raw) {
                     navigator.clipboard.writeText(raw).then(() => {
-                      alert('Save copiado para a área de transferência!');
+                      alert(t('settings.exportSuccess'));
                     });
                   } else {
-                    alert('Nenhum save encontrado.');
+                    alert(t('settings.noSaveFound'));
                   }
                 } catch {
-                  alert('Erro ao exportar save.');
+                  alert(t('settings.exportError'));
                 }
               }}
             >
-              Exportar
+              {t('common.export')}
             </button>
           </div>
 
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
-              <span className={styles.settingLabel}>Importar Save</span>
-              <span className={styles.settingDesc}>Cole um save JSON para restaurar o progresso</span>
+              <span className={styles.settingLabel}>{t('settings.importSave')}</span>
+              <span className={styles.settingDesc}>{t('settings.importSaveDesc')}</span>
             </div>
             <button
               className={styles.actionBtn}
               onClick={() => {
-                const json = prompt('Cole o JSON do save abaixo:');
+                const json = prompt(t('settings.importPrompt'));
                 if (!json) return;
-                try {
-                  const parsed = JSON.parse(json);
-                  if (!parsed || typeof parsed !== 'object') throw new Error('Formato invalido');
-                  localStorage.setItem('astra-artillery-save', JSON.stringify(parsed));
-                  alert('Save importado! Recarregando...');
+                const result = importSave(json);
+                if (result.success) {
+                  alert(t('settings.importSuccess'));
                   window.location.reload();
-                } catch {
-                  alert('JSON invalido. Verifique o formato e tente novamente.');
+                } else {
+                  alert(result.error || t('settings.importError'));
                 }
               }}
             >
-              Importar
+              {t('settings.importSave')}
             </button>
           </div>
 
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
-              <span className={styles.settingLabel}>Limpar Save</span>
-              <span className={styles.settingDesc}>Remove apenas o arquivo de save (mantem configuracoes)</span>
+              <span className={styles.settingLabel}>{t('settings.clearSave')}</span>
+              <span className={styles.settingDesc}>{t('settings.clearSaveDesc')}</span>
             </div>
             <button
               className={styles.dangerBtn}
               onClick={() => {
-                if (confirm('Tem certeza? Isso apagara apenas o save do jogo.')) {
+                if (confirm(t('settings.clearSaveConfirm'))) {
                   localStorage.removeItem('astra-artillery-save');
-                  alert('Save removido! Recarregando...');
+                  alert(t('settings.clearSaveSuccess'));
                   window.location.reload();
                 }
               }}

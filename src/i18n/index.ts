@@ -131,6 +131,12 @@ export interface TranslationKeys {
     confirmClear: string;
     confirmReset: string;
     pasteJson: string;
+    exportSuccess: string;
+    importSuccess: string;
+    importPrompt: string;
+    importError: string;
+    clearSaveConfirm: string;
+    clearSaveSuccess: string;
   };
   characters: {
     title: string;
@@ -377,6 +383,12 @@ const translations: Record<Locale, TranslationKeys> = {
       confirmClear: 'Tem certeza? Isso apagará apenas o save do jogo.',
       confirmReset: 'Tem certeza? Isso apagará todo seu progresso, personagens desbloqueados e configurações.',
       pasteJson: 'Cole o JSON do save abaixo:',
+      exportSuccess: 'Save copiado para a área de transferência!',
+      importSuccess: 'Save importado! Recarregando...',
+      importPrompt: 'Cole o JSON do save abaixo:',
+      importError: 'JSON inválido. Verifique o formato e tente novamente.',
+      clearSaveConfirm: 'Tem certeza? Isso apagará apenas o save do jogo.',
+      clearSaveSuccess: 'Save removido! Recarregando...',
     },
     characters: {
       title: 'ESCOLHA SEU AVENTUREIRO', loading: 'Carregando personagens...',
@@ -538,6 +550,12 @@ const translations: Record<Locale, TranslationKeys> = {
       confirmClear: 'Are you sure? This will only delete the game save.',
       confirmReset: 'Are you sure? This will delete all progress, unlocked characters and settings.',
       pasteJson: 'Paste the save JSON below:',
+      exportSuccess: 'Save copied to clipboard!',
+      importSuccess: 'Save imported! Reloading...',
+      importPrompt: 'Paste the save JSON below:',
+      importError: 'Invalid JSON. Check the format and try again.',
+      clearSaveConfirm: 'Are you sure? This will only delete the game save.',
+      clearSaveSuccess: 'Save removed! Reloading...',
     },
     characters: {
       title: 'CHOOSE YOUR ADVENTURER', loading: 'Loading characters...',
@@ -699,6 +717,12 @@ const translations: Record<Locale, TranslationKeys> = {
       confirmClear: '¿Estás seguro? Esto solo eliminará el save del juego.',
       confirmReset: '¿Estás seguro? Esto eliminará todo el progreso, personajes desbloqueados y configuraciones.',
       pasteJson: 'Pega el JSON del save abajo:',
+      exportSuccess: '¡Save copiado al portapapeles!',
+      importSuccess: '¡Save importado! Recargando...',
+      importPrompt: 'Pega el JSON del save abajo:',
+      importError: 'JSON inválido. Verifica el formato e intenta de nuevo.',
+      clearSaveConfirm: '¿Estás seguro? Esto solo eliminará el save del juego.',
+      clearSaveSuccess: '¡Save eliminado! Recargando...',
     },
     characters: {
       title: 'ELIGE TU AVENTURERO', loading: 'Cargando personajes...',
