@@ -118,6 +118,7 @@ export interface GameState {
     highContrast: boolean;
     largeText: boolean;
     screenReader: boolean;
+    graphicsQuality: 'low' | 'medium' | 'high' | 'auto';
   };
   tutorialCompleted: boolean;
   currentLevelId: string | null;
@@ -309,6 +310,7 @@ const DEFAULT_SETTINGS = {
   highContrast: false,
   largeText: false,
   screenReader: false,
+  graphicsQuality: 'auto' as const,
 };
 
 const INITIAL_UNLOCKED = ['arena_1'];

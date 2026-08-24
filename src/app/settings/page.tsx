@@ -4,11 +4,14 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useGameStore } from '@/stores/gameStore';
 import { audioManager } from '@/utils/audio';
+import { useI18n } from '@/hooks/useI18n';
+import { GraphicsQuality, resolveQuality, getQualityLabel, QUALITY_OPTIONS } from '@/utils/graphicsQuality';
 import styles from './page.module.css';
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useGameStore();
   const [mounted, setMounted] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -292,6 +295,91 @@ export default function SettingsPage() {
                 checked={settings.screenReader ?? false}
                 onChange={(e) => handleChange('screenReader' as any, e.target.checked)}
                 aria-label="Ativar leitor de tela"
+              />
+              <span className={styles.toggleSlider} />
+            </label>
+          </div>
+        </section>
+
+        <section className={styles.section} aria-labelledby="graphics-heading">
+          <h2 id="graphics-heading" className={styles.sectionTitle}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <path d="M8 21h8M12 17v4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            {t('settings.graphics')}
+          </h2>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>{t('settings.graphicsQuality')}</span>
+              <span className={styles.settingDesc}>{t('settings.graphicsQualityDesc')}</span>
+            </div>
+            <select
+              className={styles.select}
+              value={settings.graphicsQuality ?? 'auto'}
+              onChange={(e) => {
+                const quality = e.target.value as GraphicsQuality;
+                const profile = resolveQuality(quality);
+                updateSettings({
+                  graphicsQuality: quality,
+                  particles: profile.particles,
+                  screenShake: profile.screenShake,
+                  screenFlash: profile.screenFlash,
+                  reduceMotion: profile.reduceMotion,
+                });
+              }}
+              aria-label={t('settings.graphicsQuality')}
+            >
+              {QUALITY_OPTIONS.map((q) => (
+                <option key={q} value={q}>{getQualityLabel(q)}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>{t('settings.particles')}</span>
+              <span className={styles.settingDesc}>{t('settings.particlesDesc')}</span>
+            </div>
+            <label className={styles.toggle}>
+              <input
+                type="checkbox"
+                checked={settings.particles}
+                onChange={(e) => handleChange('particles', e.target.checked)}
+                aria-label={t('settings.particles')}
+              />
+              <span className={styles.toggleSlider} />
+            </label>
+          </div>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>{t('settings.screenShake')}</span>
+              <span className={styles.settingDesc}>{t('settings.screenShakeDesc')}</span>
+            </div>
+            <label className={styles.toggle}>
+              <input
+                type="checkbox"
+                checked={settings.screenShake}
+                onChange={(e) => handleChange('screenShake', e.target.checked)}
+                aria-label={t('settings.screenShake')}
+              />
+              <span className={styles.toggleSlider} />
+            </label>
+          </div>
+
+          <div className={styles.settingRow}>
+            <div className={styles.settingInfo}>
+              <span className={styles.settingLabel}>{t('settings.screenFlash')}</span>
+              <span className={styles.settingDesc}>{t('settings.screenFlashDesc')}</span>
+            </div>
+            <label className={styles.toggle}>
+              <input
+                type="checkbox"
+                checked={settings.screenFlash}
+                onChange={(e) => handleChange('screenFlash', e.target.checked)}
+                aria-label={t('settings.screenFlash')}
               />
               <span className={styles.toggleSlider} />
             </label>
