@@ -1,19 +1,20 @@
 # Astra Artillery
 
-> **Jogo web original de artilharia 2D em turnos**
+> **Jogo web original de artilharia 2D em turnos — v0.2.0**
 
-[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)]()
+[![Status](https://img.shields.io/badge/status-v0.2.0-green)]()
 [![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
 [![Phaser](https://img.shields.io/badge/Phaser-3.88-orange)](https://phaser.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38bdf8)](https://tailwindcss.com/)
+[![Tests](https://img.shields.io/badge/tests-246%20passing-brightgreen)]()
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black)](https://vercel.com/)
 
 ---
 
-## 📖 Sobre
+## Sobre
 
-**Astra Artillery** é um jogo web original de artilharia em turnos, inspirado no gênero clássico popularizado por jogos como *DDTank*, *Worms* e *Gunbound*. 
+**Astra Artillery** é um jogo web original de artilharia em turnos, inspirado no gênero clássico popularizado por jogos como *DDTank*, *Worms* e *Gunbound*.
 
 > **Importante**: Este é um projeto **original**. Não utiliza assets, código, personagens, nomes ou qualquer propriedade intelectual de jogos existentes.
 
@@ -23,15 +24,18 @@ O mundo de **Astra** era protegido por cristais de energia chamados **Núcleos A
 
 ---
 
-## 🎮 Gameplay
+## Gameplay
 
 - **Combate por turnos**: Calcule ângulo, potência e vento
-- **4 personagens únicos**: Kai (equilibrado), Luna (precisão), Bolt (potência), Nova (suporte)
-- **3 fases + chefe** no Capítulo 1
+- **8 personagens únicos**: Kai, Luna, Bolt, Nova, Zephyr, Igneous, Glacis, Aeris — cada um com stats e habilidades únicas
+- **24 fases + 6 boss fights** across 6 regiões temáticas
 - **IA determinística** com 3 níveis de dificuldade
 - **Física arcade**: Trajetória parabólica com vento dinâmico
-- **Habilidades especiais** por personagem
-- **Progressão local** via LocalStorage
+- **Habilidades especiais** por personagem com cooldowns
+- **Sistema de terreno** destrutível com deformação dinâmica
+- **Sistema de save**: export/import/backup com validação
+- **i18n**: Português (BR), English, Español
+- **PWA**: instalação offline com update automático
 
 ### Controles
 
@@ -41,10 +45,13 @@ O mundo de **Astra** era protegido por cristais de energia chamados **Núcleos A
 | Mirar | `W` / `S` ou `↑` / `↓` | Botões ▲ ▼ |
 | Carregar/Disparar | `Espaço` (segurar/soltar) | Botão 🎯 (touch hold) |
 | Habilidade | `Shift` | Botão ⭐ |
+| Pausar | `ESC` / `P` | Botão ⏸ |
+
+Gamepad também é suportado via Gamepad API (d-pad, face buttons, start).
 
 ---
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ```
 src/
@@ -54,25 +61,31 @@ src/
 │   ├── characters/page.tsx # Seleção de personagem
 │   ├── map/page.tsx       # Seleção de fase
 │   ├── game/page.tsx      # Batalha (Phaser)
-│   ├── settings/page.tsx  # Configurações
+│   ├── arsenal/page.tsx   # Arsenal de projéteis
+│   ├── training/page.tsx  # Modo treino
+│   ├── missions/page.tsx  # Missões semanais
+│   ├── profile/page.tsx   # Perfil do jogador
+│   ├── settings/page.tsx  # Configurações completas
 │   └── about/page.tsx     # Créditos
 ├── components/
-│   ├── ui/                # Componentes genéricos
-│   ├── game/              # HUD, controles mobile
-│   └── loading/           # GameLoader
-├── game/                  # Núcleo Phaser (isolado)
+│   ├── ui/                # PageTransition, ReduceMotion, UpdateBanner
+│   ├── game/              # HUD, PauseOverlay, ErrorBoundary, mobile controls
+│   ├── loading/           # GameLoader, LoadingScreen, NavigationLoader
+│   └── nav/               # NavMenu responsivo
+├── game/                  # Núcleo Phaser (isolado do React)
 │   ├── config/            # Configurações do jogo
 │   ├── scenes/            # Boot, Preload, Battle, UI
 │   ├── entities/          # Character, Projectile, Terrain
-│   ├── systems/           # Turn, Wind, Damage, AI
+│   ├── systems/           # Turn, Wind, Damage, AI, Camera, Pause, Weather,
+│   │                      #   Terrain, Impact, ScreenFlash, Feedback, Rewards
 │   ├── physics/           # Ballistics
 │   ├── characters/        # Registry de personagens
 │   └── ai/                # CPU Player
-├── stores/                # Zustand (gameStore, battleStore)
-├── hooks/                 # usePhaserGame, useGameControls
+├── stores/                # Zustand (gameStore ~2200 linhas)
+├── hooks/                 # usePhaserGame, useGameControls, useI18n, useSWUpdate
+├── i18n/                  # 3 locales, 200+ keys
 ├── types/                 # TypeScript definitions
-├── utils/                 # Helpers
-└── data/                  # Story, levels
+└── utils/                 # audio, fullscreen, gamepad, graphicsQuality, storage, math
 ```
 
 ### Separação de Responsabilidades
@@ -80,27 +93,27 @@ src/
 | Camada | Responsabilidade |
 |--------|------------------|
 | **Next.js** | Páginas, menus, layout, SEO, UI fora do combate |
-| **Phaser** | Game loop, sprites, física, trajetória, colisões, partículas |
+| **Phaser** | Game loop, sprites, física, trajetória, colisões, partículas, terreno |
 | **Zustand** | Configurações, progresso, personagem selecionado, estado compartilhado |
-| **React** | Bridge para Phaser, controles mobile, HUD overlay |
+| **React** | Bridge para Phaser, controles mobile, HUD overlay, menus |
 
 ---
 
-## 🛠️ Stack Tecnológica
+## Stack Tecnológica
 
 - **Next.js 15** (App Router, Server Components)
 - **React 18** + **TypeScript 5**
 - **Phaser 3.88** (Game Engine 2D)
 - **Zustand 5** (Estado global)
 - **Tailwind CSS 3.4** (Estilização)
-- **Vitest 2** (Testes unitários)
+- **Vitest 2** (Testes unitários — 246 testes)
 - **Playwright 1.47** (Testes E2E)
 - **ESLint 9** + **Prettier 3** (Qualidade de código)
 - **Vercel** (Deploy)
 
 ---
 
-## 🚀 Instalação e Execução
+## Instalação e Execução
 
 ### Pré-requisitos
 
@@ -150,7 +163,7 @@ npm run test:e2e:ui  # Playwright UI
 
 ---
 
-## 🧪 Testes
+## Testes
 
 ### Unitários (Vitest)
 
@@ -158,10 +171,12 @@ npm run test:e2e:ui  # Playwright UI
 npm run test
 ```
 
-Cobrem:
+246 testes cobrindo:
 - Utilitários matemáticos (`clamp`, `lerp`, `distance`, etc.)
 - Física balística (`calculateTrajectory`, `calculateDamage`, vento)
 - Lógica de personagens e habilidades
+- Dados de recompensas, missões, achievements, Astra Cores
+- Validação de save/load
 
 ### End-to-End (Playwright)
 
@@ -176,7 +191,7 @@ Fluxos testados:
 
 ---
 
-## 📦 Build e Deploy
+## Build e Deploy
 
 ### Vercel (Recomendado)
 
@@ -196,14 +211,32 @@ npm run build
 
 ```env
 # .env.local (não commitado)
-NEXT_PUBLIC_GAME_VERSION=0.1.0
+NEXT_PUBLIC_GAME_VERSION=0.2.0
 ```
 
 ---
 
-## 🗺️ Roadmap
+## Funcionalidades Premium (v0.2.0)
 
-### MVP (Atual)
+| Feature | Status |
+|---------|--------|
+| Pausa multi-source (ESC/gamepad/touch) | ✅ |
+| Crossfade de música entre cenas | ✅ |
+| Fullscreen toggle (cross-browser) | ✅ |
+| Gamepad support (Gamepad API) | ✅ |
+| i18n 3 idiomas (PT/EN/ES) | ✅ |
+| Graphics quality (auto/low/medium/high) | ✅ |
+| Save validation + auto-backup | ✅ |
+| ErrorBoundary global no layout | ✅ |
+| Accessibility enforcer (high contrast, large text, reduce motion) | ✅ |
+| PWA update banner | ✅ |
+| CHANGELOG.md + LICENSE (MIT) | ✅ |
+
+---
+
+## Roadmap
+
+### MVP (v0.1.0) ✅
 - [x] Setup do projeto (Next.js + Phaser + Tooling)
 - [x] Identidade visual (logo, favicon, brand)
 - [x] Loading screen e transições
@@ -225,23 +258,43 @@ NEXT_PUBLIC_GAME_VERSION=0.1.0
 - [x] Testes unitários + E2E
 - [x] Build Vercel ready
 
-### Pós-MVP
-- [ ] PWA (manifest, service worker, instalação)
-- [ ] Terreno destrutível
+### Expansão (v0.2.0) ✅
+- [x] 4 novos personagens (Zephyr, Igneous, Glacis, Aeris)
+- [x] 21 novas fases + 6 boss fights
+- [x] 6 regiões temáticas
+- [x] Terreno destrutível
+- [x] Arsenal de projéteis
+- [x] Missões semanais
+- [x] Modo treino
+- [x] Perfil do jogador
+- [x] Sistema de conquistas
+- [x] Astra Cores (habilidades passivas)
+- [x] New Game+
+
+### Premium (v0.2.0 polish) ✅
+- [x] Pausa multi-source
+- [x] Crossfade de áudio
+- [x] Fullscreen toggle
+- [x] Gamepad support
+- [x] i18n 3 idiomas
+- [x] Graphics quality settings
+- [x] Save validation + backup
+- [x] ErrorBoundary global
+- [x] Accessibility enforcement
+- [x] PWA update mechanism
+
+### Futuro
 - [ ] Multiplayer online (PvP, matchmaking)
-- [ ] Mais personagens e habilidades
 - [ ] Mais fases e capítulos
-- [ ] Sistema de equipamentos/itens
 - [ ] Leaderboards e rankings
 - [ ] Clãs/Guildas
 - [ ] Replay system
-- [ ] Customização visual
 
 ---
 
-## 📄 Licença
+## Licença
 
-Projeto original desenvolvido para fins educacionais e de portfólio.
+MIT License — ver [LICENSE](LICENSE).
 
 **Todos os direitos reservados à equipe Astra Artillery.**
 
@@ -253,7 +306,7 @@ Projeto original desenvolvido para fins educacionais e de portfólio.
 
 ---
 
-## 👥 Créditos
+## Créditos
 
 | Função | Autor |
 |--------|-------|
@@ -261,18 +314,7 @@ Projeto original desenvolvido para fins educacionais e de portfólio.
 | Programação | TypeScript, React, Next.js, Phaser 3 |
 | Arte & UI | SVG Original, CSS/Tailwind |
 | Música & SFX | Placeholders (substituir por originais) |
-| QA & Testes | Vitest + Playwright |
-
----
-
-## 🔗 Links Úteis
-
-- [Phaser 3 Docs](https://phaser.io/phaser3)
-- [Next.js 15 Docs](https://nextjs.org/docs)
-- [Zustand Docs](https://zustand.docs.pmnd.rs/)
-- [Tailwind CSS](https://tailwindcss.com/docs)
-- [Vitest](https://vitest.dev/)
-- [Playwright](https://playwright.dev/)
+| QA & Testes | Vitest (246) + Playwright |
 
 ---
 
