@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useGameStore } from '@/stores/gameStore';
 import { GameLoader } from '@/components/loading/GameLoader';
 import { audioManager, initAudioFromSettings } from '@/utils/audio';
+import { useI18n } from '@/hooks/useI18n';
 import styles from './page.module.css';
 
 export default function HomePage() {
   const [showContent, setShowContent] = useState(false);
   const { selectedCharacterId, settings } = useGameStore();
+  const { t } = useI18n();
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 100);
@@ -20,7 +22,7 @@ export default function HomePage() {
     initAudioFromSettings(settings);
     audioManager.preloadAll().catch(console.warn);
     audioManager.play('bgm_menu', 'music', { loop: true, volume: 0.4 });
-    
+
     return () => {
       audioManager.stopMusic();
     };
@@ -45,23 +47,23 @@ export default function HomePage() {
             <circle cx="60" cy="60" r="4" fill="#0f172a"/>
           </svg>
           <h1 className={styles.title}>ASTRA ARTILLERY</h1>
-          <p className={styles.subtitle}>Artilharia em Turnos</p>
+          <p className={styles.subtitle}>{t('home.subtitle')}</p>
         </div>
       </header>
 
       <main className={styles.main}>
         <div className={`${styles.buttonGroup} ${showContent ? styles.visible : ''}`}>
-          <button 
+          <button
             className={`${styles.btn} ${styles.btnPrimary} ${styles.btnLarge}`}
             onClick={handleStart}
-            aria-label={selectedCharacterId ? 'Continuar jogo' : 'Iniciar jogo'}
+            aria-label={selectedCharacterId ? t('home.continueGame') : t('home.newGame')}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
               <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
-            {selectedCharacterId ? 'CONTINUAR' : 'INICIAR'}
+            {selectedCharacterId ? t('home.continueGame') : t('home.newGame')}
           </button>
-          
+
           <div className={styles.secondaryButtons}>
             <Link href="/workshop" className={`${styles.btn} ${styles.btnSecondary}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -69,17 +71,17 @@ export default function HomePage() {
                 <path d="M2 17l10 5 10-5" />
                 <path d="M2 12l10 5 10-5" />
               </svg>
-              Oficina
+              {t('nav.workshop')}
             </Link>
-            
+
             <Link href="/settings" className={`${styles.btn} ${styles.btnSecondary}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <circle cx="12" cy="12" r="3" />
                 <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
               </svg>
-              Configurações
+              {t('nav.settings')}
             </Link>
-            
+
             <Link href="/about" className={`${styles.btn} ${styles.btnSecondary}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <circle cx="12" cy="12" r="10" />
@@ -92,13 +94,13 @@ export default function HomePage() {
         </div>
 
         <div className={`${styles.version} ${showContent ? styles.visible : ''}`}>
-          v0.1.0-alpha
+          {t('home.version')}
         </div>
       </main>
 
       <footer className={styles.footer} aria-hidden="true">
-        <p>Jogo original inspirado no gênero clássico de artillery games 2D em turnos.</p>
-        <p className={styles.credit}>Astra Artillery — Desenvolvido com tecnologias web modernas</p>
+        <p>{t('home.footer')}</p>
+        <p className={styles.credit}>{t('home.footerTech')}</p>
       </footer>
 
       {settings.reduceMotion && <style jsx>{`

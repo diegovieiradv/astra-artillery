@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
+import { useI18n } from '@/hooks/useI18n';
 import styles from './PauseOverlay.module.css';
 
 interface PauseOverlayProps {
@@ -10,6 +11,8 @@ interface PauseOverlayProps {
 }
 
 export function PauseOverlay({ isPaused, onResume, onQuit }: PauseOverlayProps) {
+  const { t } = useI18n();
+
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape' || e.key === 'p' || e.key === 'P') {
       onResume();
@@ -26,7 +29,7 @@ export function PauseOverlay({ isPaused, onResume, onQuit }: PauseOverlayProps) 
   if (!isPaused) return null;
 
   return (
-    <div className={styles.overlay} role="dialog" aria-label="Jogo pausado" aria-modal="true">
+    <div className={styles.overlay} role="dialog" aria-label={t('battle.pauseTitle')} aria-modal="true">
       <div className={styles.card}>
         <div className={styles.pauseIcon}>
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -34,8 +37,8 @@ export function PauseOverlay({ isPaused, onResume, onQuit }: PauseOverlayProps) 
             <rect x="14" y="4" width="4" height="16" rx="1" />
           </svg>
         </div>
-        <h2 className={styles.title}>PAUSADO</h2>
-        <p className={styles.hint}>Pressione ESC ou P para continuar</p>
+        <h2 className={styles.title}>{t('battle.pauseTitle')}</h2>
+        <p className={styles.hint}>{t('battle.pauseHint')}</p>
 
         <div className={styles.actions}>
           <button
@@ -43,13 +46,13 @@ export function PauseOverlay({ isPaused, onResume, onQuit }: PauseOverlayProps) 
             onClick={onResume}
             autoFocus
           >
-            CONTINUAR
+            {t('battle.resume')}
           </button>
           <button
             className={`${styles.btn} ${styles.btnDanger}`}
             onClick={onQuit}
           >
-            SAIR DA BATALHA
+            {t('battle.quitBattle')}
           </button>
         </div>
       </div>

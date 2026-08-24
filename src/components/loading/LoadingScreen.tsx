@@ -3,18 +3,20 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { LoadingSpinner, LoadingBar } from './LoadingBar';
 import { useLoading, getRandomMessage } from '@/context/LoadingContext';
+import { useI18n } from '@/hooks/useI18n';
 import styles from './LoadingScreen.module.css';
 
-export function LoadingScreen({ 
+export function LoadingScreen({
   phase = 'initial',
   customMessage,
   showProgress = true,
-}: { 
+}: {
   phase?: 'initial' | 'region' | 'battle' | 'boss' | 'worldmap' | 'workshop' | 'character' | 'settings' | 'about' | 'home';
   customMessage?: string;
   showProgress?: boolean;
 }) {
-  const { state, progress, message, showPercent, startLoading, completeLoading, showError, dismissError } = useLoading();
+  const { state, progress, message, showPercent } = useLoading();
+  const { t } = useI18n();
 
   if (state === 'idle') {
     return null;
@@ -59,7 +61,7 @@ export function LoadingScreen({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            ASTRA ARTILLERY
+            {t('loading.title')}
           </motion.p>
 
           <motion.p
@@ -69,7 +71,7 @@ export function LoadingScreen({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            {message || 'Preparando...'}
+            {message || t('loading.preparing')}
           </motion.p>
 
           {showProgress && (
@@ -114,19 +116,19 @@ export function LoadingScreen({
                 role="alert"
                 aria-live="assertive"
               >
-                <p className="error-message">{state === 'error' && 'Erro ao carregar'}</p>
+                <p className="error-message">{t('loading.loadError')}</p>
                 <div className="error-actions">
                   <button
                     className="btn btn-secondary"
                     onClick={() => {}}
                   >
-                    Tentar Novamente
+                    {t('loading.tryAgain')}
                   </button>
                   <button
                     className="btn btn-secondary"
                     onClick={() => {}}
                   >
-                    Voltar
+                    {t('common.back')}
                   </button>
                 </div>
               </motion.div>
@@ -137,14 +139,16 @@ export function LoadingScreen({
     </AnimatePresence>
   );
 }
- 
+
 export function LoadingOverlay({
-  isVisible, 
-  message = 'Carregando...',
-}: { 
-  isVisible: boolean; 
+  isVisible,
+  message,
+}: {
+  isVisible: boolean;
   message?: string;
 }) {
+  const { t } = useI18n();
+
   if (!isVisible) return null;
 
   return (
@@ -171,7 +175,7 @@ export function LoadingOverlay({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}
         >
-          {message}
+          {message || t('common.loading')}
         </motion.p>
       </motion.div>
     </motion.div>
