@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePhaserGame, useGameControls } from '@/hooks/usePhaserGame';
 import { useGameStore, useBattleStore } from '@/stores/gameStore';
 import { MobileControls } from '@/components/game/MobileControls';
 import { WeatherIndicator } from '@/components/game/WeatherIndicator';
+import { PauseOverlay } from '@/components/game/PauseOverlay';
 import { GameLoader } from '@/components/loading/GameLoader';
 import { CHARACTERS, LEVELS } from '@/game/characters/registry';
 import { getRandomWeather } from '@/game/data/weather';
@@ -23,6 +24,7 @@ const containerRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [orientationWarning, setOrientationWarning] = useState(false);
   const [currentWeather, setCurrentWeather] = useState<ReturnType<typeof getRandomWeather>>('clear');
+  const [isPaused, setIsPaused] = useState(false);
   
   const { controls } = useGameControls();
   
@@ -39,7 +41,7 @@ const containerRef = useRef<HTMLDivElement>(null);
     };
   }, [settings.musicVolume, settings.musicEnabled, settings.sfxVolume, settings.sfxEnabled]);
    
-  const { isReady, startBattle, destroyGame, setMobileInput } = usePhaserGame({
+  const { isReady, startBattle, destroyGame, setMobileInput, pauseGame, resumeGame, game } = usePhaserGame({
     containerRef,
     onGameReady: () => setLoading(false),
     onBattleEnd: (result) => {
@@ -78,6 +80,39 @@ const containerRef = useRef<HTMLDivElement>(null);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (!isReady || !game) return;
+    const battleScene = game.scene.getScene('BattleScene');
+    if (!battleScene) return;
+
+    const onPauseToggle = (data: { paused: boolean }) => {
+      setIsPaused(data.paused);
+      if (data.paused) {
+        audioManager.setVolume('music', settings.musicVolume * 0.3);
+      } else {
+        audioManager.setVolume('music', settings.musicVolume);
+      }
+    };
+    battleScene.events.on('pause-toggle', onPauseToggle);
+    return () => {
+      battleScene.events.off('pause-toggle', onPauseToggle);
+    };
+  }, [isReady, game, settings.musicVolume]);
+
+  const handleResume = useCallback(() => {
+    const battleScene = game?.scene.getScene('BattleScene');
+    if (battleScene) {
+      (battleScene as any).togglePause?.();
+    }
+  }, [game]);
+
+  const handleQuitPause = useCallback(() => {
+    resumeGame();
+    setIsPaused(false);
+    resetBattle();
+    router.push('/map');
+  }, [game, router, resetBattle, resumeGame]);
 
   useEffect(() => {
     if (!playerCharacter || !cpuCharacter) {
@@ -179,6 +214,8 @@ const containerRef = useRef<HTMLDivElement>(null);
             <p>Para uma melhor experiência, jogue em orientação paisagem</p>
           </div>
         )}
+
+        <PauseOverlay isPaused={isPaused} onResume={handleResume} onQuit={handleQuitPause} />
       </div>
 
       <MobileControls 

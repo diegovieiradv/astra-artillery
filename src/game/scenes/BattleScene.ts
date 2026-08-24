@@ -28,6 +28,7 @@ import { ImpactEffects, ImpactSize, DamageType } from '../systems/ImpactEffects'
 import { ContextualFeedback, FeedbackData } from '../systems/ContextualFeedback';
 import { RewardAnimations } from '../systems/RewardAnimations';
 import { ScreenFlash } from '../systems/ScreenFlash';
+import { PauseSystem } from '../systems/PauseSystem';
 
 interface BattleSceneData {
   playerCharacterId: string;
@@ -90,6 +91,7 @@ export class BattleScene extends Phaser.Scene {
   private contextualFeedback!: ContextualFeedback;
   private rewardAnimations!: RewardAnimations;
   private screenFlash!: ScreenFlash;
+  private pauseSystem!: PauseSystem;
 
   constructor() {
     super({ key: 'BattleScene' });
@@ -126,6 +128,7 @@ export class BattleScene extends Phaser.Scene {
     this.contextualFeedback = new ContextualFeedback(this);
     this.rewardAnimations = new RewardAnimations(this);
     this.screenFlash = new ScreenFlash(this);
+    this.pauseSystem = new PauseSystem(this);
     
     this.currentWind = generateInitialWind(this.config);
     this.events.emit(GAME_EVENTS.WIND_CHANGE, { wind: this.currentWind });
@@ -388,6 +391,8 @@ private createCharacters(): void {
     }) as any;
     
     this.input.keyboard!.on('keydown-SHIFT', () => this.useAbility());
+    this.input.keyboard!.on('keydown-ESC', () => this.togglePause());
+    this.input.keyboard!.on('keydown-P', () => this.togglePause());
     
     this.events.on('mobile-input', (input: { left: boolean; right: boolean; angleUp: boolean; angleDown: boolean; fire: boolean; ability: boolean }) => {
       this.mobileControls = input;
@@ -401,10 +406,13 @@ private createCharacters(): void {
     this.events.on(GAME_EVENTS.CPU_SHOT, this.onCPUShot, this);
     this.events.on(GAME_EVENTS.PROJECTILE_IMPACT, this.onProjectileImpact, this);
     this.events.on(GAME_EVENTS.BATTLE_END, this.onBattleEnd, this);
+    this.events.on('shutdown', () => {
+      this.pauseSystem.destroy();
+    });
   }
 
   update(time: number, delta: number): void {
-    if (this.battleEnded) return;
+    if (this.battleEnded || this.pauseSystem.isPaused()) return;
     
     if (this.isBossBattle && this.bossEntity) {
       updateBossCooldowns(this.bossEntity, delta);
@@ -978,6 +986,16 @@ private createCharacters(): void {
     this.playerEntity.abilityCooldown = ability.cooldown;
     this.sound.play('sfx_ability', { volume: 0.6 });
     this.events.emit(GAME_EVENTS.ABILITY_USED, { abilityId: ability.id, characterId: char.id });
+  }
+
+  togglePause(): void {
+    if (this.battleEnded) return;
+    this.pauseSystem.toggle('manual');
+    this.events.emit('pause-toggle', { paused: this.pauseSystem.isPaused() });
+  }
+
+  isPaused(): boolean {
+    return this.pauseSystem.isPaused();
   }
 
   private onCharacterKO(data: { characterId: string }): void {
