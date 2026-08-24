@@ -11,6 +11,7 @@ import { GameLoader } from '@/components/loading/GameLoader';
 import { CHARACTERS, LEVELS } from '@/game/characters/registry';
 import { getRandomWeather } from '@/game/data/weather';
 import { audioManager, initAudioFromSettings, vibrationManager } from '@/utils/audio';
+import { toggleFullscreen, isFullscreen } from '@/utils/fullscreen';
 import styles from './page.module.css';
 
 export default function GameClient() {
@@ -25,6 +26,7 @@ const containerRef = useRef<HTMLDivElement>(null);
   const [orientationWarning, setOrientationWarning] = useState(false);
   const [currentWeather, setCurrentWeather] = useState<ReturnType<typeof getRandomWeather>>('clear');
   const [isPaused, setIsPaused] = useState(false);
+  const [isFS, setIsFS] = useState(false);
   
   const { controls } = useGameControls();
   
@@ -114,6 +116,22 @@ const containerRef = useRef<HTMLDivElement>(null);
     router.push('/map');
   }, [game, router, resetBattle, resumeGame]);
 
+  const handleToggleFullscreen = useCallback(async () => {
+    const container = containerRef.current;
+    await toggleFullscreen(container || undefined);
+    setIsFS(isFullscreen());
+  }, []);
+
+  useEffect(() => {
+    const onFSChange = () => setIsFS(isFullscreen());
+    document.addEventListener('fullscreenchange', onFSChange);
+    document.addEventListener('webkitfullscreenchange', onFSChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onFSChange);
+      document.removeEventListener('webkitfullscreenchange', onFSChange);
+    };
+  }, []);
+
   useEffect(() => {
     if (!playerCharacter || !cpuCharacter) {
       router.push('/characters');
@@ -202,6 +220,22 @@ const containerRef = useRef<HTMLDivElement>(null);
         
         <div className={styles.hudOverlay}>
           <WeatherIndicator weather={currentWeather} wind={0} />
+          <button
+            className={styles.fullscreenBtn}
+            onClick={handleToggleFullscreen}
+            aria-label={isFS ? 'Sair da tela cheia' : 'Tela cheia'}
+            title={isFS ? 'Sair da tela cheia' : 'Tela cheia'}
+          >
+            {isFS ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m20 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+          </button>
         </div>
         
         {orientationWarning && (
