@@ -3,20 +3,22 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useGameStore } from '@/stores/gameStore';
-import { GameLoader } from '@/components/loading/GameLoader';
 import { audioManager, initAudioFromSettings } from '@/utils/audio';
 import { useI18n } from '@/hooks/useI18n';
+import { SplashScreen } from '@/components/splash/SplashScreen';
 import styles from './page.module.css';
 
 export default function HomePage() {
+  const [showSplash, setShowSplash] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const { selectedCharacterId, settings } = useGameStore();
   const { t } = useI18n();
 
   useEffect(() => {
+    if (showSplash) return;
     const timer = setTimeout(() => setShowContent(true), 100);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showSplash]);
 
   useEffect(() => {
     initAudioFromSettings(settings);
@@ -36,8 +38,14 @@ export default function HomePage() {
     }
   };
 
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
   return (
     <div className={styles.page}>
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+
       <header className={styles.header} aria-hidden="true">
         <div className={styles.logoContainer}>
           <svg className={styles.logo} viewBox="0 0 120 120" role="img" aria-label="Astra Artillery Logo">
