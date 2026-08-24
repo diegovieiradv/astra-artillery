@@ -41,8 +41,8 @@ export function CosmeticsPanel({
               </h3>
               <div className="cosmeticGrid">
                 {slotCosmetics.map((cosmetic) => {
-                  const unlocked = true; // TODO: connect to store
-                  const equipped = false; // TODO: connect to store
+                  const unlocked = isUnlocked(cosmetic.id);
+                  const equipped = isEquipped(cosmetic.id);
                   return (
                     <button
                       key={cosmetic.id}
