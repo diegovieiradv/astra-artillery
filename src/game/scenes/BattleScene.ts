@@ -29,6 +29,7 @@ import { ContextualFeedback, FeedbackData } from '../systems/ContextualFeedback'
 import { RewardAnimations } from '../systems/RewardAnimations';
 import { ScreenFlash } from '../systems/ScreenFlash';
 import { PauseSystem } from '../systems/PauseSystem';
+import { GamepadManager } from '../../utils/gamepad';
 
 interface BattleSceneData {
   playerCharacterId: string;
@@ -92,6 +93,7 @@ export class BattleScene extends Phaser.Scene {
   private rewardAnimations!: RewardAnimations;
   private screenFlash!: ScreenFlash;
   private pauseSystem!: PauseSystem;
+  private gamepadManager!: GamepadManager;
 
   constructor() {
     super({ key: 'BattleScene' });
@@ -129,6 +131,20 @@ export class BattleScene extends Phaser.Scene {
     this.rewardAnimations = new RewardAnimations(this);
     this.screenFlash = new ScreenFlash(this);
     this.pauseSystem = new PauseSystem(this);
+    this.gamepadManager = new GamepadManager();
+    this.gamepadManager.onInput((state) => {
+      this.mobileControls = {
+        left: state.left,
+        right: state.right,
+        angleUp: state.angleUp,
+        angleDown: state.angleDown,
+        fire: state.fire,
+        ability: state.ability,
+      };
+      if (state.pause) {
+        this.togglePause();
+      }
+    });
     
     this.currentWind = generateInitialWind(this.config);
     this.events.emit(GAME_EVENTS.WIND_CHANGE, { wind: this.currentWind });
@@ -408,6 +424,7 @@ private createCharacters(): void {
     this.events.on(GAME_EVENTS.BATTLE_END, this.onBattleEnd, this);
     this.events.on('shutdown', () => {
       this.pauseSystem.destroy();
+      this.gamepadManager.destroy();
     });
   }
 
