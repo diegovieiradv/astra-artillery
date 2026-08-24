@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="tactosBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#9333ea"/>
+    </linearGradient>
+    <linearGradient id="tactosAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="32" cy="44" r="20" fill="url(#tactosBody)" filter="drop-shadow(0 2px 4px rgba(147,51,234,0.4))"/>
+  
+  <ellipse cx="32" cy="30" rx="18" ry="16" fill="#1e293b"/>
+  <ellipse cx="32" cy="30" rx="16" ry="14" fill="#334155"/>
+  
+  <ellipse cx="24" cy="26" rx="5" ry="6" fill="#64748b"/>
+  <ellipse cx="24" cy="26" rx="2.5" ry="3" fill="#a855f7"/>
+  <ellipse cx="40" cy="26" rx="5" ry="6" fill="#64748b"/>
+  <ellipse cx="40" cy="26" rx="2.5" ry="3" fill="#a855f7"/>
+  
+  <path d="M24 36 Q32 38 40 36" stroke="#a855f7" strokeWidth="2" fill="none" strokeLinecap="round"/>
+  
+  <rect x="14" y="14" width="8" height="8" rx="2" fill="#c084fc" opacity="0.7" transform="rotate(15 18 18)"/>
+  <rect x="42" y="14" width="8" height="8" rx="2" fill="#c084fc" opacity="0.7" transform="rotate(-15 46 18)"/>
+  
+  <ellipse cx="32" cy="52" rx="14" ry="6" fill="url(#tactosAccent)" opacity="0.8"/>
+</svg>

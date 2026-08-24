@@ -119,6 +119,34 @@ const aerisAbility = createAbility(
   })
 );
 
+const scatterAbility = createAbility(
+  'burst_barrage',
+  'Rajada Dispersa',
+  'Dispara 3 projéteis em leque cobrindo ampla área, cada um com 60% do dano base',
+  4,
+  (ctx): AbilityResult => ({
+    success: true,
+    effects: [
+      { type: 'buff', value: 3, duration: 1, target: 'self' },
+      { type: 'buff', value: 60, duration: 1, target: 'self' },
+    ],
+  })
+);
+
+const tactosAbility = createAbility(
+  'field_manipulation',
+  'Manipulação de Campo',
+  'Aplica debuff de -30% ataque e -20% mobilidade no inimigo por 2 turnos',
+  3,
+  (ctx): AbilityResult => ({
+    success: true,
+    effects: [
+      { type: 'debuff', value: 30, duration: 2, target: 'enemy' },
+      { type: 'debuff', value: 20, duration: 2, target: 'enemy' },
+    ],
+  })
+);
+
 export const CHARACTERS: Record<string, Character> = {
   kai: {
     id: 'kai',
@@ -199,6 +227,26 @@ export const CHARACTERS: Record<string, Character> = {
     specialAbility: aerisAbility,
     spriteKey: 'char_aeris',
     avatarKey: 'avatar_aeris',
+  },
+  scatter: {
+    id: 'scatter',
+    name: 'Scatter',
+    description: 'Especialista em disparos múltiplos. Cada tiro libera uma rajada de projéteis que cobrem ampla área.',
+    role: 'multi_shot',
+    stats: { health: 75, attack: 0.8, defense: 0.7, mobility: 1.1 },
+    specialAbility: scatterAbility,
+    spriteKey: 'char_scatter',
+    avatarKey: 'avatar_scatter',
+  },
+  tactos: {
+    id: 'tactos',
+    name: 'Tactos',
+    description: 'Estrategista tático que manipula o campo de batalha com armadilhas e debuffs em área.',
+    role: 'tactical',
+    stats: { health: 85, attack: 0.85, defense: 0.9, mobility: 1.0 },
+    specialAbility: tactosAbility,
+    spriteKey: 'char_tactos',
+    avatarKey: 'avatar_tactos',
   },
 };
 
