@@ -9,6 +9,7 @@ import { NavigationLoader } from '@/components/loading/NavigationLoader';
 import { LoadingScreen } from '@/components/loading/LoadingScreen';
 import { ClientErrorBoundary } from '@/components/game/ClientErrorBoundary';
 import { AccessibilityEnforcer } from '@/components/ui/AccessibilityEnforcer';
+import { UpdateBanner } from '@/components/ui/UpdateBanner';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -79,6 +80,7 @@ export default function RootLayout({
           </ReduceMotionProvider>
           <NavMenu />
           <LoadingScreen />
+          <UpdateBanner />
           <script
             dangerouslySetInnerHTML={{
               __html: `
