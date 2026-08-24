@@ -10,6 +10,7 @@ class AudioManager {
   private gainNodes: Map<AudioCategory, GainNode> = new Map();
   private audioBuffers: Map<string, AudioBuffer> = new Map();
   private musicSource: AudioBufferSourceNode | null = null;
+  private musicGain: GainNode | null = null;
   private configs: Map<AudioCategory, AudioConfig> = new Map([
     ['music', { volume: 0.5, enabled: true }],
     ['sfx', { volume: 0.7, enabled: true }],
@@ -69,7 +70,7 @@ class AudioManager {
     }
   }
 
-  async play(key: string, category: AudioCategory = 'sfx', options: { loop?: boolean; volume?: number } = {}): Promise<void> {
+  async play(key: string, category: AudioCategory = 'sfx', options: { loop?: boolean; volume?: number; fadeMs?: number } = {}): Promise<void> {
     if (!this.configs.get(category)?.enabled) return;
     
     let buffer = this.audioBuffers.get(key);
@@ -88,16 +89,33 @@ class AudioManager {
     
     const gainNode = this.gainNodes.get(category)!;
     const localGain = ctx.createGain();
-    localGain.gain.value = options.volume ?? 1;
     localGain.connect(gainNode);
     source.connect(localGain);
     
     if (category === 'music') {
-      if (this.musicSource) {
-        this.musicSource.stop();
-        this.musicSource.disconnect();
+      const fadeMs = options.fadeMs ?? 1000;
+      const targetVolume = options.volume ?? 1;
+
+      if (this.musicSource && this.musicGain) {
+        const oldSource = this.musicSource;
+        const oldGain = this.musicGain;
+        const now = ctx.currentTime;
+        oldGain.gain.setValueAtTime(oldGain.gain.value, now);
+        oldGain.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
+        setTimeout(() => {
+          try { oldSource.stop(); } catch { /* already stopped */ }
+          oldSource.disconnect();
+          oldGain.disconnect();
+        }, fadeMs + 50);
       }
+
+      localGain.gain.setValueAtTime(0, ctx.currentTime);
+      localGain.gain.linearRampToValueAtTime(targetVolume, ctx.currentTime + fadeMs / 1000);
+
       this.musicSource = source;
+      this.musicGain = localGain;
+    } else {
+      localGain.gain.value = options.volume ?? 1;
     }
     
     source.start(0);
@@ -114,6 +132,27 @@ class AudioManager {
       this.musicSource.disconnect();
       this.musicSource = null;
     }
+    if (this.musicGain) {
+      this.musicGain.disconnect();
+      this.musicGain = null;
+    }
+  }
+
+  async fadeOutMusic(fadeMs: number = 1000): Promise<void> {
+    if (!this.musicSource || !this.musicGain) return;
+    const ctx = await this.getAudioContext();
+    const now = ctx.currentTime;
+    this.musicGain.gain.setValueAtTime(this.musicGain.gain.value, now);
+    this.musicGain.gain.linearRampToValueAtTime(0, now + fadeMs / 1000);
+    const oldSource = this.musicSource;
+    const oldGain = this.musicGain;
+    this.musicSource = null;
+    this.musicGain = null;
+    setTimeout(() => {
+      try { oldSource.stop(); } catch { /* already stopped */ }
+      oldSource.disconnect();
+      oldGain.disconnect();
+    }, fadeMs + 50);
   }
 
   setVolume(category: AudioCategory, volume: number): void {
