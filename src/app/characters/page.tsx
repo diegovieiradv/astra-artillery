@@ -117,7 +117,7 @@ export default function CharactersPage() {
 
                   <div className={styles.statsGrid}>
                     {[
-                      { label: 'HP', value: Math.round(selectedChar.stats.health * 100), max: 150, icon: '❤️' },
+                      { label: 'HP', value: selectedChar.stats.health, max: 150, icon: '❤️' },
                       { label: 'ATK', value: Math.round(selectedChar.stats.attack * 100), max: 130, icon: '⚔️' },
                       { label: 'DEF', value: Math.round(selectedChar.stats.defense * 100), max: 150, icon: '🛡️' },
                       { label: 'SPD', value: Math.round(selectedChar.stats.mobility * 100), max: 140, icon: '💨' },

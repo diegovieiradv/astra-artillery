@@ -18,7 +18,7 @@ export function LoadingScreen({
   const { state, progress, message, showPercent } = useLoading();
   const { t } = useI18n();
 
-  if (state === 'idle') {
+  if (state === 'idle' || state === 'success') {
     return null;
   }
 

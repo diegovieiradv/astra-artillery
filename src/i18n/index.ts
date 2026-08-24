@@ -25,6 +25,7 @@ export interface TranslationKeys {
     xp: string;
     closeMenu: string;
     openMenu: string;
+    export: string;
   };
   nav: {
     home: string;
@@ -94,6 +95,9 @@ export interface TranslationKeys {
     visualEffects: string;
     accessibility: string;
     data: string;
+    graphics: string;
+    graphicsQuality: string;
+    graphicsQualityDesc: string;
     music: string;
     musicVolume: string;
     musicDesc: string;
@@ -122,8 +126,8 @@ export interface TranslationKeys {
     importSave: string;
     clearSave: string;
     resetProgress: string;
-    exportDesc: string;
-    importDesc: string;
+    exportSaveDesc: string;
+    importSaveDesc: string;
     clearSaveDesc: string;
     resetProgressDesc: string;
     saveCopied: string;
@@ -331,7 +335,8 @@ const translations: Record<Locale, TranslationKeys> = {
       success: 'Sucesso', close: 'Fechar', save: 'Salvar', delete: 'Excluir',
       next: 'Próximo', previous: 'Anterior', level: 'Nível', max: 'MÁXIMO',
       equipped: 'EQUIPADO', locked: 'Bloqueado', completed: 'Concluído',
-      credits: 'Credits', xp: 'XP', closeMenu: 'Fechar menu', openMenu: 'Abrir menu de navegação',
+      credits: 'Créditos', xp: 'XP', closeMenu: 'Fechar menu', openMenu: 'Abrir menu de navegação',
+      export: 'Exportar',
     },
     nav: {
       home: 'Início', map: 'Mapa', characters: 'Personagens', workshop: 'Oficina',
@@ -363,6 +368,7 @@ const translations: Record<Locale, TranslationKeys> = {
     settings: {
       title: 'CONFIGURAÇÕES', audio: 'Áudio', gameplay: 'Jogabilidade',
       visualEffects: 'Efeitos Visuais', accessibility: 'Acessibilidade', data: 'Dados',
+      graphics: 'Gráficos', graphicsQuality: 'Qualidade Gráfica', graphicsQualityDesc: 'Ajusta qualidade visual automaticamente',
       music: 'Música', musicVolume: 'Volume da Música', musicDesc: 'Música de fundo do jogo',
       sfx: 'Efeitos Sonoros', sfxVolume: 'Volume dos Efeitos', sfxDesc: 'Sons de tiros, explosões, interface',
       reduceAnimations: 'Reduzir Animações', reduceAnimationsDesc: 'Desativa transições e efeitos visuais',
@@ -376,8 +382,8 @@ const translations: Record<Locale, TranslationKeys> = {
       screenReader: 'Leitor de Tela', screenReaderDesc: 'Otimiza para leitores de tela',
       exportSave: 'Exportar Save', importSave: 'Importar Save',
       clearSave: 'Limpar Save', resetProgress: 'Resetar Progresso',
-      exportDesc: 'Copia o save para a área de transferência',
-      importDesc: 'Importa um save a partir de JSON',
+      exportSaveDesc: 'Copia o save para a área de transferência',
+      importSaveDesc: 'Importa um save a partir de JSON',
       clearSaveDesc: 'Remove o save local (mantém progresso na nuvem)',
       resetProgressDesc: 'Remove todo o progresso local',
       saveCopied: 'Save copiado para a área de transferência!',
@@ -502,6 +508,7 @@ const translations: Record<Locale, TranslationKeys> = {
       next: 'Next', previous: 'Previous', level: 'Level', max: 'MAX',
       equipped: 'EQUIPPED', locked: 'Locked', completed: 'Completed',
       credits: 'Credits', xp: 'XP', closeMenu: 'Close menu', openMenu: 'Open navigation menu',
+      export: 'Export',
     },
     nav: {
       home: 'Home', map: 'Map', characters: 'Characters', workshop: 'Workshop',
@@ -533,6 +540,7 @@ const translations: Record<Locale, TranslationKeys> = {
     settings: {
       title: 'SETTINGS', audio: 'Audio', gameplay: 'Gameplay',
       visualEffects: 'Visual Effects', accessibility: 'Accessibility', data: 'Data',
+      graphics: 'Graphics', graphicsQuality: 'Graphics Quality', graphicsQualityDesc: 'Auto-adjusts visual quality',
       music: 'Music', musicVolume: 'Music Volume', musicDesc: 'Background game music',
       sfx: 'Sound Effects', sfxVolume: 'Effects Volume', sfxDesc: 'Shots, explosions, interface sounds',
       reduceAnimations: 'Reduce Animations', reduceAnimationsDesc: 'Disables transitions and visual effects',
@@ -546,7 +554,7 @@ const translations: Record<Locale, TranslationKeys> = {
       screenReader: 'Screen Reader', screenReaderDesc: 'Optimizes for screen readers',
       exportSave: 'Export Save', importSave: 'Import Save',
       clearSave: 'Clear Save', resetProgress: 'Reset Progress',
-      exportDesc: 'Copies save to clipboard', importDesc: 'Imports save from JSON',
+      exportSaveDesc: 'Copies save to clipboard', importSaveDesc: 'Imports save from JSON',
       clearSaveDesc: 'Removes local save (keeps cloud progress)',
       resetProgressDesc: 'Removes all local progress',
       saveCopied: 'Save copied to clipboard!', noSaveFound: 'No save found.',
@@ -669,7 +677,8 @@ const translations: Record<Locale, TranslationKeys> = {
       success: 'Éxito', close: 'Cerrar', save: 'Guardar', delete: 'Eliminar',
       next: 'Siguiente', previous: 'Anterior', level: 'Nivel', max: 'MÁXIMO',
       equipped: 'EQUIPADO', locked: 'Bloqueado', completed: 'Completado',
-      credits: 'Credits', xp: 'XP', closeMenu: 'Cerrar menú', openMenu: 'Abrir menú de navegación',
+      credits: 'Créditos', xp: 'XP', closeMenu: 'Cerrar menú', openMenu: 'Abrir menú de navegación',
+      export: 'Exportar',
     },
     nav: {
       home: 'Inicio', map: 'Mapa', characters: 'Personajes', workshop: 'Taller',
@@ -701,6 +710,7 @@ const translations: Record<Locale, TranslationKeys> = {
     settings: {
       title: 'AJUSTES', audio: 'Audio', gameplay: 'Jugabilidad',
       visualEffects: 'Efectos Visuales', accessibility: 'Accesibilidad', data: 'Datos',
+      graphics: 'Gráficos', graphicsQuality: 'Calidad Gráfica', graphicsQualityDesc: 'Ajusta calidad visual automáticamente',
       music: 'Música', musicVolume: 'Volumen de Música', musicDesc: 'Música de fondo del juego',
       sfx: 'Efectos de Sonido', sfxVolume: 'Volumen de Efectos', sfxDesc: 'Disparos, explosiones, interfaz',
       reduceAnimations: 'Reducir Animaciones', reduceAnimationsDesc: 'Desactiva transiciones y efectos visuales',
@@ -714,7 +724,7 @@ const translations: Record<Locale, TranslationKeys> = {
       screenReader: 'Lector de Pantalla', screenReaderDesc: 'Optimiza para lectores de pantalla',
       exportSave: 'Exportar Save', importSave: 'Importar Save',
       clearSave: 'Limpiar Save', resetProgress: 'Resetear Progreso',
-      exportDesc: 'Copia el save al portapapeles', importDesc: 'Importa un save desde JSON',
+      exportSaveDesc: 'Copia el save al portapapeles', importSaveDesc: 'Importa un save desde JSON',
       clearSaveDesc: 'Elimina el save local (mantiene progreso en la nube)',
       resetProgressDesc: 'Elimina todo el progreso local',
       saveCopied: '¡Save copiado al portapapeles!', noSaveFound: 'No se encontró save.',

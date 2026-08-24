@@ -145,6 +145,9 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
       timeoutRef.current = null;
     }
     dispatch({ type: 'COMPLETE_LOADING', payload: { success } });
+    setTimeout(() => {
+      dispatch({ type: 'RESET' });
+    }, 500);
   }, []);
 
   const showError = useCallback((message: string) => {
