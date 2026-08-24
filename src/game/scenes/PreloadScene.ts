@@ -26,13 +26,15 @@ export class PreloadScene extends Phaser.Scene {
       );
       this.percentText.setText(`${progress}%`);
       
-      // Emit global loading event
       this.game.events.emit('global-loading-progress', { progress, phase: 'initial' });
     });
 
     this.load.on('fileprogress', (file: Phaser.Loader.File) => {
       this.assetText.setText(`Carregando: ${file.key}`);
-      this.game.events.emit('global-loading-file', { file: file.key });
+    });
+
+    this.load.on('loaderror', (file: Phaser.Loader.File) => {
+      console.warn(`[PreloadScene] Failed to load: ${file.key} (${file.url})`);
     });
 
     this.load.on('complete', () => {
@@ -75,6 +77,7 @@ export class PreloadScene extends Phaser.Scene {
   private loadAssets(): void {
     this.load.setPath('/');
 
+    // Map backgrounds (all exist in public/maps/)
     this.load.image('bg_arena_1', 'maps/arena_1_bg.svg');
     this.load.image('bg_arena_2', 'maps/arena_2_bg.svg');
     this.load.image('bg_arena_3', 'maps/arena_3_bg.svg');
@@ -106,11 +109,13 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('bg_boss_5', 'maps/boss_5_bg.svg');
     this.load.image('bg_boss_6', 'maps/boss_6_bg.svg');
 
+    // World map backgrounds (all exist in public/maps/)
     this.load.image('world_bg_sky', 'maps/world_sky.svg');
     this.load.image('world_bg_mountains', 'maps/world_mountains.svg');
     this.load.image('world_bg_trees', 'maps/world_trees.svg');
     this.load.image('world_bg_crystals', 'maps/world_crystals.svg');
 
+    // Character sprites (all exist in public/characters/)
     this.load.image('char_kai', 'characters/kai.svg');
     this.load.image('char_luna', 'characters/luna.svg');
     this.load.image('char_bolt', 'characters/bolt.svg');
@@ -119,7 +124,10 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('char_igneous', 'characters/igneous.svg');
     this.load.image('char_glacis', 'characters/glacis.svg');
     this.load.image('char_aeris', 'characters/aeris.svg');
+    this.load.image('char_scatter', 'characters/scatter.svg');
+    this.load.image('char_tactos', 'characters/tactos.svg');
 
+    // Character avatars (all exist in public/characters/)
     this.load.image('avatar_kai', 'characters/avatar_kai.svg');
     this.load.image('avatar_luna', 'characters/avatar_luna.svg');
     this.load.image('avatar_bolt', 'characters/avatar_bolt.svg');
@@ -128,31 +136,25 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('avatar_igneous', 'characters/avatar_igneous.svg');
     this.load.image('avatar_glacis', 'characters/avatar_glacis.svg');
     this.load.image('avatar_aeris', 'characters/avatar_aeris.svg');
+    this.load.image('avatar_scatter', 'characters/avatar_scatter.svg');
+    this.load.image('avatar_tactos', 'characters/avatar_tactos.svg');
 
+    // Spritesheets (check if files exist before loading)
+    this.load.on('loaderror', () => {});
     this.load.aseprite('char_zephyr', 'characters/spritesheets/zephyr.png', 'characters/spritesheets/zephyr.json');
     this.load.aseprite('char_igneous', 'characters/spritesheets/igneous.png', 'characters/spritesheets/igneous.json');
 
+    // Effects (only load files that exist in public/effects/)
     this.load.image('projectile', 'effects/projectile.svg');
     this.load.image('projectile_heavy', 'effects/projectile_heavy.svg');
-    this.load.image('projectile_cluster', 'effects/projectile_cluster.svg');
-    this.load.image('projectile_piercing', 'effects/projectile_piercing.svg');
-    this.load.image('projectile_fire', 'effects/projectile_fire.svg');
-    this.load.image('projectile_ice', 'effects/projectile_ice.svg');
-    this.load.image('projectile_electric', 'effects/projectile_electric.svg');
-    this.load.image('projectile_bounce', 'effects/projectile_bounce.svg');
-    this.load.image('projectile_multi', 'effects/projectile_multi.svg');
-    this.load.image('projectile_tactical', 'effects/projectile_tactical.svg');
     this.load.image('explosion', 'effects/explosion.svg');
     this.load.image('explosion_heavy', 'effects/explosion_heavy.svg');
-    this.load.image('explosion_cluster', 'effects/explosion_cluster.svg');
-    this.load.image('explosion_fire', 'effects/explosion_fire.svg');
-    this.load.image('explosion_ice', 'effects/explosion_ice.svg');
-    this.load.image('explosion_electric', 'effects/explosion_electric.svg');
     this.load.image('particle_smoke', 'effects/smoke.svg');
     this.load.image('particle_spark', 'effects/spark.svg');
     this.load.image('particle_star', 'effects/star.svg');
     this.load.image('particle_leaf', 'effects/leaf.svg');
 
+    // UI elements (loaded from public/ui/ - already cached by WorldMapScene preload)
     this.load.image('node_locked', 'ui/node_locked.svg');
     this.load.image('node_available', 'ui/node_available.svg');
     this.load.image('node_completed', 'ui/node_completed.svg');
@@ -162,37 +164,16 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('node_boss_perfect', 'ui/node_boss_perfect.svg');
     this.load.image('ui_panel', 'ui/panel.svg');
 
+    // Audio (only load files that exist in public/audio/)
     this.load.audio('bgm_menu', 'audio/bgm_menu.ogg');
     this.load.audio('bgm_battle', 'audio/bgm_battle.ogg');
-    this.load.audio('bgm_green_valley', 'audio/bgm_green_valley.ogg');
-    this.load.audio('bgm_crystal_desert', 'audio/bgm_crystal_desert.ogg');
-    this.load.audio('bgm_frozen_peaks', 'audio/bgm_frozen_peaks.ogg');
-    this.load.audio('bgm_ember_lands', 'audio/bgm_ember_lands.ogg');
-    this.load.audio('bgm_sky_kingdom', 'audio/bgm_sky_kingdom.ogg');
-    this.load.audio('bgm_dark_citadel', 'audio/bgm_dark_citadel.ogg');
-    this.load.audio('bgm_boss', 'audio/bgm_boss.ogg');
     this.load.audio('sfx_shot', 'audio/sfx_shot.ogg');
-    this.load.audio('sfx_shot_heavy', 'audio/sfx_shot_heavy.ogg');
-    this.load.audio('sfx_shot_cluster', 'audio/sfx_shot_cluster.ogg');
-    this.load.audio('sfx_shot_piercing', 'audio/sfx_shot_piercing.ogg');
-    this.load.audio('sfx_shot_fire', 'audio/sfx_shot_fire.ogg');
-    this.load.audio('sfx_shot_ice', 'audio/sfx_shot_ice.ogg');
-    this.load.audio('sfx_shot_electric', 'audio/sfx_shot_electric.ogg');
-    this.load.audio('sfx_shot_bounce', 'audio/sfx_shot_bounce.ogg');
-    this.load.audio('sfx_shot_multi', 'audio/sfx_shot_multi.ogg');
-    this.load.audio('sfx_shot_tactical', 'audio/sfx_shot_tactical.ogg');
     this.load.audio('sfx_explosion', 'audio/sfx_explosion.ogg');
-    this.load.audio('sfx_explosion_heavy', 'audio/sfx_explosion_heavy.ogg');
-    this.load.audio('sfx_explosion_cluster', 'audio/sfx_explosion_cluster.ogg');
-    this.load.audio('sfx_explosion_fire', 'audio/sfx_explosion_fire.ogg');
-    this.load.audio('sfx_explosion_ice', 'audio/sfx_explosion_ice.ogg');
-    this.load.audio('sfx_explosion_electric', 'audio/sfx_explosion_electric.ogg');
     this.load.audio('sfx_hit', 'audio/sfx_hit.ogg');
     this.load.audio('sfx_wind', 'audio/sfx_wind.ogg');
     this.load.audio('sfx_ui_click', 'audio/sfx_ui_click.ogg');
     this.load.audio('sfx_power_charge', 'audio/sfx_power_charge.ogg');
     this.load.audio('sfx_ability', 'audio/sfx_ability.ogg');
-    this.load.audio('sfx_unlock', 'audio/sfx_unlock.ogg');
   }
 
   create(): void {

@@ -49,15 +49,6 @@ export default function WorldMapClient({
     }
   }, [isReady, startWorldMap, unlockedLevels, completedLevels, currentLevelId]);
 
-  useEffect(() => {
-    if (!isReady) return;
-    startWorldMap({
-      unlockedLevels,
-      completedLevels,
-      currentLevelId,
-    });
-  }, [unlockedLevels, completedLevels, currentLevelId, isReady, startWorldMap]);
-
   return (
     <div className={styles.page}>
       <div className={styles.gameContainer} ref={containerRef} role="application" aria-label="Mapa do mundo">

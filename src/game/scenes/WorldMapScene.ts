@@ -559,7 +559,7 @@ export class WorldMapScene extends Phaser.Scene {
     if (!this.selectedNode) return;
     
     const level = this.selectedNode.level;
-    this.events.emit('start-battle', {
+    this.game.events.emit('start-battle', {
       levelId: level.arenaId,
       levelNumber: level.id,
       difficulty: level.difficulty,

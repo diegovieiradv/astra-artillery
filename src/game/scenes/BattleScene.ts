@@ -147,7 +147,7 @@ export class BattleScene extends Phaser.Scene {
     });
     
     this.currentWind = generateInitialWind(this.config);
-    this.events.emit(GAME_EVENTS.WIND_CHANGE, { wind: this.currentWind });
+    this.emitEvent(GAME_EVENTS.WIND_CHANGE, { wind: this.currentWind });
     this.startTurn('player');
   }
 
@@ -428,6 +428,11 @@ private createCharacters(): void {
     });
   }
 
+  private emitEvent(event: string, data?: any): void {
+    this.events.emit(event, data);
+    this.game.events.emit(event, data);
+  }
+
   update(time: number, delta: number): void {
     if (this.battleEnded || this.pauseSystem.isPaused()) return;
     
@@ -504,7 +509,7 @@ private createCharacters(): void {
     this.isCharging = true;
     this.chargeStartTime = this.time.now;
     this.currentPhase = 'charging';
-    this.events.emit(GAME_EVENTS.PHASE_CHANGE, { phase: 'charging' });
+    this.emitEvent(GAME_EVENTS.PHASE_CHANGE, { phase: 'charging' });
     this.sound.play('sfx_power_charge', { volume: 0.3, loop: true });
   }
 
@@ -547,12 +552,12 @@ private createCharacters(): void {
     } as any, projectileConfig);
     
     this.launchProjectile(trajectory, 'player', projectileTypeConfig);
-    this.events.emit(GAME_EVENTS.PLAYER_SHOT, { params, trajectory, projectileType });
+    this.emitEvent(GAME_EVENTS.PLAYER_SHOT, { params, trajectory, projectileType });
   }
 
   private launchProjectile(trajectory: any[], owner: 'player' | 'cpu', projectileTypeConfig?: any): void {
     this.currentPhase = 'projectile_flying';
-    this.events.emit(GAME_EVENTS.PHASE_CHANGE, { phase: 'projectile_flying' });
+    this.emitEvent(GAME_EVENTS.PHASE_CHANGE, { phase: 'projectile_flying' });
     
     const spriteKey = projectileTypeConfig?.visual?.spriteKey || 'projectile';
     const scale = projectileTypeConfig?.visual?.scale || 1.5;
@@ -676,7 +681,7 @@ private createCharacters(): void {
     this.projectile.destroy();
     this.projectile = undefined;
     this.currentPhase = 'resolving';
-    this.events.emit(GAME_EVENTS.PROJECTILE_IMPACT, { x: impactX, y: impactY, damage, target: target.id });
+    this.emitEvent(GAME_EVENTS.PROJECTILE_IMPACT, { x: impactX, y: impactY, damage, target: target.id });
     
     this.time.delayedCall(500, () => {
       this.cameraController.returnToDefault();
@@ -733,10 +738,10 @@ private createCharacters(): void {
     
     this.damageNumbers.push(damageText);
     this.sound.play('sfx_hit', { volume: 0.5 });
-    this.events.emit(GAME_EVENTS.DAMAGE_DEALT, { target: target.id, damage });
+    this.emitEvent(GAME_EVENTS.DAMAGE_DEALT, { target: target.id, damage });
     
     if (target.hp <= 0) {
-      this.events.emit(GAME_EVENTS.CHARACTER_KO, { characterId: target.id });
+      this.emitEvent(GAME_EVENTS.CHARACTER_KO, { characterId: target.id });
     }
   }
 
@@ -799,7 +804,7 @@ private createCharacters(): void {
   private startTurn(who: 'player' | 'cpu'): void {
     this.currentTurn = who;
     this.currentPhase = who === 'player' ? 'aiming' : 'aiming';
-    this.events.emit(GAME_EVENTS.TURN_START, { turn: who, turnNumber: this.turnNumber });
+    this.emitEvent(GAME_EVENTS.TURN_START, { turn: who, turnNumber: this.turnNumber });
     
     if (who === 'cpu') {
       this.aiThinking = true;
@@ -823,7 +828,7 @@ private createCharacters(): void {
       this.currentTurn = 'cpu';
       this.turnNumber++;
       this.currentWind = calculateWindChange(this.currentWind, this.config);
-      this.events.emit(GAME_EVENTS.WIND_CHANGE, { wind: this.currentWind });
+      this.emitEvent(GAME_EVENTS.WIND_CHANGE, { wind: this.currentWind });
       this.time.delayedCall(1000, () => this.startTurn('cpu'));
     } else {
       this.currentTurn = 'player';
@@ -861,7 +866,7 @@ private createCharacters(): void {
       if (params) {
         const trajectory = calculateTrajectory(params);
         this.launchProjectile(trajectory, 'cpu');
-        this.events.emit(GAME_EVENTS.CPU_SHOT, { params, trajectory });
+        this.emitEvent(GAME_EVENTS.CPU_SHOT, { params, trajectory });
       }
       return;
     }
@@ -884,7 +889,7 @@ private createCharacters(): void {
     
     const trajectory = calculateTrajectory(params);
     this.launchProjectile(trajectory, 'cpu');
-    this.events.emit(GAME_EVENTS.CPU_SHOT, { params, trajectory });
+    this.emitEvent(GAME_EVENTS.CPU_SHOT, { params, trajectory });
   }
 
   private onBossPhaseChange(phase: any): void {
@@ -964,7 +969,7 @@ private createCharacters(): void {
   private onProjectileImpact(): void {
     this.time.delayedCall(1500, () => {
       if (!this.battleEnded) {
-        this.events.emit(GAME_EVENTS.TURN_END);
+        this.emitEvent(GAME_EVENTS.TURN_END);
       }
     });
   }
@@ -984,13 +989,13 @@ private createCharacters(): void {
       this.time.delayedCall(1500, () => {
         this.rewardAnimations.animateRewardSequence(100, 50, 2, 0, 500, () => {
           this.scene.pause();
-          this.events.emit(GAME_EVENTS.BATTLE_END, data);
+          this.emitEvent(GAME_EVENTS.BATTLE_END, data);
         });
       });
     } else {
       this.screenFlash.flashDefeat();
       this.scene.pause();
-      this.events.emit(GAME_EVENTS.BATTLE_END, data);
+      this.emitEvent(GAME_EVENTS.BATTLE_END, data);
     }
   }
 
@@ -1002,13 +1007,13 @@ private createCharacters(): void {
     
     this.playerEntity.abilityCooldown = ability.cooldown;
     this.sound.play('sfx_ability', { volume: 0.6 });
-    this.events.emit(GAME_EVENTS.ABILITY_USED, { abilityId: ability.id, characterId: char.id });
+    this.emitEvent(GAME_EVENTS.ABILITY_USED, { abilityId: ability.id, characterId: char.id });
   }
 
   togglePause(): void {
     if (this.battleEnded) return;
     this.pauseSystem.toggle('manual');
-    this.events.emit('pause-toggle', { paused: this.pauseSystem.isPaused() });
+    this.emitEvent('pause-toggle', { paused: this.pauseSystem.isPaused() });
   }
 
   isPaused(): boolean {
@@ -1032,7 +1037,7 @@ private createCharacters(): void {
 
   private endBattle(winner: 'player' | 'cpu'): void {
     this.battleEnded = true;
-    this.events.emit(GAME_EVENTS.BATTLE_END, { winner });
+    this.emitEvent(GAME_EVENTS.BATTLE_END, { winner });
   }
 }
 

@@ -93,8 +93,6 @@ const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isReady || !game) return;
-    const battleScene = game.scene.getScene('BattleScene');
-    if (!battleScene) return;
 
     const onPauseToggle = (data: { paused: boolean }) => {
       setIsPaused(data.paused);
@@ -104,9 +102,9 @@ const containerRef = useRef<HTMLDivElement>(null);
         audioManager.setVolume('music', settings.musicVolume);
       }
     };
-    battleScene.events.on('pause-toggle', onPauseToggle);
+    game.events.on('pause-toggle', onPauseToggle);
     return () => {
-      battleScene.events.off('pause-toggle', onPauseToggle);
+      game.events.off('pause-toggle', onPauseToggle);
     };
   }, [isReady, game, settings.musicVolume]);
 
