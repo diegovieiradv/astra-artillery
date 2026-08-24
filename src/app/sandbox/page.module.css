@@ -1,0 +1,177 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0a1628 0%, #0f172a 40%, #111827 100%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  flex-shrink: 0;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 8px;
+  transition: color 0.2s;
+}
+
+.backBtn:hover { color: #e2e8f0; }
+.backBtn svg { width: 20px; height: 20px; }
+
+.title {
+  font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #f1f5f9;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 24px;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.configGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(74, 222, 128, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.sectionTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin: 0 0 12px 0;
+}
+
+.charSelect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.charBtn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.charBtn:hover { border-color: #4ade80; color: #f1f5f9; }
+
+.charBtnActive {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.optionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.optBtn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.optBtn:hover { border-color: #475569; }
+
+.optBtnActive {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.dirBtn {
+  flex: 1;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dirBtn:hover { border-color: #475569; }
+
+.dirBtnActive {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.checkRow input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4ade80;
+}
+
+.startBtn {
+  width: 100%;
+  max-width: 400px;
+  align-self: center;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #0f172a;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
+}
+
+@media (min-width: 768px) {
+  .configGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}

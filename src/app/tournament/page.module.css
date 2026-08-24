@@ -1,0 +1,218 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0a1628 0%, #0f172a 40%, #111827 100%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 8px;
+  transition: color 0.2s;
+}
+
+.backBtn:hover { color: #e2e8f0; }
+.backBtn svg { width: 20px; height: 20px; }
+
+.title {
+  font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #f1f5f9;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 24px;
+}
+
+.setupCard {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #f1f5f9;
+  margin: 0 0 20px 0;
+}
+
+.sizeSelect {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.sizeBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sizeBtn:hover { border-color: #475569; }
+
+.sizeBtnActive {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.setupInfo {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0 0 20px 0;
+}
+
+.startBtn {
+  width: 100%;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #0f172a;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
+}
+
+.bracketSection {
+  width: 100%;
+  max-width: 600px;
+}
+
+.bracket {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.matchCard {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 14px;
+  transition: all 0.2s ease;
+}
+
+.matchActive {
+  border-color: rgba(74, 222, 128, 0.4);
+  background: rgba(74, 222, 128, 0.05);
+}
+
+.matchDone { opacity: 0.7; }
+
+.matchRound {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.matchPlayers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.matchPlayer {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.matchWinner {
+  color: #4ade80;
+}
+
+.vs {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #64748b;
+}
+
+.playBtn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.playBtn:hover { background: rgba(74, 222, 128, 0.3); }
+
+.matchResult {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #4ade80;
+  font-weight: 600;
+}
+
+.trophyCard {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(30, 41, 59, 0.5);
+  border: 2px solid rgba(250, 204, 21, 0.3);
+  border-radius: 16px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.trophyIcon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.championName {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fbbf24;
+  margin: 0 0 8px 0;
+}
+
+.championTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.1em;
+  margin: 0 0 24px 0;
+}

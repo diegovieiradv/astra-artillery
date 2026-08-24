@@ -9,7 +9,10 @@ import { getAllAchievements, getUnlockedAchievements, getTotalAchievementPoints 
 import { getPlayerLevelConfig, getXpProgress } from '@/game/data/playerLevels';
 import { MAX_MASTERY_LEVEL, getMasteryLevelConfig, getMasteryXpProgress } from '@/game/data/characterMastery';
 import { getLevelsByRegion, REGIONS, REGION_ORDER } from '@/game/data/levels';
+import { getRankings, getMatchHistory, getMedals, type MatchHistoryEntry, type CombatMedal } from '@/game/data/ranking';
 import styles from './page.module.css';
+
+type ProfileTab = 'stats' | 'rankings' | 'history' | 'medals';
 
 export default function ProfilePage() {
   const {
@@ -27,8 +30,17 @@ export default function ProfilePage() {
 
   const [mounted, setMounted] = useState(false);
   const [favoriteCharacter, setFavoriteCharacter] = useState<string>('kai');
+  const [activeTab, setActiveTab] = useState<ProfileTab>('stats');
+  const [rankings, setRankings] = useState<Record<string, { bestScore: number; bestAccuracy: number; fewestTurns: number; totalPlays: number }>>({});
+  const [matchHistory, setMatchHistory] = useState<MatchHistoryEntry[]>([]);
+  const [medals, setMedals] = useState<CombatMedal[]>([]);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+    setRankings(getRankings());
+    setMatchHistory(getMatchHistory());
+    setMedals(getMedals());
+  }, []);
 
   const characters = getAllCharacters();
   const allAchievements = getAllAchievements();
@@ -97,7 +109,28 @@ export default function ProfilePage() {
         </div>
       </header>
 
+      <nav className={styles.tabs} role="tablist">
+        {([
+          ['stats', 'Estatisticas'],
+          ['rankings', 'Rankings'],
+          ['history', 'Historico'],
+          ['medals', 'Medalhas'],
+        ] as [ProfileTab, string][]).map(([tab, label]) => (
+          <button
+            key={tab}
+            className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab(tab)}
+            role="tab"
+            aria-selected={activeTab === tab}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+
       <main className={styles.main}>
+        {activeTab === 'stats' && (
+          <>
         <section className={styles.section} aria-labelledby="profile-header">
           <motion.div 
             className={styles.profileHeader}
@@ -405,6 +438,76 @@ export default function ProfilePage() {
             </motion.div>
           </div>
         </section>
+          </>
+        )}
+
+        {activeTab === 'rankings' && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>MELHORES RESULTADOS</h2>
+            {Object.keys(rankings).length === 0 ? (
+              <p className={styles.emptyText}>Nenhum ranking ainda. Jogue para registrar!</p>
+            ) : (
+              <div className={styles.rankingList}>
+                {Object.entries(rankings).sort(([,a], [,b]) => b.bestScore - a.bestScore).map(([levelId, data]) => (
+                  <div key={levelId} className={styles.rankingItem}>
+                    <div className={styles.rankingLevel}>{levelId.replace('arena_', 'Arena ')}</div>
+                    <div className={styles.rankingStats}>
+                      <span>Pts: {data.bestScore}</span>
+                      <span>Prec: {data.bestAccuracy.toFixed(0)}%</span>
+                      <span>Turnos: {data.fewestTurns === Infinity ? '-' : data.fewestTurns}</span>
+                      <span>Jogos: {data.totalPlays}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeTab === 'history' && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>HISTORICO DE PARTIDAS</h2>
+            {matchHistory.length === 0 ? (
+              <p className={styles.emptyText}>Nenhuma partida registrada ainda.</p>
+            ) : (
+              <div className={styles.historyList}>
+                {matchHistory.slice(0, 20).map((entry) => (
+                  <div key={entry.id} className={`${styles.historyItem} ${entry.result === 'victory' ? styles.historyWin : styles.historyLoss}`}>
+                    <div className={styles.historyMain}>
+                      <span className={styles.historyMode}>{entry.mode}</span>
+                      <span className={styles.historyLevel}>{entry.levelId}</span>
+                      <span className={styles.historyResult}>{entry.result === 'victory' ? '✅' : '❌'}</span>
+                    </div>
+                    <div className={styles.historyDetails}>
+                      <span>{entry.score} pts</span>
+                      <span>{entry.accuracy.toFixed(0)}% prec</span>
+                      <span>{entry.turns} turnos</span>
+                      <span>{entry.stars} ⭐</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeTab === 'medals' && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>MEDALHAS DE COMBATE</h2>
+            <div className={styles.medalsGrid}>
+              {medals.map((medal) => (
+                <div key={medal.id} className={`${styles.medalItem} ${medal.earned ? styles.medalEarned : styles.medalLocked}`}>
+                  <span className={styles.medalIcon}>{medal.icon}</span>
+                  <span className={styles.medalName}>{medal.name}</span>
+                  <span className={styles.medalDesc}>{medal.description}</span>
+                  {medal.earned && medal.date && (
+                    <span className={styles.medalDate}>{new Date(medal.date).toLocaleDateString('pt-BR')}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );

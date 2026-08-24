@@ -33,6 +33,10 @@ export interface TranslationKeys {
     workshop: string;
     arsenal: string;
     training: string;
+    sandbox: string;
+    daily: string;
+    tournament: string;
+    loadouts: string;
     missions: string;
     profile: string;
     howToPlay: string;
@@ -331,7 +335,8 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     nav: {
       home: 'Início', map: 'Mapa', characters: 'Personagens', workshop: 'Oficina',
-      arsenal: 'Arsenal', training: 'Treino', missions: 'Missões', profile: 'Perfil',
+      arsenal: 'Arsenal', training: 'Treino', sandbox: 'Sandbox', daily: 'Desafio Diário',
+      tournament: 'Torneio', loadouts: 'Equipe', missions: 'Missões', profile: 'Perfil',
       howToPlay: 'Como Jogar', settings: 'Configurações',
     },
     home: {
@@ -500,7 +505,8 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     nav: {
       home: 'Home', map: 'Map', characters: 'Characters', workshop: 'Workshop',
-      arsenal: 'Arsenal', training: 'Training', missions: 'Missions', profile: 'Profile',
+      arsenal: 'Arsenal', training: 'Training', sandbox: 'Sandbox', daily: 'Daily Challenge',
+      tournament: 'Tournament', loadouts: 'Loadout', missions: 'Missions', profile: 'Profile',
       howToPlay: 'How to Play', settings: 'Settings',
     },
     home: {
@@ -667,7 +673,8 @@ const translations: Record<Locale, TranslationKeys> = {
     },
     nav: {
       home: 'Inicio', map: 'Mapa', characters: 'Personajes', workshop: 'Taller',
-      arsenal: 'Arsenal', training: 'Entrenamiento', missions: 'Misiones', profile: 'Perfil',
+      arsenal: 'Arsenal', training: 'Entrenamiento', sandbox: 'Sandbox', daily: 'Desafío Diario',
+      tournament: 'Torneo', loadouts: 'Equipamiento', missions: 'Misiones', profile: 'Perfil',
       howToPlay: 'Cómo Jugar', settings: 'Ajustes',
     },
     home: {
