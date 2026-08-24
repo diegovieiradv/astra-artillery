@@ -10,6 +10,7 @@ import { LoadingScreen } from '@/components/loading/LoadingScreen';
 import { ClientErrorBoundary } from '@/components/game/ClientErrorBoundary';
 import { AccessibilityEnforcer } from '@/components/ui/AccessibilityEnforcer';
 import { UpdateBanner } from '@/components/ui/UpdateBanner';
+import { OrientationHandler } from '@/components/ui/OrientationHandler';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -32,11 +33,20 @@ export const metadata: Metadata = {
     title: 'Astra Artillery - Jogo de Artilharia 2D',
     description: 'Jogo web original de artilharia em turnos. Calcule ângulo, potência e vento para derrotar seus oponentes.',
     siteName: 'Astra Artillery',
+    images: [
+      {
+        url: '/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Astra Artillery - Artilharia em Turnos',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Astra Artillery',
     description: 'Jogo web original de artilharia em turnos.',
+    images: ['/og-image.svg'],
   },
   icons: {
     icon: '/favicon.svg',
@@ -81,6 +91,7 @@ export default function RootLayout({
           <NavMenu />
           <LoadingScreen />
           <UpdateBanner />
+          <OrientationHandler />
           <script
             dangerouslySetInnerHTML={{
               __html: `

@@ -8,10 +8,13 @@ import { MobileControls } from '@/components/game/MobileControls';
 import { WeatherIndicator } from '@/components/game/WeatherIndicator';
 import { PauseOverlay } from '@/components/game/PauseOverlay';
 import { GameLoader } from '@/components/loading/GameLoader';
+import { ContextualTipToast } from '@/components/ui/ContextualTipToast';
+import { PhotoMode } from '@/components/ui/PhotoMode';
 import { CHARACTERS, LEVELS } from '@/game/characters/registry';
 import { getRandomWeather } from '@/game/data/weather';
 import { audioManager, initAudioFromSettings, vibrationManager } from '@/utils/audio';
 import { toggleFullscreen, isFullscreen } from '@/utils/fullscreen';
+import { incrementMissStreak, resetMissStreak, getMissStreak } from '@/game/data/tips';
 import styles from './page.module.css';
 
 export default function GameClient() {
@@ -50,6 +53,11 @@ const containerRef = useRef<HTMLDivElement>(null);
       setWinner(result.winner);
       const isPlayerWin = result.winner === 'player';
       setBattleResult(isPlayerWin ? 'player_win' : 'cpu_win');
+      if (isPlayerWin) {
+        resetMissStreak();
+      } else {
+        incrementMissStreak();
+      }
       
       if (isPlayerWin && levelId) {
         const levelIndex = LEVELS.findIndex(l => l.id === levelId);
@@ -256,6 +264,14 @@ const containerRef = useRef<HTMLDivElement>(null);
         disabled={battleResult !== 'playing'} 
         setMobileInput={setMobileInput}
       />
+
+      <ContextualTipToast
+        context={{
+          missStreak: getMissStreak(),
+          battleTurns: turnsPlayed,
+        }}
+      />
+      <PhotoMode />
 
       <div className={styles.debugInfo} aria-hidden="true">
         {process.env.NODE_ENV === 'development' && (

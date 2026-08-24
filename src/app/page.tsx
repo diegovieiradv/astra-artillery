@@ -6,6 +6,7 @@ import { useGameStore } from '@/stores/gameStore';
 import { audioManager, initAudioFromSettings } from '@/utils/audio';
 import { useI18n } from '@/hooks/useI18n';
 import { SplashScreen } from '@/components/splash/SplashScreen';
+import { AttractMode } from '@/components/ui/AttractMode';
 import styles from './page.module.css';
 
 export default function HomePage() {
@@ -45,6 +46,7 @@ export default function HomePage() {
   return (
     <div className={styles.page}>
       {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+      {!showSplash && <AttractMode />}
 
       <header className={styles.header} aria-hidden="true">
         <div className={styles.logoContainer}>
