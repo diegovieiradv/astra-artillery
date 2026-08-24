@@ -59,17 +59,20 @@ export class WorldMapScene extends Phaser.Scene {
     this.load.image('world_bg_mountains', 'world_mountains.svg');
     this.load.image('world_bg_trees', 'world_trees.svg');
     this.load.image('world_bg_crystals', 'world_crystals.svg');
-    this.load.image('node_locked', 'ui/node_locked.svg');
-    this.load.image('node_available', 'ui/node_available.svg');
-    this.load.image('node_completed', 'ui/node_completed.svg');
-    this.load.image('node_perfect', 'ui/node_perfect.svg');
-    this.load.image('node_boss', 'ui/node_boss.svg');
-    this.load.image('node_boss_completed', 'ui/node_boss_completed.svg');
-    this.load.image('node_boss_perfect', 'ui/node_boss_perfect.svg');
-    this.load.image('particle_star', 'effects/star.svg');
-    this.load.image('particle_spark', 'effects/spark.svg');
-    this.load.image('particle_leaf', 'effects/leaf.svg');
-    this.load.image('ui_panel', 'ui/panel.svg');
+    this.load.setPath('/ui/');
+    this.load.image('node_locked', 'node_locked.svg');
+    this.load.image('node_available', 'node_available.svg');
+    this.load.image('node_completed', 'node_completed.svg');
+    this.load.image('node_perfect', 'node_perfect.svg');
+    this.load.image('node_boss', 'node_boss.svg');
+    this.load.image('node_boss_completed', 'node_boss_completed.svg');
+    this.load.image('node_boss_perfect', 'node_boss_perfect.svg');
+    this.load.setPath('/effects/');
+    this.load.image('particle_star', 'star.svg');
+    this.load.image('particle_spark', 'spark.svg');
+    this.load.image('particle_leaf', 'leaf.svg');
+    this.load.setPath('/ui/');
+    this.load.image('ui_panel', 'panel.svg');
   }
 
   create(): void {
@@ -83,6 +86,7 @@ export class WorldMapScene extends Phaser.Scene {
     this.setupEvents();
     this.focusOnCurrentLevel();
     this.animateEntrance();
+    this.game.events.emit('world-map-ready');
   }
 
   private setupCamera(): void {

@@ -25,7 +25,8 @@ export default function GameClient() {
 const containerRef = useRef<HTMLDivElement>(null);
   const [showResults, setShowResults] = useState(false);
   const [winner, setWinner] = useState<'player' | 'cpu' | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [battleReady, setBattleReady] = useState(false);
+  const [engineError, setEngineError] = useState(false);
   const [orientationWarning, setOrientationWarning] = useState(false);
   const [currentWeather, setCurrentWeather] = useState<ReturnType<typeof getRandomWeather>>('clear');
   const [isPaused, setIsPaused] = useState(false);
@@ -46,9 +47,8 @@ const containerRef = useRef<HTMLDivElement>(null);
     };
   }, [settings.musicVolume, settings.musicEnabled, settings.sfxVolume, settings.sfxEnabled]);
    
-  const { isReady, startBattle, destroyGame, setMobileInput, pauseGame, resumeGame, game } = usePhaserGame({
+  const { isReady, status, error, startBattle, destroyGame, setMobileInput, pauseGame, resumeGame, game } = usePhaserGame({
     containerRef,
-    onGameReady: () => setLoading(false),
     onBattleEnd: (result) => {
       setWinner(result.winner);
       const isPlayerWin = result.winner === 'player';
@@ -92,7 +92,18 @@ const containerRef = useRef<HTMLDivElement>(null);
   }, []);
 
   useEffect(() => {
+    if (status === 'error') {
+      setEngineError(true);
+    }
+  }, [status, error]);
+
+  useEffect(() => {
     if (!isReady || !game) return;
+
+    const onBattleReady = () => {
+      setBattleReady(true);
+    };
+    game.events.once('battle-ready', onBattleReady);
 
     const onPauseToggle = (data: { paused: boolean }) => {
       setIsPaused(data.paused);
@@ -103,16 +114,14 @@ const containerRef = useRef<HTMLDivElement>(null);
       }
     };
     game.events.on('pause-toggle', onPauseToggle);
+
+    startBattle();
+
     return () => {
+      game.events.off('battle-ready', onBattleReady);
       game.events.off('pause-toggle', onPauseToggle);
     };
-  }, [isReady, game, settings.musicVolume]);
-
-  useEffect(() => {
-    if (isReady && game) {
-      startBattle();
-    }
-  }, [isReady, game, startBattle]);
+  }, [isReady, game, startBattle, settings.musicVolume]);
 
   const handleResume = useCallback(() => {
     const battleScene = game?.scene.getScene('BattleScene');
@@ -151,7 +160,41 @@ const containerRef = useRef<HTMLDivElement>(null);
   }, [playerCharacter, cpuCharacter, router]);
 
   if (showResults && winner) {
+  if (engineError) {
     return (
+      <div className={styles.page}>
+        <div className={styles.gameContainer}>
+          <div className={styles.loaderContainer}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: '#ef4444' }}>
+              <p style={{ fontFamily: 'system-ui, sans-serif', fontSize: '1.125rem', fontWeight: 600 }}>
+                Nao foi possivel iniciar o motor do jogo.
+              </p>
+              <p style={{ fontFamily: 'system-ui, sans-serif', fontSize: '0.875rem', color: '#94a3b8' }}>
+                {error?.message || 'Erro desconhecido'}
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                style={{
+                  padding: '0.5rem 1.5rem',
+                  background: '#4ade80',
+                  color: '#0f172a',
+                  border: 'none',
+                  borderRadius: '0.5rem',
+                  cursor: 'pointer',
+                  fontFamily: 'system-ui, sans-serif',
+                  fontWeight: 600,
+                }}
+              >
+                TENTAR NOVAMENTE
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
       <div className={styles.page}>
         <div className={styles.resultsOverlay}>
           <div className={styles.resultsCard}>
@@ -215,13 +258,13 @@ const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className={styles.page}>
-      <div className={styles.gameContainer} ref={containerRef} role="application" aria-label="Área de jogo">
-        {(loading || !isReady) && (
+      <div className={styles.gameContainer} ref={containerRef} role="application" aria-label="Area de jogo">
+        {!battleReady && (
           <div className={styles.loaderContainer}>
             <GameLoader message="Preparando arena..." showProgress={false} />
           </div>
         )}
-        <div className={styles.canvasWrapper} style={{ display: loading ? 'none' : undefined }}>
+        <div className={styles.canvasWrapper} style={{ display: battleReady ? undefined : 'none' }}>
           <div id="game-container" className={styles.canvas} />
         </div>
         

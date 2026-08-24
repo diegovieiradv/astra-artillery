@@ -7,6 +7,8 @@ import { WorldMapScene } from '@/game/scenes/WorldMapScene';
 import { BattleScene } from '@/game/scenes/BattleScene';
 import { UIScene } from '@/game/scenes/UIScene';
 
+export type PhaserGameStatus = 'idle' | 'initializing' | 'ready' | 'error';
+
 interface UsePhaserGameOptions {
   containerRef: React.RefObject<HTMLDivElement>;
   onGameReady?: (game: Phaser.Game) => void;
@@ -38,7 +40,8 @@ export function usePhaserGame({
   difficulty = 'normal',
 }: UsePhaserGameOptions) {
   const gameRef = useRef<Phaser.Game | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [status, setStatus] = useState<PhaserGameStatus>('idle');
+  const [error, setError] = useState<Error | null>(null);
   const gameReadyFired = useRef(false);
   const mobileInputRef = useRef<MobileInputState>({
     left: false,
@@ -61,10 +64,11 @@ export function usePhaserGame({
     if (!container) return;
 
     gameReadyFired.current = false;
+    setStatus('initializing');
+    setError(null);
 
     let canvas: HTMLCanvasElement;
     let game: Phaser.Game;
-    let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
     try {
       canvas = document.createElement('canvas');
@@ -82,12 +86,11 @@ export function usePhaserGame({
       const fireReady = () => {
         if (gameReadyFired.current) return;
         gameReadyFired.current = true;
-        if (fallbackTimer) { clearTimeout(fallbackTimer); fallbackTimer = null; }
-        setIsReady(true);
+        setStatus('ready');
         onGameReadyRef.current?.(game);
       };
 
-      game.events.on('game-ready', fireReady);
+      game.events.once('game-ready', fireReady);
 
       game.events.on('battle-end', (data: { winner: 'player' | 'cpu' }) => {
         onBattleEndRef.current?.(data);
@@ -96,23 +99,14 @@ export function usePhaserGame({
       game.events.on('start-battle', (data: { levelId: string; levelNumber: number; difficulty: string; cpuCharacterId: string }) => {
         onStartBattleRef.current?.(data);
       });
-
-      fallbackTimer = setTimeout(() => {
-        if (!gameReadyFired.current) {
-          console.warn('[usePhaserGame] game-ready fallback fired after 5s');
-          fireReady();
-        }
-      }, 5000);
     } catch (err) {
       console.error('[usePhaserGame] Failed to create Phaser game:', err);
-      if (fallbackTimer) clearTimeout(fallbackTimer);
-      gameReadyFired.current = true;
-      setIsReady(true);
-      onGameReadyRef.current?.(null as any);
+      const error = err instanceof Error ? err : new Error(String(err));
+      setError(error);
+      setStatus('error');
     }
 
     return () => {
-      if (fallbackTimer) clearTimeout(fallbackTimer);
       if (gameRef.current) {
         try { gameRef.current.destroy(true, true); } catch {}
         gameRef.current = null;
@@ -121,7 +115,8 @@ export function usePhaserGame({
         try { canvas.parentNode.removeChild(canvas); } catch {}
       }
       gameReadyFired.current = false;
-      setIsReady(false);
+      setStatus('idle');
+      setError(null);
     };
   }, [containerRef]);
 
@@ -194,13 +189,15 @@ export function usePhaserGame({
     if (gameRef.current) {
       gameRef.current.destroy(true, true);
       gameRef.current = null;
-      setIsReady(false);
+      setStatus('idle');
     }
   }, []);
 
   return {
     game: gameRef.current,
-    isReady,
+    status,
+    isReady: status === 'ready',
+    error,
     startBattle,
     startWorldMap,
     pauseGame,

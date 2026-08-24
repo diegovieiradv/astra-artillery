@@ -2,6 +2,8 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  outputFileTracingRoot: __dirname,
+  devIndicators: false,
   images: {
     remotePatterns: [],
     formats: ['image/avif', 'image/webp'],

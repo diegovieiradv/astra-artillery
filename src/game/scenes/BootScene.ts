@@ -6,7 +6,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.setPath('/assets/');
+    // No assets loaded here; PreloadScene handles all loading.
   }
 
   create(): void {

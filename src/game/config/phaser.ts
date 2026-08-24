@@ -1,10 +1,5 @@
 import * as Phaser from 'phaser';
 import { PHYSICS_CONFIG, COMBAT_CONFIG, TURN_CONFIG } from './game';
-import { BootScene } from '@/game/scenes/BootScene';
-import { PreloadScene } from '@/game/scenes/PreloadScene';
-import { WorldMapScene } from '@/game/scenes/WorldMapScene';
-import { BattleScene } from '@/game/scenes/BattleScene';
-import { UIScene } from '@/game/scenes/UIScene';
 
 export const GAME_WIDTH = 1920;
 export const GAME_HEIGHT = 1080;
@@ -13,7 +8,7 @@ export const GAME_BACKGROUND_COLOR = '#87ceeb';
 
 export function createGameConfig(canvas: HTMLCanvasElement): Phaser.Types.Core.GameConfig {
   return {
-    type: Phaser.WEBGL,
+    type: Phaser.AUTO,
     canvas,
     width: GAME_WIDTH,
     height: GAME_HEIGHT,
@@ -60,7 +55,6 @@ export function createGameConfig(canvas: HTMLCanvasElement): Phaser.Types.Core.G
     audio: {
       disableWebAudio: false,
     },
-    scene: [BootScene, PreloadScene, WorldMapScene, BattleScene, UIScene],
   };
 }
 

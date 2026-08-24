@@ -51,14 +51,45 @@ export default function MapPage() {
   const { unlockedLevels, completedLevels, selectedCharacterId } = useGameStore();
   const { setBattleConfig } = useBattleStore();
   const [showCharSelect, setShowCharSelect] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const characters = getAllCharacters();
 
   useEffect(() => {
-    setMounted(true);
+    let mounted = true;
+    
+    const tryHydrate = () => {
+      // Always check localStorage first — SSR hydration may have completed with default state
+      if (typeof window !== 'undefined') {
+        const stored = localStorage.getItem('astra-artillery-save');
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (parsed && parsed.version === 2 && parsed.selectedCharacterId) {
+              useGameStore.setState(parsed, true); // replace state with persisted data
+            }
+          } catch {
+            // ignore parse errors
+          }
+        }
+      }
+      // Then check middleware hydration status
+      if (useGameStore.persist.hasHydrated()) {
+        if (mounted) setHydrated(true);
+        return true;
+      }
+      return false;
+    };
+
+    if (!tryHydrate()) {
+      const unsub = useGameStore.persist.onFinishHydration(() => {
+        if (mounted) setHydrated(true);
+      });
+      return () => { mounted = false; unsub(); };
+    }
+    return () => { mounted = false; };
   }, []);
 
-  if (!mounted) {
+  if (!hydrated) {
     return (
       <div className={styles.page}>
         <div className={styles.loading}>

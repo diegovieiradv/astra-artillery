@@ -148,6 +148,7 @@ export class BattleScene extends Phaser.Scene {
     
     this.currentWind = generateInitialWind(this.config);
     this.emitEvent(GAME_EVENTS.WIND_CHANGE, { wind: this.currentWind });
+    this.game.events.emit('battle-ready');
     this.startTurn('player');
   }
 

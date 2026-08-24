@@ -19,12 +19,12 @@ export default function WorldMapClient({
   onStartBattle,
 }: WorldMapClientProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState(true);
+  const [sceneReady, setSceneReady] = useState(false);
+  const [engineError, setEngineError] = useState(false);
   const [orientationWarning, setOrientationWarning] = useState(false);
 
-  const { isReady, startWorldMap, destroyGame, setMobileInput } = usePhaserGame({
+  const { isReady, status, error, startWorldMap, destroyGame, setMobileInput, game } = usePhaserGame({
     containerRef,
-    onGameReady: () => setLoading(false),
     onStartBattle,
   });
 
@@ -40,24 +40,72 @@ export default function WorldMapClient({
   }, []);
 
   useEffect(() => {
-    if (isReady) {
+    if (status === 'error') {
+      setEngineError(true);
+      return;
+    }
+  }, [status, error]);
+
+  useEffect(() => {
+    if (isReady && game) {
+      const onWorldMapReady = () => {
+        setSceneReady(true);
+      };
+      game.events.once('world-map-ready', onWorldMapReady);
+
       startWorldMap({
         unlockedLevels,
         completedLevels,
         currentLevelId,
       });
+
+      return () => {
+        game.events.off('world-map-ready', onWorldMapReady);
+      };
     }
-  }, [isReady, startWorldMap, unlockedLevels, completedLevels, currentLevelId]);
+  }, [isReady, game, startWorldMap, unlockedLevels, completedLevels, currentLevelId]);
+
+  if (engineError) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.loaderContainer}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: '#ef4444' }}>
+            <p style={{ fontFamily: 'system-ui, sans-serif', fontSize: '1.125rem', fontWeight: 600 }}>
+              Nao foi possivel iniciar o motor do jogo.
+            </p>
+            <p style={{ fontFamily: 'system-ui, sans-serif', fontSize: '0.875rem', color: '#94a3b8' }}>
+              {error?.message || 'Erro desconhecido'}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              style={{
+                padding: '0.5rem 1.5rem',
+                background: '#4ade80',
+                color: '#0f172a',
+                border: 'none',
+                borderRadius: '0.5rem',
+                cursor: 'pointer',
+                fontFamily: 'system-ui, sans-serif',
+                fontWeight: 600,
+              }}
+            >
+              TENTAR NOVAMENTE
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
       <div className={styles.gameContainer} ref={containerRef} role="application" aria-label="Mapa do mundo">
-        {loading && (
+        {!sceneReady && (
           <div className={styles.loaderContainer}>
             <GameLoader message="Carregando mapa..." showProgress={false} />
           </div>
         )}
-        <div className={styles.canvasWrapper} style={{ display: loading ? 'none' : undefined }}>
+        <div className={styles.canvasWrapper} style={{ display: sceneReady ? undefined : 'none' }}>
           <div id="worldmap-container" className={styles.canvas} />
         </div>
         
@@ -68,7 +116,7 @@ export default function WorldMapClient({
               <path d="M12 6v6l4 2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <h3>Gire seu aparelho</h3>
-            <p>Para uma melhor experiência, jogue em orientação paisagem</p>
+            <p>Para uma melhor experiencia, jogue em orientacao paisagem</p>
           </div>
         )}
       </div>

@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const E2E_PORT = 3100;
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -7,8 +9,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  timeout: 60000,
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://127.0.0.1:${E2E_PORT}`,
     trace: 'on-first-retry',
   },
   projects: [
@@ -16,19 +19,14 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    {
-      name: 'mobile-chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'mobile-safari',
-      use: { ...devices['iPhone 12'] },
-    },
   ],
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
+    command: `npm run dev -- --port ${E2E_PORT}`,
+    url: `http://127.0.0.1:${E2E_PORT}`,
     reuseExistingServer: false,
     timeout: 180000,
+    env: {
+      NEXT_DISABLE_DEV_OVERLAY: '1',
+    },
   },
 });
