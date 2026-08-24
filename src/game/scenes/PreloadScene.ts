@@ -39,9 +39,6 @@ export class PreloadScene extends Phaser.Scene {
       this.loadingText.setText('Pronto!');
       this.assetText.setText('');
       this.game.events.emit('global-loading-complete', { phase: 'initial' });
-      this.time.delayedCall(300, () => {
-        this.scene.start('BattleScene');
-      });
     });
 
     this.loadAssets();

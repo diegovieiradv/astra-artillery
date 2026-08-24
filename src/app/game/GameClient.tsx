@@ -110,6 +110,12 @@ const containerRef = useRef<HTMLDivElement>(null);
     };
   }, [isReady, game, settings.musicVolume]);
 
+  useEffect(() => {
+    if (isReady && game) {
+      startBattle();
+    }
+  }, [isReady, game, startBattle]);
+
   const handleResume = useCallback(() => {
     const battleScene = game?.scene.getScene('BattleScene');
     if (battleScene) {
@@ -145,16 +151,6 @@ const containerRef = useRef<HTMLDivElement>(null);
       router.push('/characters');
     }
   }, [playerCharacter, cpuCharacter, router]);
-
-  if (loading || !isReady) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.loaderContainer}>
-          <GameLoader message="Preparando arena..." showProgress={false} />
-        </div>
-      </div>
-    );
-  }
 
   if (showResults && winner) {
     return (
@@ -222,7 +218,12 @@ const containerRef = useRef<HTMLDivElement>(null);
   return (
     <div className={styles.page}>
       <div className={styles.gameContainer} ref={containerRef} role="application" aria-label="Área de jogo">
-        <div className={styles.canvasWrapper}>
+        {(loading || !isReady) && (
+          <div className={styles.loaderContainer}>
+            <GameLoader message="Preparando arena..." showProgress={false} />
+          </div>
+        )}
+        <div className={styles.canvasWrapper} style={{ display: loading ? 'none' : undefined }}>
           <div id="game-container" className={styles.canvas} />
         </div>
         

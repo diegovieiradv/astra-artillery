@@ -50,6 +50,13 @@ export function usePhaserGame({
     ability: false,
   });
 
+  const onGameReadyRef = useRef(onGameReady);
+  const onBattleEndRef = useRef(onBattleEnd);
+  const onStartBattleRef = useRef(onStartBattle);
+  onGameReadyRef.current = onGameReady;
+  onBattleEndRef.current = onBattleEnd;
+  onStartBattleRef.current = onStartBattle;
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -68,15 +75,15 @@ export function usePhaserGame({
 
     game.events.once('game-ready', () => {
       setIsReady(true);
-      onGameReady?.(game);
+      onGameReadyRef.current?.(game);
     });
 
     game.events.on('battle-end', (data: { winner: 'player' | 'cpu' }) => {
-      onBattleEnd?.(data);
+      onBattleEndRef.current?.(data);
     });
 
     game.events.on('start-battle', (data: { levelId: string; levelNumber: number; difficulty: string; cpuCharacterId: string }) => {
-      onStartBattle?.(data);
+      onStartBattleRef.current?.(data);
     });
 
     return () => {
@@ -85,7 +92,7 @@ export function usePhaserGame({
       gameRef.current = null;
       setIsReady(false);
     };
-  }, [containerRef, onGameReady, onBattleEnd, onStartBattle]);
+  }, [containerRef]);
 
   const setMobileInput = useCallback((input: Partial<MobileInputState>) => {
     mobileInputRef.current = { ...mobileInputRef.current, ...input };
@@ -107,7 +114,7 @@ export function usePhaserGame({
 
   const startBattle = useCallback(() => {
     const game = gameRef.current;
-    if (!game || !isReady) return;
+    if (!game) return;
 
     game.registry.set('playerCharacterId', playerCharacterId);
     game.registry.set('cpuCharacterId', cpuCharacterId);
@@ -119,12 +126,14 @@ export function usePhaserGame({
       battleScene.scene.wake();
     } else if (battleScene && battleScene.scene.isActive()) {
       battleScene.events.emit('restart-battle', { levelId, difficulty });
+    } else {
+      game.scene.start('BattleScene', { levelId, difficulty, playerCharacterId, cpuCharacterId });
     }
-  }, [playerCharacterId, cpuCharacterId, levelId, difficulty, isReady]);
+  }, [playerCharacterId, cpuCharacterId, levelId, difficulty]);
 
   const startWorldMap = useCallback((data: { unlockedLevels: string[]; completedLevels: Record<string, { stars: number; bestTurns: number; bestDamage: number }>; currentLevelId?: string }) => {
     const game = gameRef.current;
-    if (!game || !isReady) return;
+    if (!game) return;
 
     game.registry.set('worldMapData', data);
 
@@ -138,7 +147,7 @@ export function usePhaserGame({
         game.scene.start('WorldMapScene', data);
       }
     }
-  }, [isReady]);
+  }, []);
 
   const pauseGame = useCallback(() => {
     gameRef.current?.scene.pause('BattleScene');

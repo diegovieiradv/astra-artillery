@@ -58,20 +58,15 @@ export default function WorldMapClient({
     });
   }, [unlockedLevels, completedLevels, currentLevelId, isReady, startWorldMap]);
 
-  if (loading || !isReady) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.loaderContainer}>
-          <GameLoader message="Carregando mapa..." showProgress={false} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.page}>
       <div className={styles.gameContainer} ref={containerRef} role="application" aria-label="Mapa do mundo">
-        <div className={styles.canvasWrapper}>
+        {loading && (
+          <div className={styles.loaderContainer}>
+            <GameLoader message="Carregando mapa..." showProgress={false} />
+          </div>
+        )}
+        <div className={styles.canvasWrapper} style={{ display: loading ? 'none' : undefined }}>
           <div id="worldmap-container" className={styles.canvas} />
         </div>
         
