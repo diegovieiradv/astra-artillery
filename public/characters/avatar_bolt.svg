@@ -1,30 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
-    <linearGradient id="boltAvatarBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
     </linearGradient>
-    <linearGradient id="boltAvatarRing" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f87171"/>
-      <stop offset="100%" stop-color="#ef4444"/>
+    <linearGradient id="armor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#a16207"/>
     </linearGradient>
   </defs>
-  
-  <circle cx="64" cy="64" r="60" fill="url(#boltAvatarBg)"/>
-  <circle cx="64" cy="64" r="60" stroke="url(#boltAvatarRing)" stroke-width="3" fill="none"/>
-  
-  <circle cx="64" cy="64" r="40" fill="#334155"/>
-  <circle cx="64" cy="64" r="36" fill="#1e293b"/>
-  
-  <circle cx="48" cy="54" r="10" fill="#475569"/>
-  <circle cx="48" cy="54" r="5" fill="#f87171"/>
-  <circle cx="80" cy="54" r="10" fill="#475569"/>
-  <circle cx="80" cy="54" r="5" fill="#f87171"/>
-  
-  <path d="M48 74 Q64 78 80 74" stroke="#f87171" stroke-width="4" fill="none" stroke-linecap="round"/>
-  
-  <path d="M56 36 L58 28 L64 36" stroke="#f87171" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M70 36 L68 28 L64 36" stroke="#f87171" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  
-  <circle cx="64" cy="92" r="24" fill="url(#boltAvatarRing)" opacity="0.3"/>
+  <circle cx="64" cy="64" r="62" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="62" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  <!-- Heavy body -->
+  <ellipse cx="64" cy="106" rx="34" ry="22" fill="#854d0e"/>
+  <path d="M44 96 L64 88 L84 96 L86 118 L42 118 Z" fill="url(#armor)" stroke="#facc15" stroke-width="1.5"/>
+  <!-- Shoulder pads -->
+  <ellipse cx="42" cy="98" rx="12" ry="8" fill="#ca8a04" stroke="#facc15" stroke-width="1"/>
+  <ellipse cx="86" cy="98" rx="12" ry="8" fill="#ca8a04" stroke="#facc15" stroke-width="1"/>
+  <!-- Neck -->
+  <rect x="56" y="76" width="16" height="12" rx="4" fill="#f59e0b"/>
+  <!-- Head -->
+  <circle cx="64" cy="54" r="26" fill="#f59e0b"/>
+  <!-- Headband / bandana -->
+  <path d="M38 48 Q64 42 90 48 L88 54 Q64 48 40 54 Z" fill="#dc2626"/>
+  <path d="M38 48 L34 42 L38 46" fill="#dc2626"/>
+  <!-- Eyes - fierce -->
+  <ellipse cx="52" cy="54" rx="7" ry="6" fill="#ffffff"/>
+  <circle cx="54" cy="54" r="4" fill="#1e293b"/>
+  <circle cx="55" cy="53" r="1.5" fill="#ffffff"/>
+  <ellipse cx="76" cy="54" rx="7" ry="6" fill="#ffffff"/>
+  <circle cx="78" cy="54" r="4" fill="#1e293b"/>
+  <circle cx="79" cy="53" r="1.5" fill="#ffffff"/>
+  <!-- Angry eyebrows -->
+  <path d="M44 46 L56 48" stroke="#92400e" stroke-width="3" stroke-linecap="round"/>
+  <path d="M72 48 L84 46" stroke="#92400e" stroke-width="3" stroke-linecap="round"/>
+  <!-- Grit teeth -->
+  <path d="M52 64 L56 62 L60 64 L64 62 L68 64 L72 62 L76 64" stroke="#92400e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Lightning bolt mark -->
+  <path d="M58 68 L62 66 L60 72 L64 70" stroke="#fbbf24" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Fist glow -->
+  <circle cx="64" cy="108" r="8" fill="#facc15" opacity="0.3"/>
 </svg>

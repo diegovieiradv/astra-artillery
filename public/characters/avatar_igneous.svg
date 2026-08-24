@@ -1,10 +1,54 @@
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="32" cy="32" r="28" fill="#fb923c33"/>
-  <ellipse cx="32" cy="24" rx="16" ry="16" fill="#fef3c7"/>
-  <ellipse cx="26" cy="20" rx="3" ry="3" fill="#ef4444"/>
-  <ellipse cx="38" cy="20" rx="3" ry="3" fill="#ef4444"/>
-  <path d="M32 38 Q38 42 32 46 Q26 42 32 38" fill="#fb923c"/>
-  <path d="M18 30 Q10 25 5 35 Q10 45 18 40" fill="#f97316" opacity="0.5"/>
-  <path d="M46 30 Q54 25 59 35 Q54 45 46 40" fill="#f97316" opacity="0.5"/>
-  <circle cx="32" cy="24" r="8" fill="#ef4444" opacity="0.3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="50%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="62" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="62" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  <!-- Fire background effect -->
+  <path d="M30 100 Q40 80 35 60 Q45 75 50 55 Q55 70 60 50 Q65 65 70 45 Q75 60 80 55 Q85 70 90 60 Q95 80 98 100" fill="url(#flame)" opacity="0.15"/>
+  <!-- Heavy body -->
+  <ellipse cx="64" cy="106" rx="30" ry="22" fill="#7f1d1d"/>
+  <path d="M46 96 L64 88 L82 96 L84 118 L44 118 Z" fill="#991b1b" stroke="#ef4444" stroke-width="1.5"/>
+  <!-- Explosive belt -->
+  <rect x="50" y="100" width="28" height="6" rx="3" fill="#f97316" stroke="#fbbf24" stroke-width="0.5"/>
+  <circle cx="56" cy="103" r="2" fill="#fbbf24"/>
+  <circle cx="64" cy="103" r="2" fill="#fbbf24"/>
+  <circle cx="72" cy="103" r="2" fill="#fbbf24"/>
+  <!-- Neck -->
+  <rect x="56" y="76" width="16" height="12" rx="4" fill="#fb923c"/>
+  <!-- Head -->
+  <circle cx="64" cy="54" r="26" fill="#fb923c"/>
+  <!-- Mohawk / fire hair -->
+  <path d="M56 34 L60 14 L64 22 L68 10 L72 24 L76 16 L68 34" fill="#f97316"/>
+  <path d="M58 34 L62 18 L64 24 L66 14 L68 20 L70 16 L66 34" fill="#fbbf24"/>
+  <!-- Headband -->
+  <path d="M38 46 Q64 40 90 46 L88 52 Q64 46 40 52 Z" fill="#1e293b"/>
+  <path d="M38 46 L36 42" stroke="#f97316" stroke-width="2"/>
+  <!-- Eyes - intense -->
+  <ellipse cx="52" cy="52" rx="7" ry="6" fill="#ffffff"/>
+  <circle cx="54" cy="52" r="4" fill="#991b1b"/>
+  <circle cx="55" cy="51" r="1.5" fill="#fbbf24"/>
+  <circle cx="55" cy="51" r="0.8" fill="#ffffff"/>
+  <ellipse cx="76" cy="52" rx="7" ry="6" fill="#ffffff"/>
+  <circle cx="78" cy="52" r="4" fill="#991b1b"/>
+  <circle cx="79" cy="51" r="1.5" fill="#fbbf24"/>
+  <circle cx="79" cy="51" r="0.8" fill="#ffffff"/>
+  <!-- Scar over eye -->
+  <path d="M46 46 L56 58" stroke="#fde68a" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <!-- Angry eyebrows -->
+  <path d="M42 44 L56 46" stroke="#7f1d1d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M72 46 L86 44" stroke="#7f1d1d" stroke-width="3" stroke-linecap="round"/>
+  <!-- Menacing grin -->
+  <path d="M50 64 Q56 60 64 64 Q72 60 78 64" stroke="#7f1d1d" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <line x1="57" y1="62" x2="57" y2="65" stroke="#ffffff" stroke-width="1"/>
+  <line x1="64" y1="64" x2="64" y2="67" stroke="#ffffff" stroke-width="1"/>
+  <line x1="71" y1="62" x2="71" y2="65" stroke="#ffffff" stroke-width="1"/>
 </svg>

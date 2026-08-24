@@ -1,27 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
-    <linearGradient id="kaiAvatarBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#15803d"/>
     </linearGradient>
-    <linearGradient id="kaiAvatarRing" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="helmet" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#4ade80"/>
       <stop offset="100%" stop-color="#22c55e"/>
     </linearGradient>
   </defs>
-  
-  <circle cx="64" cy="64" r="60" fill="url(#kaiAvatarBg)"/>
-  <circle cx="64" cy="64" r="60" stroke="url(#kaiAvatarRing)" stroke-width="3" fill="none"/>
-  
-  <circle cx="64" cy="64" r="40" fill="#334155"/>
-  <circle cx="64" cy="64" r="36" fill="#1e293b"/>
-  
-  <circle cx="48" cy="54" r="10" fill="#475569"/>
-  <circle cx="48" cy="54" r="5" fill="#4ade80"/>
-  <circle cx="80" cy="54" r="10" fill="#475569"/>
-  <circle cx="80" cy="54" r="5" fill="#4ade80"/>
-  
-  <path d="M48 74 Q64 80 80 74" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round"/>
-  
-  <circle cx="64" cy="92" r="24" fill="url(#kaiAvatarRing)" opacity="0.3"/>
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="62" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="62" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  <!-- Body/armor -->
+  <ellipse cx="64" cy="105" rx="30" ry="22" fill="#15803d"/>
+  <ellipse cx="64" cy="105" rx="26" ry="18" fill="#166534"/>
+  <!-- Armor plate -->
+  <path d="M50 95 L64 88 L78 95 L78 112 L50 112 Z" fill="#22c55e" stroke="#4ade80" stroke-width="1"/>
+  <!-- Neck -->
+  <rect x="58" y="78" width="12" height="10" rx="3" fill="#fbbf24"/>
+  <!-- Head -->
+  <circle cx="64" cy="56" r="26" fill="#fbbf24"/>
+  <!-- Helmet -->
+  <path d="M38 52 Q38 28 64 26 Q90 28 90 52 L88 56 Q64 52 40 56 Z" fill="url(#helmet)"/>
+  <path d="M42 52 Q64 48 86 52 L84 56 Q64 52 44 56 Z" fill="#166534"/>
+  <!-- Visor -->
+  <path d="M44 46 Q64 42 84 46 L82 54 Q64 50 46 54 Z" fill="#0f172a" opacity="0.8"/>
+  <!-- Eyes -->
+  <ellipse cx="54" cy="52" rx="6" ry="5" fill="#ffffff"/>
+  <circle cx="55" cy="52" r="3" fill="#1e293b"/>
+  <circle cx="56" cy="51" r="1" fill="#ffffff"/>
+  <ellipse cx="74" cy="52" rx="6" ry="5" fill="#ffffff"/>
+  <circle cx="75" cy="52" r="3" fill="#1e293b"/>
+  <circle cx="76" cy="51" r="1" fill="#ffffff"/>
+  <!-- Eyebrows -->
+  <path d="M48 46 L58 44" stroke="#15803d" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M70 44 L80 46" stroke="#15803d" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Mouth - confident smile -->
+  <path d="M56 62 Q64 68 72 62" stroke="#92400e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Star badge -->
+  <polygon points="64,72 66,76 70,76 67,79 68,83 64,81 60,83 61,79 58,76 62,76" fill="#fbbf24" stroke="#f59e0b" stroke-width="0.5"/>
 </svg>
