@@ -2132,6 +2132,12 @@ resetCodexProgress: () => set({
   )
 );
 
+// Expose store globally for test access
+if (typeof window !== 'undefined') {
+  (window as any).__ZUSTAND_STORES__ = (window as any).__ZUSTAND_STORES__ || {};
+  (window as any).__ZUSTAND_STORES__.gameStore = useGameStore;
+}
+
 interface BattleState {
   playerCharacter: Character | null;
   cpuCharacter: Character | null;

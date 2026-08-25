@@ -40,6 +40,16 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     setTimeout(onComplete, 500);
   }, [phase, onComplete]);
 
+  // Test mode: auto-dismiss after ready when ?test=true URL parameter is present
+  // Runs during render for immediate effect, not in useEffect
+  if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search);
+    const isTestMode = params.get('test') === 'true';
+    if (isTestMode && phase === 'ready') {
+      setTimeout(handleStart, 100);
+    }
+  }
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') handleStart();
