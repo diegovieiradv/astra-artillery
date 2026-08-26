@@ -146,7 +146,8 @@ test.describe('Golden Path - Mapa → Fase → Recompensa', () => {
     }, SAVE_DATA);
   });
 
-  test('Mapa mostra GREEN VALLEY e canvas do Phaser', { timeout: 120000 }, async ({ page }) => {
+  test('Mapa mostra GREEN VALLEY e canvas do Phaser', async ({ page }) => {
+    test.setTimeout(120000);
     // Ensure localStorage is set right before navigation
     await page.goto('/', { waitUntil: 'commit' });
     await page.evaluate((data) => {

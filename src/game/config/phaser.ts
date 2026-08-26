@@ -8,7 +8,7 @@ export const GAME_BACKGROUND_COLOR = '#87ceeb';
 
 export function createGameConfig(canvas: HTMLCanvasElement): Phaser.Types.Core.GameConfig {
   return {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     canvas,
     width: GAME_WIDTH,
     height: GAME_HEIGHT,
