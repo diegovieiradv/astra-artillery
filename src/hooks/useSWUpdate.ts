@@ -18,8 +18,13 @@ export function useSWUpdate(): SWState & { applyUpdate: () => void } {
   });
 
   const applyUpdate = useCallback(() => {
-    if (state.registration?.waiting) {
-      state.registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    try {
+      if (state.registration?.waiting) {
+        state.registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+    } catch (err) {
+      // SW client may have been destroyed; force reload instead
+      window.location.reload();
     }
   }, [state.registration]);
 

@@ -159,7 +159,6 @@ const containerRef = useRef<HTMLDivElement>(null);
     }
   }, [playerCharacter, cpuCharacter, router]);
 
-  if (showResults && winner) {
   if (engineError) {
     return (
       <div className={styles.page}>
@@ -194,6 +193,7 @@ const containerRef = useRef<HTMLDivElement>(null);
     );
   }
 
+  if (showResults && winner) {
   return (
       <div className={styles.page}>
         <div className={styles.resultsOverlay}>
