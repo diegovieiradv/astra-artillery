@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { LEVELS, getLevel, REGIONS, REGION_ORDER, RegionId, LevelConfig } from '../data/levels';
+import { LEVELS, getLevel, getLevelsByRegion, REGIONS, REGION_ORDER, RegionId, LevelConfig } from '../data/levels';
 import { GAME_EVENTS } from '../config/phaser';
 import { useGameStore } from '@/stores/gameStore';
 
@@ -16,7 +16,7 @@ export class WorldMapScene extends Phaser.Scene {
   private backgroundLayers: Phaser.GameObjects.GameObject[] = [];
   private levelNodes: Map<number, LevelNode> = new Map();
   private pathGraphics!: Phaser.GameObjects.Graphics;
-  private particleEmitters: Map<number, Phaser.GameObjects.Particles.ParticleEmitter> = new Map();
+  private particleEmitters: Map<string, Phaser.GameObjects.Particles.ParticleEmitter> = new Map();
   
   private unlockedLevels: string[] = [];
   private completedLevels: Record<string, { stars: number; bestTurns: number; bestDamage: number }> = {};
@@ -35,6 +35,7 @@ export class WorldMapScene extends Phaser.Scene {
   private levelInfoPanel?: Phaser.GameObjects.Container;
   
   private parallaxOffset = 0;
+  private playerMarker!: Phaser.GameObjects.Container;
 
   constructor() {
     super({ key: 'WorldMapScene' });
@@ -77,10 +78,11 @@ export class WorldMapScene extends Phaser.Scene {
 
   create(): void {
     this.setupCamera();
-    this.createBackground();
     this.createMapContainer();
+    this.createBackground();
     this.createPaths();
     this.createLevelNodes();
+    this.createPlayerMarker();
     this.createLevelInfoPanel();
     this.setupInput();
     this.setupEvents();
@@ -91,28 +93,44 @@ export class WorldMapScene extends Phaser.Scene {
 
   private setupCamera(): void {
     const { width, height } = this.scale;
-    this.cameras.main.setBounds(0, 0, 3840, 2160);
+    this.cameras.main.setBounds(0, 0, 6000, 2160);
     this.cameras.main.centerOn(width / 2, height / 2);
   }
 
   private createBackground(): void {
-    const region = REGIONS.green_valley;
-    const colors = this.getRegionColors(region.theme);
+    const regionZones: Record<RegionId, { startX: number; endX: number }> = {
+      green_valley: { startX: 0, endX: 1050 },
+      crystal_desert: { startX: 1050, endX: 2000 },
+      frozen_peaks: { startX: 2000, endX: 2950 },
+      ember_lands: { startX: 2950, endX: 3900 },
+      sky_kingdom: { startX: 3900, endX: 4850 },
+      dark_citadel: { startX: 4850, endX: 5900 },
+    };
     
-    this.cameras.main.setBackgroundColor(colors.bg);
+    REGION_ORDER.forEach(regionId => {
+      const zone = regionZones[regionId];
+      const region = REGIONS[regionId];
+      const colors = this.getRegionColors(region.theme);
+      const centerX = (zone.startX + zone.endX) / 2;
+      const width = zone.endX - zone.startX;
+      
+      const sky = this.add.rectangle(centerX, 1080, width, 2160, colors.sky).setDepth(-100);
+      this.backgroundLayers.push(sky);
+      
+      const mountains = this.add.graphics().setDepth(-50);
+      this.drawMountainsForZone(mountains, colors.mountains, zone.startX, zone.endX);
+      this.backgroundLayers.push(mountains);
+      
+      const ground = this.add.graphics().setDepth(-10);
+      this.drawGroundForZone(ground, colors.ground, zone.startX, zone.endX);
+      this.backgroundLayers.push(ground);
+    });
     
-    const sky = this.add.rectangle(1920, 1080, 3840, 2160, colors.sky).setDepth(-100);
-    this.backgroundLayers.push(sky);
+    this.cameras.main.setBackgroundColor(0x0f172a);
     
-    const mountains = this.add.graphics().setDepth(-50);
-    this.drawMountains(mountains, colors.mountains);
-    this.backgroundLayers.push(mountains);
+    this.addEnvironmentAnimations();
     
-    const ground = this.add.graphics().setDepth(-10);
-    this.drawGround(ground, colors.ground);
-    this.backgroundLayers.push(ground);
-    
-    this.addEnvironmentAnimations(region.theme);
+    this.createRegionLabels();
   }
 
   private getRegionColors(theme: string) {
@@ -127,70 +145,105 @@ export class WorldMapScene extends Phaser.Scene {
     return themes[theme] || themes.nature;
   }
 
-  private drawMountains(graphics: Phaser.GameObjects.Graphics, color: number): void {
+  private drawMountainsForZone(graphics: Phaser.GameObjects.Graphics, color: number, startX: number, endX: number): void {
     graphics.fillStyle(color, 0.6);
     graphics.beginPath();
-    graphics.moveTo(0, 1800);
-    for (let x = 0; x <= 3840; x += 100) {
-      const y = 1800 - Math.sin(x * 0.002) * 200 - Math.sin(x * 0.005) * 100 + Math.random() * 50;
+    graphics.moveTo(startX, 1800);
+    for (let x = startX; x <= endX; x += 100) {
+      const y = 1800 - Math.sin(x * 0.002) * 200 - Math.sin(x * 0.005) * 100 + Math.sin(x * 0.01) * 30;
       graphics.lineTo(x, y);
     }
-    graphics.lineTo(3840, 2160);
+    graphics.lineTo(endX, 2160);
+    graphics.lineTo(startX, 2160);
     graphics.closePath();
     graphics.fillPath();
     
     graphics.fillStyle(color, 0.4);
     graphics.beginPath();
-    graphics.moveTo(0, 1600);
-    for (let x = 0; x <= 3840; x += 80) {
+    graphics.moveTo(startX, 1600);
+    for (let x = startX; x <= endX; x += 80) {
       const y = 1600 - Math.sin(x * 0.003) * 150 - Math.sin(x * 0.007) * 80;
       graphics.lineTo(x, y);
     }
-    graphics.lineTo(3840, 2160);
+    graphics.lineTo(endX, 2160);
+    graphics.lineTo(startX, 2160);
     graphics.closePath();
     graphics.fillPath();
   }
 
-  private drawGround(graphics: Phaser.GameObjects.Graphics, color: number): void {
+  private drawGroundForZone(graphics: Phaser.GameObjects.Graphics, color: number, startX: number, endX: number): void {
     graphics.fillStyle(color, 1);
-    graphics.fillRect(0, 1900, 3840, 260);
+    graphics.fillRect(startX, 1900, endX - startX, 260);
     
     graphics.fillStyle(Phaser.Display.Color.ValueToColor(color).brighten(20).color, 0.5);
     graphics.beginPath();
-    graphics.moveTo(0, 1900);
-    for (let x = 0; x <= 3840; x += 50) {
+    graphics.moveTo(startX, 1900);
+    for (let x = startX; x <= endX; x += 50) {
       graphics.lineTo(x, 1900 - Math.sin(x * 0.01) * 20);
     }
-    graphics.lineTo(3840, 2160);
-    graphics.lineTo(0, 2160);
+    graphics.lineTo(endX, 2160);
+    graphics.lineTo(startX, 2160);
     graphics.closePath();
     graphics.fillPath();
   }
 
-  private addEnvironmentAnimations(theme: string): void {
-    const animations = LEVELS
-      .filter(l => l.regionId === 'green_valley')
-      .flatMap(l => l.environmentAnimations);
-    
-    animations.forEach(anim => {
-      if (anim.type === 'particles') {
-        this.createParticleEffect(anim.config);
+  private addEnvironmentAnimations(): void {
+    // Add ambient particles for each region zone
+    REGION_ORDER.forEach(regionId => {
+      const regionLevels = getLevelsByRegion(regionId);
+      const firstLevel = regionLevels[0];
+      if (firstLevel && firstLevel.environmentAnimations.length > 0) {
+        const anim = firstLevel.environmentAnimations[0]; // Just the first animation per region
+        if (anim.type === 'particles') {
+          this.createParticleEffect(anim.config, firstLevel.nodePosition.x);
+        }
       }
     });
   }
 
-  private createParticleEffect(config: Record<string, unknown>): void {
-    const { type, count, color, speed } = config;
+  private createRegionLabels(): void {
+    const regionCenters: Record<RegionId, { x: number; y: number }> = {
+      green_valley: { x: 575, y: 200 },
+      crystal_desert: { x: 1525, y: 200 },
+      frozen_peaks: { x: 2475, y: 200 },
+      ember_lands: { x: 3425, y: 200 },
+      sky_kingdom: { x: 4375, y: 200 },
+      dark_citadel: { x: 5325, y: 200 },
+    };
+    
+    REGION_ORDER.forEach(regionId => {
+      const region = REGIONS[regionId];
+      const pos = regionCenters[regionId];
+      
+      const label = this.add.text(pos.x, pos.y, region.name.toUpperCase(), {
+        fontSize: '28px',
+        fontFamily: 'system-ui, sans-serif',
+        fontStyle: 'bold',
+        color: region.color,
+        stroke: '#0f172a',
+        strokeThickness: 4,
+      }).setOrigin(0.5).setDepth(15);
+      
+      this.mapContainer.add(label);
+    });
+  }
+
+  private createParticleEffect(config: Record<string, unknown>, centerX: number = 1920): void {
+    const { count: rawCount, color: rawColor, speed: rawSpeed } = config;
+    const count = typeof rawCount === 'number' ? rawCount : 10;
+    const colorStr = typeof rawColor === 'string' ? rawColor : '#ffffff';
+    const speedNum = typeof rawSpeed === 'number' ? rawSpeed : 1;
+    
     const particles = this.add.particles(0, 0, 'particle_star', {
-      x: { min: 0, max: 3840 },
+      x: { min: centerX - 500, max: centerX + 500 },
       y: { min: 100, max: 1800 },
       lifespan: { min: 10000, max: 20000 },
-      speedX: { min: -20 * (speed as number), max: 20 * (speed as number) },
-      speedY: { min: -10 * (speed as number), max: 10 * (speed as number) },
+      speedX: { min: -20 * speedNum, max: 20 * speedNum },
+      speedY: { min: -10 * speedNum, max: 10 * speedNum },
       scale: { start: 0.3, end: 0 },
       alpha: { start: 0.6, end: 0 },
-      tint: Phaser.Display.Color.HexStringToColor(color as string).color,
-      quantity: count as number,
+      tint: Phaser.Display.Color.HexStringToColor(colorStr).color,
+      quantity: count,
       blendMode: 'ADD',
       emitting: true,
     });
@@ -204,15 +257,20 @@ export class WorldMapScene extends Phaser.Scene {
   }
 
   private createPaths(): void {
-    const regionLevels = LEVELS.filter(l => l.regionId === 'green_valley').sort((a, b) => a.id - b.id);
+    // Clean up existing particle emitters
+    this.particleEmitters.forEach(emitter => {
+      try { emitter.destroy(); } catch {}
+    });
+    this.particleEmitters.clear();
+    
+    const allLevels = [...LEVELS].sort((a, b) => a.id - b.id);
     
     this.pathGraphics.clear();
-    this.pathGraphics.lineStyle(4, 0x4ade80, 0.8);
     
-    regionLevels.forEach((level, index) => {
+    allLevels.forEach((level, index) => {
       if (index === 0) return;
       
-      const prevLevel = regionLevels[index - 1];
+      const prevLevel = allLevels[index - 1];
       const nextLevel = level;
       
       if (!prevLevel.pathToNext) return;
@@ -227,9 +285,12 @@ export class WorldMapScene extends Phaser.Scene {
       const isUnlocked = this.unlockedLevels.includes(nextLevel.arenaId);
       const isCompleted = !!this.completedLevels[nextLevel.arenaId];
       
+      const regionColor = REGIONS[nextLevel.regionId]?.color || '#4ade80';
+      const pathColor = Phaser.Display.Color.HexStringToColor(regionColor).color;
+      
       this.pathGraphics.lineStyle(
         4,
-        isCompleted ? 0x4ade80 : isUnlocked ? 0xfbbf24 : 0x475569,
+        isCompleted ? pathColor : isUnlocked ? 0xfbbf24 : 0x475569,
         isCompleted || isUnlocked ? 0.8 : 0.3
       );
       
@@ -239,27 +300,30 @@ export class WorldMapScene extends Phaser.Scene {
       this.pathGraphics.strokePath();
       
       if (isCompleted) {
-        this.addPathParticles(start, end, control);
+        this.addPathParticles(start, end, control, pathColor);
       }
     });
     this.mapContainer.add(this.pathGraphics);
   }
 
-  private addPathParticles(start: { x: number; y: number }, end: { x: number; y: number }, control: { x: number; y: number }): void {
+  private addPathParticles(start: { x: number; y: number }, end: { x: number; y: number }, control: { x: number; y: number }, regionColor: number): void {
+    const follower = this.createPathFollower(start, end, control);
     const particles = this.add.particles(start.x, start.y, 'particle_spark', {
       lifespan: 2000,
       speed: 100,
       scale: { start: 0.5, end: 0 },
       alpha: { start: 1, end: 0 },
-      tint: 0x4ade80,
+      tint: regionColor,
       quantity: 1,
       frequency: 300,
       blendMode: 'ADD',
       emitting: true,
-      follow: this.createPathFollower(start, end, control),
+      follow: follower,
     });
     particles.setDepth(6);
-    this.particleEmitters.set(end.x * 1000 + end.y, particles);
+    // Use a unique but stable key based on the level
+    const key = `path_${start.x}_${end.x}`;
+    this.particleEmitters.set(key, particles);
   }
 
   private createPathFollower(start: { x: number; y: number }, end: { x: number; y: number }, control: { x: number; y: number }): Phaser.GameObjects.PathFollower {
@@ -276,13 +340,66 @@ export class WorldMapScene extends Phaser.Scene {
   }
 
   private createLevelNodes(): void {
-    const regionLevels = LEVELS.filter(l => l.regionId === 'green_valley').sort((a, b) => a.id - b.id);
+    const allLevels = [...LEVELS].sort((a, b) => a.id - b.id);
     
-    regionLevels.forEach((level, index) => {
+    allLevels.forEach((level, index) => {
       const state = this.getLevelState(level);
       const node = new LevelNode(this, level, state, index === 0);
       this.levelNodes.set(level.id, node);
       this.mapContainer.add(node.container);
+    });
+  }
+
+  private createPlayerMarker(): void {
+    let targetLevel = LEVELS[0];
+    if (this.currentLevelId) {
+      const found = LEVELS.find(l => l.arenaId === this.currentLevelId);
+      if (found) targetLevel = found;
+    }
+    
+    this.playerMarker = this.add.container(targetLevel.nodePosition.x, targetLevel.nodePosition.y - 60);
+    
+    const markerBg = this.add.circle(0, 0, 16, 0x4ade80);
+    const markerIcon = this.add.text(0, 0, '♟', { fontSize: '20px' }).setOrigin(0.5);
+    
+    this.playerMarker.add([markerBg, markerIcon]);
+    this.playerMarker.setDepth(25);
+    
+    this.tweens.add({
+      targets: this.playerMarker,
+      y: targetLevel.nodePosition.y - 70,
+      duration: 1500,
+      yoyo: true,
+      repeat: -1,
+      ease: 'Sine.easeInOut',
+    });
+    
+    this.mapContainer.add(this.playerMarker);
+  }
+
+  private updatePlayerMarkerPosition(levelId: number): void {
+    const level = getLevel(levelId);
+    if (!level || !this.playerMarker) return;
+    
+    // Kill any existing position tween by targeting the object
+    this.tweens.killTweensOf(this.playerMarker);
+    
+    this.tweens.add({
+      targets: this.playerMarker,
+      x: level.nodePosition.x,
+      duration: 500,
+      ease: 'Back.easeOut',
+      onComplete: () => {
+        // Re-add the floating tween after position move completes
+        this.tweens.add({
+          targets: this.playerMarker,
+          y: level.nodePosition.y - 70,
+          duration: 1500,
+          yoyo: true,
+          repeat: -1,
+          ease: 'Sine.easeInOut',
+        });
+      },
     });
   }
 
@@ -417,7 +534,7 @@ export class WorldMapScene extends Phaser.Scene {
     const dx = (pointer.x - this.dragStartX) / this.zoomLevel;
     const dy = (pointer.y - this.dragStartY) / this.zoomLevel;
     
-    this.mapContainer.x = Phaser.Math.Clamp(this.containerStartX + dx, -1920, 1920);
+    this.mapContainer.x = Phaser.Math.Clamp(this.containerStartX + dx, -2400, 3000);
     this.mapContainer.y = Phaser.Math.Clamp(this.containerStartY + dy, -1080, 1080);
   }
 
@@ -517,14 +634,11 @@ export class WorldMapScene extends Phaser.Scene {
   }
 
   private getLevelDescription(level: LevelConfig): string {
-    const descriptions: Record<string, string> = {
-      arena_1: 'Terreno plano com poucas elevações. Ideal para aprender os fundamentos.',
-      arena_2: 'Ventos fortes e imprevisíveis. Plataformas elevadas criam oportunidades táticas.',
-      arena_3: 'Múltiplas plataformas móveis. Requer precisão e timing perfeitos.',
-      arena_4: 'Cristais brilhantes alteram a física. Use-os a seu favor.',
-      boss_1: 'Chefe da região. Combate em múltiplas fases com mecânicas únicas.',
-    };
-    return descriptions[level.arenaId] || 'Fase desconhecida.';
+    const region = REGIONS[level.regionId];
+    if (level.isBoss) {
+      return `Chefe da região ${region.name}. Combate em múltiplas fases.`;
+    }
+    return `${level.name} — ${region.name}. Dificuldade ${this.getDifficultyLabel(level.difficulty)}.`;
   }
 
   private getDifficultyLabel(diff: string): string {
@@ -587,6 +701,7 @@ export class WorldMapScene extends Phaser.Scene {
     const nextLevel = getLevel(level.id + 1);
     if (nextLevel) {
       setTimeout(() => this.unlockNextLevel(nextLevel), 1500);
+      this.updatePlayerMarkerPosition(level.id);
     }
     
     this.createPaths();
@@ -637,6 +752,9 @@ export class WorldMapScene extends Phaser.Scene {
       alpha: { from: 0, to: 1 },
       duration: 500,
       ease: 'Back.easeOut',
+      onComplete: () => {
+        this.updatePlayerMarkerPosition(nextLevel.id);
+      },
     });
     
     const pathIndex = LEVELS.findIndex(l => l.id === nextLevel.id) - 1;
@@ -648,11 +766,11 @@ export class WorldMapScene extends Phaser.Scene {
   }
 
   private animatePathDraw(pathIndex: number): void {
-    const regionLevels = LEVELS.filter(l => l.regionId === 'green_valley').sort((a, b) => a.id - b.id);
-    if (pathIndex < 0 || pathIndex >= regionLevels.length - 1) return;
+    const allLevels = [...LEVELS].sort((a, b) => a.id - b.id);
+    if (pathIndex < 0 || pathIndex >= allLevels.length - 1) return;
     
-    const prevLevel = regionLevels[pathIndex];
-    const nextLevel = regionLevels[pathIndex + 1];
+    const prevLevel = allLevels[pathIndex];
+    const nextLevel = allLevels[pathIndex + 1];
     if (!prevLevel.pathToNext) return;
     
     const start = prevLevel.nodePosition;
@@ -662,8 +780,11 @@ export class WorldMapScene extends Phaser.Scene {
       y: prevLevel.pathToNext.controlY || (start.y + end.y) / 2 - 100,
     };
     
+    const regionColor = REGIONS[nextLevel.regionId]?.color || '#4ade80';
+    const pathColor = Phaser.Display.Color.HexStringToColor(regionColor).color;
+    
     const drawGraphics = this.add.graphics().setDepth(7);
-    drawGraphics.lineStyle(6, 0x4ade80, 1);
+    drawGraphics.lineStyle(6, pathColor, 1);
     
     const path = new Phaser.Curves.QuadraticBezier(
       new Phaser.Math.Vector2(start.x, start.y),
@@ -684,7 +805,7 @@ export class WorldMapScene extends Phaser.Scene {
         const idx = Math.floor(progress);
         if (idx > currentPoint && idx < points.length) {
           drawGraphics.clear();
-          drawGraphics.lineStyle(6, 0x4ade80, 1);
+          drawGraphics.lineStyle(6, pathColor, 1);
           drawGraphics.beginPath();
           drawGraphics.moveTo(points[0].x, points[0].y);
           for (let i = 1; i <= idx; i++) {
@@ -702,8 +823,14 @@ export class WorldMapScene extends Phaser.Scene {
   }
 
   private focusOnCurrentLevel(): void {
-    let targetLevelId = this.currentLevelId ? parseInt(this.currentLevelId.replace('arena_', '')) : 1;
-    if (this.currentLevelId === 'boss_1') targetLevelId = 5;
+    let targetLevelId = 1;
+    if (this.currentLevelId) {
+      if (this.currentLevelId.startsWith('boss_')) {
+        targetLevelId = parseInt(this.currentLevelId.replace('boss_', '')) * 5;
+      } else {
+        targetLevelId = parseInt(this.currentLevelId.replace('arena_', ''));
+      }
+    }
     
     const targetLevel = getLevel(targetLevelId);
     if (!targetLevel) return;
@@ -753,6 +880,13 @@ export class WorldMapScene extends Phaser.Scene {
     });
   }
 
+  shutdown(): void {
+    this.particleEmitters.forEach(emitter => {
+      try { emitter.destroy(); } catch {}
+    });
+    this.particleEmitters.clear();
+  }
+
   update(time: number, delta: number): void {
     this.parallaxOffset += delta * 0.0001;
     
@@ -785,6 +919,11 @@ export class WorldMapScene extends Phaser.Scene {
     
     this.pathGraphics.clear();
     this.createPaths();
+    
+    if (this.currentLevelId) {
+      const current = LEVELS.find(l => l.arenaId === this.currentLevelId);
+      if (current) this.updatePlayerMarkerPosition(current.id);
+    }
   }
 }
 
