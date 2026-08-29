@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -24,6 +24,8 @@ const ROLE_FILTERS: { key: RoleKey; label: string }[] = [
     label: value.label,
   })),
 ];
+
+const DEFAULT_UNLOCKED = ['kai', 'luna', 'bolt', 'nova'];
 
 function RoleFilterIcon({ role, size = 20 }: { role: RoleKey; size?: number }) {
   const color =
@@ -146,7 +148,7 @@ export default function CharactersPage() {
   const { selectedCharacterId, selectCharacter, unlockedCharacters, settings } =
     useGameStore();
   const { setBattleConfig } = useBattleStore();
-  const characters = getAllCharacters();
+  const characters = useMemo(() => getAllCharacters(), []);
   const [selectedId, setSelectedId] = useState<string | null>(selectedCharacterId);
   const [activeFilter, setActiveFilter] = useState<RoleKey>('all');
   const [mounted, setMounted] = useState(false);
@@ -176,10 +178,10 @@ export default function CharactersPage() {
     (id: string) => {
       return (
         unlockedCharacters.includes(id) ||
-        characters.findIndex((c) => c.id === id) < 4
+        DEFAULT_UNLOCKED.includes(id)
       );
     },
-    [unlockedCharacters, characters]
+    [unlockedCharacters]
   );
 
   const handleSelect = useCallback(
@@ -247,8 +249,8 @@ export default function CharactersPage() {
         <div className={styles.leftColumn}>
           <div
             className={styles.filterBar}
-            role="radiogroup"
-            aria-label="Filtrar por classe"
+            role="toolbar"
+            aria-label="Filtrar por função"
           >
             {ROLE_FILTERS.map((filter) => {
               const isActive = activeFilter === filter.key;
