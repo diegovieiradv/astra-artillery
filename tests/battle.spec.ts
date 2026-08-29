@@ -71,7 +71,7 @@ test.describe('Fluxo Principal do Jogo', () => {
     await page.waitForSelector('[role="option"]', { timeout: 10000 });
     await removeOverlays(page);
     await forceClick(page, '[role="option"]:first-child');
-    await expect(page.locator('button:has-text("ESCOLHER E JOGAR"):not([disabled])')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('button:has-text("CONFIRMAR HERÓI"):not([disabled])')).toBeVisible({ timeout: 10000 });
   });
 
   test('Confirmar personagem navega para mapa', async ({ page }) => {
@@ -79,7 +79,7 @@ test.describe('Fluxo Principal do Jogo', () => {
     await page.waitForSelector('[role="option"]', { timeout: 10000 });
     await removeOverlays(page);
     await forceClick(page, '[role="option"]:first-child');
-    await forceClick(page, 'button:has-text("ESCOLHER E JOGAR")');
+    await forceClick(page, 'button:has-text("CONFIRMAR HERÓI")');
     await page.waitForURL(/\/map/, { timeout: 10000 }).catch(() => page.goto('/map'));
     await expect(page).toHaveURL(/\/map/, { timeout: 15000 });
   });

@@ -35,10 +35,10 @@ export const metadata: Metadata = {
     siteName: 'Astra Artillery',
     images: [
       {
-        url: '/og-image.svg',
-        width: 1200,
-        height: 630,
-        alt: 'Astra Artillery - Artilharia em Turnos',
+        url: '/images/astra-artillery-cover.png',
+        width: 1536,
+        height: 1024,
+        alt: 'Astra Artillery - Jogo de Artilharia 2D',
       },
     ],
   },
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Astra Artillery',
     description: 'Jogo web original de artilharia em turnos.',
-    images: ['/og-image.svg'],
+    images: ['/images/astra-artillery-cover.png'],
   },
   icons: {
     icon: '/favicon.svg',
