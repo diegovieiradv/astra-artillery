@@ -43,3 +43,9 @@ next-env.d.ts
 # playwright
 /playwright-report/
 /test-results/
+
+# playwright mcp
+.playwright-mcp/
+
+# design assets
+figma-signup-design.png
