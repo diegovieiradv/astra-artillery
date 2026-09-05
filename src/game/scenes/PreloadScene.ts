@@ -120,12 +120,10 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('char_luna', 'characters/luna.svg');
     this.load.image('char_bolt', 'characters/bolt.svg');
     this.load.image('char_nova', 'characters/nova.svg');
-    this.load.image('char_zephyr', 'characters/zephyr.svg');
-    this.load.image('char_igneous', 'characters/igneous.svg');
-    this.load.image('char_glacis', 'characters/glacis.svg');
-    this.load.image('char_aeris', 'characters/aeris.svg');
-    this.load.image('char_scatter', 'characters/scatter.svg');
-    this.load.image('char_tactos', 'characters/tactos.svg');
+    this.load.image('char_pyra', 'characters/pyra.svg');
+    this.load.image('char_mira', 'characters/mira.svg');
+    this.load.image('char_rook', 'characters/rook.svg');
+    this.load.image('char_drax', 'characters/drax.svg');
 
     // Character avatars (all exist in public/characters/)
     this.load.image('avatar_kai', 'characters/avatar_kai.svg');
@@ -133,16 +131,16 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('avatar_bolt', 'characters/avatar_bolt.svg');
     this.load.image('avatar_nova', 'characters/avatar_nova.svg');
     this.load.image('avatar_zephyr', 'characters/avatar_zephyr.svg');
-    this.load.image('avatar_igneous', 'characters/avatar_igneous.svg');
-    this.load.image('avatar_glacis', 'characters/avatar_glacis.svg');
-    this.load.image('avatar_aeris', 'characters/avatar_aeris.svg');
-    this.load.image('avatar_scatter', 'characters/avatar_scatter.svg');
-    this.load.image('avatar_tactos', 'characters/avatar_tactos.svg');
+    this.load.image('avatar_torn', 'characters/avatar_torn.svg');
+    this.load.image('avatar_pyra', 'characters/avatar_pyra.svg');
+    this.load.image('avatar_mira', 'characters/avatar_mira.svg');
+    this.load.image('avatar_rook', 'characters/avatar_rook.svg');
+    this.load.image('avatar_drax', 'characters/avatar_drax.svg');
 
     // Spritesheets (check if files exist before loading)
     this.load.on('loaderror', () => {});
     this.load.aseprite('char_zephyr', 'characters/spritesheets/zephyr.png', 'characters/spritesheets/zephyr.json');
-    this.load.aseprite('char_igneous', 'characters/spritesheets/igneous.png', 'characters/spritesheets/igneous.json');
+    this.load.aseprite('char_torn', 'characters/spritesheets/torn.png', 'characters/spritesheets/torn.json');
 
     // Effects (only load files that exist in public/effects/)
     this.load.image('projectile', 'effects/projectile.svg');

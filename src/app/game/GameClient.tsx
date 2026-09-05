@@ -10,7 +10,8 @@ import { PauseOverlay } from '@/components/game/PauseOverlay';
 import { GameLoader } from '@/components/loading/GameLoader';
 import { ContextualTipToast } from '@/components/ui/ContextualTipToast';
 import { PhotoMode } from '@/components/ui/PhotoMode';
-import { CHARACTERS, LEVELS } from '@/game/characters/registry';
+import { CHARACTERS } from '@/game/characters/registry';
+import { LEVELS } from '@/game/data/levels';
 import { getRandomWeather } from '@/game/data/weather';
 import { audioManager, initAudioFromSettings, vibrationManager } from '@/utils/audio';
 import { toggleFullscreen, isFullscreen } from '@/utils/fullscreen';
@@ -60,10 +61,10 @@ const containerRef = useRef<HTMLDivElement>(null);
       }
       
       if (isPlayerWin && levelId) {
-        const levelIndex = LEVELS.findIndex(l => l.id === levelId);
+        const levelIndex = LEVELS.findIndex(l => l.arenaId === levelId);
         if (levelIndex >= 0 && levelIndex < LEVELS.length - 1) {
           const nextLevel = LEVELS[levelIndex + 1];
-          unlockLevel(nextLevel.id);
+          unlockLevel(nextLevel.arenaId);
         }
         completeLevel(levelId, {
           stars: turnsPlayed <= 5 ? 3 : turnsPlayed <= 10 ? 2 : 1,

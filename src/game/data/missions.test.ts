@@ -44,7 +44,7 @@ describe('Mission System', () => {
 
     it('should have character missions for all 8 characters', () => {
       const characterMissions = getMissionsByCategory('character');
-      const characters = ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'igneous', 'glacis', 'aeris'];
+      const characters = ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'torn', 'pyra', 'mira'];
       
       for (const char of characters) {
         const charMissions = characterMissions.filter(m => 
@@ -229,7 +229,7 @@ describe('Mission System', () => {
   });
 
   function createDefaultMasteryState() {
-    const characters = ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'igneous', 'glacis', 'aeris'];
+    const characters = ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'torn', 'pyra', 'mira'];
     const state: Record<string, { xp: number; level: number }> = {};
     for (const charId of characters) {
       state[charId] = { xp: 0, level: 1 };

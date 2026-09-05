@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAllCharacters, CHARACTER_ROLES } from '@/game/characters/registry';
+import { CHARACTER_ELEMENTS } from '@/types/character';
 import { useGameStore, useBattleStore } from '@/stores/gameStore';
 import styles from './page.module.css';
 
@@ -15,132 +16,50 @@ const ROLE_COLORS: Record<string, string> = Object.fromEntries(
   Object.entries(CHARACTER_ROLES).map(([key, value]) => [key, value.color])
 );
 
-type RoleKey = keyof typeof CHARACTER_ROLES | 'all';
+type ElementKey = 'all' | 'fire' | 'ice' | 'dark' | 'nature' | 'electricity' | 'arcane' | 'artillery' | 'energy' | 'cosmic';
 
-const ROLE_FILTERS: { key: RoleKey; label: string }[] = [
+const ELEMENT_FILTERS: { key: ElementKey; label: string }[] = [
   { key: 'all', label: 'Todos' },
-  ...Object.entries(CHARACTER_ROLES).map(([key, value]) => ({
-    key: key as RoleKey,
-    label: value.label,
+  ...Object.entries(CHARACTER_ELEMENTS).map(([key]) => ({
+    key: key as ElementKey,
+    label: CHARACTER_ELEMENTS[key].icon,
   })),
 ];
 
 const DEFAULT_UNLOCKED = ['kai', 'luna', 'bolt', 'nova'];
 
-function RoleFilterIcon({ role, size = 20 }: { role: RoleKey; size?: number }) {
-  const color =
-    role === 'all'
-      ? '#ffffff'
-      : CHARACTER_ROLES[role as keyof typeof CHARACTER_ROLES]?.color || '#ffffff';
-  const svgProps = {
-    width: size,
-    height: size,
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: color,
-    strokeWidth: 2,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  };
+const DIFFICULTY_MAP: Record<string, { label: string; stars: number }> = {
+  easy: { label: 'FÁCIL', stars: 1 },
+  medium: { label: 'MÉDIA', stars: 2 },
+  hard: { label: 'DIFÍCIL', stars: 3 },
+};
 
-  switch (role) {
-    case 'all':
-      return (
-        <svg {...svgProps}>
-          <polygon
-            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-            fill={color}
-            stroke="none"
-          />
-        </svg>
-      );
-    case 'balanced':
-      return (
-        <svg {...svgProps}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M8 12h8M12 8v8" />
-        </svg>
-      );
-    case 'precision':
-      return (
-        <svg {...svgProps}>
-          <circle cx="12" cy="12" r="9" />
-          <circle cx="12" cy="12" r="4" />
-          <circle cx="12" cy="12" r="1" fill={color} />
-        </svg>
-      );
-    case 'power':
-      return (
-        <svg {...svgProps}>
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill={color} stroke="none" />
-        </svg>
-      );
-    case 'support':
-      return (
-        <svg {...svgProps}>
-          <path
-            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-            fill={color}
-            stroke="none"
-          />
-        </svg>
-      );
-    case 'mobility':
-      return (
-        <svg {...svgProps}>
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill={color} stroke="none" />
-        </svg>
-      );
-    case 'explosives':
-      return (
-        <svg {...svgProps}>
-          <circle cx="12" cy="14" r="6" fill={color} stroke="none" />
-          <path d="M12 2v4M8 4l1 3M16 4l-1 3" />
-        </svg>
-      );
-    case 'defense':
-      return (
-        <svg {...svgProps}>
-          <path
-            d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-            fill={color}
-            stroke="none"
-          />
-        </svg>
-      );
-    case 'wind_specialist':
-      return (
-        <svg {...svgProps}>
-          <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2" />
-        </svg>
-      );
-    case 'multi_shot':
-      return (
-        <svg {...svgProps}>
-          <circle cx="12" cy="12" r="2" fill={color} />
-          <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-        </svg>
-      );
-    case 'tactical':
-      return (
-        <svg {...svgProps}>
-          <rect x="3" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="3" width="7" height="7" rx="1" />
-          <rect x="3" y="14" width="7" height="7" rx="1" />
-          <rect x="14" y="14" width="7" height="7" rx="1" />
-        </svg>
-      );
-    default:
-      return (
-        <svg {...svgProps}>
-          <polygon
-            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-            fill={color}
-            stroke="none"
-          />
-        </svg>
-      );
+const STAT_COLORS = {
+  attack: '#f87171',
+  defense: '#60a5fa',
+  mobility: '#4ade80',
+  luck: '#fbbf24',
+};
+
+function ElementFilterIcon({ element, size = 20 }: { element: ElementKey; size?: number }) {
+  if (element === 'all') {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <polygon
+          points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+          fill="#ffffff"
+          stroke="none"
+        />
+      </svg>
+    );
   }
+  const elemInfo = CHARACTER_ELEMENTS[element];
+  if (!elemInfo) return null;
+  return (
+    <span style={{ fontSize: size * 0.7, lineHeight: 1 }}>
+      {elemInfo.icon}
+    </span>
+  );
 }
 
 export default function CharactersPage() {
@@ -150,7 +69,7 @@ export default function CharactersPage() {
   const { setBattleConfig } = useBattleStore();
   const characters = useMemo(() => getAllCharacters(), []);
   const [selectedId, setSelectedId] = useState<string | null>(selectedCharacterId);
-  const [activeFilter, setActiveFilter] = useState<RoleKey>('all');
+  const [activeFilter, setActiveFilter] = useState<ElementKey>('all');
   const [mounted, setMounted] = useState(false);
 
   const reduceMotion = settings?.reduceMotion ?? false;
@@ -167,12 +86,31 @@ export default function CharactersPage() {
   const filteredCharacters =
     activeFilter === 'all'
       ? characters
-      : characters.filter((c) => c.role === activeFilter);
+      : characters.filter((c) => c.element === activeFilter);
 
   const selectedChar = characters.find((c) => c.id === selectedId);
   const roleColor = selectedChar
-    ? ROLE_COLORS[selectedChar.role] || '#4ade80'
-    : '#4ade80';
+    ? ROLE_COLORS[selectedChar.role] || '#d4a73a'
+    : '#d4a73a';
+  const elementInfo = selectedChar?.element ? CHARACTER_ELEMENTS[selectedChar.element] : null;
+  const difficultyInfo = selectedChar?.difficulty ? DIFFICULTY_MAP[selectedChar.difficulty] : null;
+
+  // Calculate stats as 0-100 scale for display
+  const getStatDisplay = useCallback((stat: string, value: number) => {
+    const maxMap: Record<string, number> = {
+      attack: 130,
+      defense: 150,
+      mobility: 140,
+    };
+    const max = maxMap[stat] || 100;
+    const pct = Math.round((value / max) * 100);
+    // Simulate "luck" as a derived stat from attack + mobility
+    return pct;
+  }, []);
+
+  const luckValue = selectedChar
+    ? Math.round(((selectedChar.stats.attack + selectedChar.stats.mobility) / 2.4) * 100)
+    : 0;
 
   const isUnlocked = useCallback(
     (id: string) => {
@@ -236,7 +174,7 @@ export default function CharactersPage() {
           <span>VOLTAR</span>
         </Link>
         <div className={styles.titleArea}>
-          <h1 className={styles.title}>ESCOLHA SEU HERÓI</h1>
+          <h1 className={styles.title}>ESCOLHA SEU PERSONAGEM</h1>
           <p className={styles.subtitle}>
             Cada herói possui habilidades únicas e um estilo de batalha
             especial!
@@ -247,37 +185,10 @@ export default function CharactersPage() {
 
       <main className={styles.main}>
         <div className={styles.leftColumn}>
-          <div
-            className={styles.filterBar}
-            role="toolbar"
-            aria-label="Filtrar por função"
-          >
-            {ROLE_FILTERS.map((filter) => {
-              const isActive = activeFilter === filter.key;
-              const filterColor =
-                filter.key === 'all'
-                  ? '#ffffff'
-                  : ROLE_COLORS[filter.key] || '#ffffff';
-              return (
-                <button
-                  key={filter.key}
-                  className={`${styles.filterBtn} ${isActive ? styles.filterBtnActive : ''}`}
-                  onClick={() => setActiveFilter(filter.key)}
-                  aria-label={filter.label}
-                  aria-pressed={isActive}
-                  style={
-                    isActive
-                      ? {
-                          borderColor: filterColor,
-                          background: `${filterColor}25`,
-                        }
-                      : undefined
-                  }
-                >
-                  <RoleFilterIcon role={filter.key} />
-                </button>
-              );
-            })}
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionDiamond} />
+            <h2>HERÓIS DISPONÍVEIS</h2>
+            <div className={styles.sectionDiamond} />
           </div>
 
           <div
@@ -288,7 +199,7 @@ export default function CharactersPage() {
             {filteredCharacters.map((char) => {
               const locked = !isUnlocked(char.id);
               const active = selectedId === char.id;
-              const color = ROLE_COLORS[char.role] || '#4ade80';
+              const elem = char.element ? CHARACTER_ELEMENTS[char.element] : null;
               return (
                 <motion.button
                   key={char.id}
@@ -298,14 +209,6 @@ export default function CharactersPage() {
                   role="option"
                   aria-selected={active}
                   aria-label={`${char.name}${locked ? ' (bloqueado)' : ''}`}
-                  style={
-                    active
-                      ? {
-                          borderColor: color,
-                          boxShadow: `0 0 20px ${color}40, inset 0 0 20px ${color}10`,
-                        }
-                      : undefined
-                  }
                   whileHover={!reduceMotion && !locked ? { scale: 1.06 } : undefined}
                   whileTap={!reduceMotion && !locked ? { scale: 0.94 } : undefined}
                   transition={{ duration: 0.15 }}
@@ -333,11 +236,11 @@ export default function CharactersPage() {
                     />
                   )}
                   <span className={styles.characterName}>{char.name}</span>
+                  {elem && (
+                    <span className={styles.characterElement}>{elem.icon}</span>
+                  )}
                   {active && (
-                    <div
-                      className={styles.activeIndicator}
-                      style={{ background: color }}
-                    />
+                    <div className={styles.activeIndicator} />
                   )}
                 </motion.button>
               );
@@ -376,22 +279,33 @@ export default function CharactersPage() {
                 <div className={styles.detailsPanel}>
                   <div className={styles.detailsHeader}>
                     <h2 className={styles.charName}>{selectedChar.name}</h2>
-                    <span
-                      className={styles.roleBadge}
-                      style={{
-                        background: `${roleColor}25`,
-                        color: roleColor,
-                        borderColor: `${roleColor}50`,
-                      }}
-                    >
-                      {CHARACTER_ROLES[selectedChar.role]?.label ||
-                        selectedChar.role}
-                    </span>
                   </div>
+                  {selectedChar.title && (
+                    <span className={styles.charTitle}>{selectedChar.title}</span>
+                  )}
                   <p className={styles.charDescription}>
                     {selectedChar.description}
                   </p>
 
+                  {/* Difficulty */}
+                  {difficultyInfo && (
+                    <div className={styles.difficultySection}>
+                      <span className={styles.difficultyLabel}>DIFICULDADE:</span>
+                      <div className={styles.difficultyStars}>
+                        {[1, 2, 3].map((star) => (
+                          <span
+                            key={star}
+                            className={`${styles.difficultyStar} ${star <= difficultyInfo.stars ? styles.difficultyStarActive : ''}`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                      <span className={styles.difficultyText}>{difficultyInfo.label}</span>
+                    </div>
+                  )}
+
+                  {/* Ability */}
                   <div className={styles.abilitySection}>
                     <div className={styles.abilityHeader}>
                       <span className={styles.abilityLabel}>
@@ -417,41 +331,43 @@ export default function CharactersPage() {
                     </div>
                   </div>
 
+                  {/* Stats */}
                   <div className={styles.statsSection}>
                     <span className={styles.statsLabel}>ATRIBUTOS</span>
                     {[
                       {
-                        label: 'HP',
-                        value: selectedChar.stats.health,
-                        max: 150,
-                        icon: '❤️',
-                      },
-                      {
-                        label: 'ATK',
+                        label: 'ATAQUE',
                         value: Math.round(selectedChar.stats.attack * 100),
                         max: 130,
-                        icon: '⚔️',
+                        color: STAT_COLORS.attack,
                       },
                       {
-                        label: 'DEF',
+                        label: 'DEFESA',
                         value: Math.round(selectedChar.stats.defense * 100),
                         max: 150,
-                        icon: '🛡️',
+                        color: STAT_COLORS.defense,
                       },
                       {
-                        label: 'SPD',
+                        label: 'AGIL.',
                         value: Math.round(selectedChar.stats.mobility * 100),
                         max: 140,
-                        icon: '💨',
+                        color: STAT_COLORS.mobility,
+                      },
+                      {
+                        label: 'SORTE',
+                        value: Math.min(100, Math.round(
+                          ((selectedChar.stats.attack + selectedChar.stats.mobility) / 2.4) * 100
+                        )),
+                        max: 100,
+                        color: STAT_COLORS.luck,
                       },
                     ].map((stat) => (
                       <div key={stat.label} className={styles.statRow}>
-                        <span className={styles.statIcon}>{stat.icon}</span>
                         <span className={styles.statName}>{stat.label}</span>
                         <div className={styles.statBar}>
                           <motion.div
                             className={styles.statFill}
-                            style={{ background: roleColor }}
+                            style={{ background: stat.color }}
                             initial={
                               reduceMotion
                                 ? {
@@ -485,6 +401,30 @@ export default function CharactersPage() {
       </main>
 
       <footer className={styles.footer}>
+        {/* Filters at bottom-left */}
+        <div
+          className={styles.filterBar}
+          role="toolbar"
+          aria-label="Filtrar por elemento"
+        >
+          <span className={styles.filterLabel}>FILTRAR POR:</span>
+          {ELEMENT_FILTERS.map((filter) => {
+            const isActive = activeFilter === filter.key;
+            return (
+              <button
+                key={filter.key}
+                className={`${styles.filterBtn} ${isActive ? styles.filterBtnActive : ''}`}
+                onClick={() => setActiveFilter(filter.key)}
+                aria-label={filter.key === 'all' ? 'Todos' : CHARACTER_ELEMENTS[filter.key]?.label || filter.key}
+                aria-pressed={isActive}
+              >
+                <ElementFilterIcon element={filter.key} />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Confirm button */}
         <motion.button
           className={`${styles.confirmBtn} ${selectedId ? '' : styles.confirmBtnDisabled}`}
           onClick={handleConfirm}
@@ -498,6 +438,12 @@ export default function CharactersPage() {
         >
           CONFIRMAR HERÓI
         </motion.button>
+        <span className={styles.confirmBtnSubtitle}>INICIAR AVENTURA</span>
+
+        {/* Tip */}
+        <p className={styles.tipText}>
+          DICA: Você pode desbloquear novos heróis avançando no jogo!
+        </p>
       </footer>
     </div>
   );

@@ -107,7 +107,7 @@ export const DEFAULT_MASTERY_STATE: CharacterMasteryState = {
 };
 
 export function createDefaultMasteryState(): Record<string, CharacterMasteryState> {
-  const characters = ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'igneous', 'glacis', 'aeris'];
+  const characters = ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'torn', 'pyra', 'mira', 'rook', 'drax'];
   const state: Record<string, CharacterMasteryState> = {};
   for (const charId of characters) {
     state[charId] = { ...DEFAULT_MASTERY_STATE };

@@ -190,17 +190,17 @@ describe('Character Mastery System', () => {
   });
 
   describe('createDefaultMasteryState', () => {
-    it('should create mastery state for all 8 characters', () => {
+    it('should create mastery state for all 10 characters', () => {
       const state = createDefaultMasteryState();
-      expect(Object.keys(state)).toHaveLength(8);
+      expect(Object.keys(state)).toHaveLength(10);
       expect(state.kai).toEqual({ xp: 0, level: 1 });
       expect(state.luna).toEqual({ xp: 0, level: 1 });
       expect(state.bolt).toEqual({ xp: 0, level: 1 });
       expect(state.nova).toEqual({ xp: 0, level: 1 });
       expect(state.zephyr).toEqual({ xp: 0, level: 1 });
-      expect(state.igneous).toEqual({ xp: 0, level: 1 });
-      expect(state.glacis).toEqual({ xp: 0, level: 1 });
-      expect(state.aeris).toEqual({ xp: 0, level: 1 });
+      expect(state.torn).toEqual({ xp: 0, level: 1 });
+      expect(state.pyra).toEqual({ xp: 0, level: 1 });
+      expect(state.mira).toEqual({ xp: 0, level: 1 });
     });
   });
 

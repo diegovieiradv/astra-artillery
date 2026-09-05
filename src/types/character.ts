@@ -59,7 +59,22 @@ export interface Character {
   specialAbility: SpecialAbility;
   spriteKey: string;
   avatarKey: string;
+  element?: string;
+  difficulty?: 'easy' | 'medium' | 'hard';
+  title?: string;
 }
+
+export const CHARACTER_ELEMENTS: Record<string, { label: string; color: string; icon: string }> = {
+  fire: { label: 'Fogo', color: '#f97316', icon: '🔥' },
+  ice: { label: 'Gelo', color: '#60a5fa', icon: '❄️' },
+  dark: { label: 'Sombrio', color: '#a78bfa', icon: '🌑' },
+  nature: { label: 'Natureza', color: '#4ade80', icon: '🌿' },
+  electricity: { label: 'Eletricidade', color: '#facc15', icon: '⚡' },
+  arcane: { label: 'Arcano', color: '#c084fc', icon: '✨' },
+  artillery: { label: 'Artilharia', color: '#f87171', icon: '💥' },
+  energy: { label: 'Energia', color: '#22d3ee', icon: '💫' },
+  cosmic: { label: 'Cósmico', color: '#ef4444', icon: '🌟' },
+};
 
 export const CHARACTER_ROLES = {
   balanced: { label: 'Equilibrado', color: '#4ade80' },

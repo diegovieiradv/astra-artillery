@@ -77,9 +77,9 @@ const zephyrAbility = createAbility(
   })
 );
 
-const igneousAbility = createAbility(
+const tornAbility = createAbility(
   'chain_detonation',
-  'Detonação em Cadeia',
+  'Detonação Sombria',
   'Próximo disparo cria 3 explosões menores em sequência ao longo da trajetória',
   4,
   (ctx): AbilityResult => ({
@@ -91,9 +91,9 @@ const igneousAbility = createAbility(
   })
 );
 
-const glacisAbility = createAbility(
+const pyraAbility = createAbility(
   'frozen_shell',
-  'Casco Congelado',
+  'Explosão Estelar',
   'Ganha imunidade a dano e reflete 50% do dano recebido no próximo ataque inimigo',
   4,
   (ctx): AbilityResult => ({
@@ -105,9 +105,9 @@ const glacisAbility = createAbility(
   })
 );
 
-const aerisAbility = createAbility(
+const miraAbility = createAbility(
   'gale_force',
-  'Força da Tempestade',
+  'Tiro Arcano',
   'Altera o vento para o valor oposto no próximo turno e ganha +25% precisão',
   3,
   (ctx): AbilityResult => ({
@@ -119,9 +119,9 @@ const aerisAbility = createAbility(
   })
 );
 
-const scatterAbility = createAbility(
+const rookAbility = createAbility(
   'burst_barrage',
-  'Rajada Dispersa',
+  'Barragem Pesada',
   'Dispara 3 projéteis em leque cobrindo ampla área, cada um com 60% do dano base',
   4,
   (ctx): AbilityResult => ({
@@ -133,9 +133,9 @@ const scatterAbility = createAbility(
   })
 );
 
-const tactosAbility = createAbility(
+const draxAbility = createAbility(
   'field_manipulation',
-  'Manipulação de Campo',
+  'Fúria Cósmica',
   'Aplica debuff de -30% ataque e -20% mobilidade no inimigo por 2 turnos',
   3,
   (ctx): AbilityResult => ({
@@ -157,6 +157,9 @@ export const CHARACTERS: Record<string, Character> = {
     specialAbility: kaiAbility,
     spriteKey: 'char_kai',
     avatarKey: 'avatar_kai',
+    element: 'energy',
+    difficulty: 'easy',
+    title: 'O Artilheiro Indomável',
   },
   luna: {
     id: 'luna',
@@ -167,6 +170,9 @@ export const CHARACTERS: Record<string, Character> = {
     specialAbility: lunaAbility,
     spriteKey: 'char_luna',
     avatarKey: 'avatar_luna',
+    element: 'ice',
+    difficulty: 'medium',
+    title: 'A Olho de Águia',
   },
   bolt: {
     id: 'bolt',
@@ -177,6 +183,9 @@ export const CHARACTERS: Record<string, Character> = {
     specialAbility: boltAbility,
     spriteKey: 'char_bolt',
     avatarKey: 'avatar_bolt',
+    element: 'electricity',
+    difficulty: 'hard',
+    title: 'O Trovão Destrutivo',
   },
   nova: {
     id: 'nova',
@@ -187,6 +196,9 @@ export const CHARACTERS: Record<string, Character> = {
     specialAbility: novaAbility,
     spriteKey: 'char_nova',
     avatarKey: 'avatar_nova',
+    element: 'nature',
+    difficulty: 'easy',
+    title: 'A Guardiã da Luz',
   },
   zephyr: {
     id: 'zephyr',
@@ -197,56 +209,74 @@ export const CHARACTERS: Record<string, Character> = {
     specialAbility: zephyrAbility,
     spriteKey: 'char_zephyr',
     avatarKey: 'avatar_zephyr',
+    element: 'nature',
+    difficulty: 'medium',
+    title: 'O Espírito do Vento',
   },
-  igneous: {
-    id: 'igneous',
-    name: 'Igneous',
-    description: 'Especialista em explosões em cadeia. Domina a arte da destruição em área.',
+  torn: {
+    id: 'torn',
+    name: 'Torn',
+    description: 'Guerreiro sombrio que domina energias destructivas. Seus tiros carregam poder devastador.',
     role: 'explosives',
     stats: { health: 85, attack: 1.2, defense: 0.9, mobility: 0.8 },
-    specialAbility: igneousAbility,
-    spriteKey: 'char_igneous',
-    avatarKey: 'avatar_igneous',
+    specialAbility: tornAbility,
+    spriteKey: 'char_torn',
+    avatarKey: 'avatar_torn',
+    element: 'dark',
+    difficulty: 'medium',
+    title: 'O Guerreiro das Trevas',
   },
-  glacis: {
-    id: 'glacis',
-    name: 'Glacis',
-    description: 'Tanque impenetrável de gelo. Absorve dano e contra-ataca com reflexo mortal.',
+  pyra: {
+    id: 'pyra',
+    name: 'Pyra',
+    description: 'Mestra do fogo e explosões. Cada disparo incendeia o campo de batalha.',
     role: 'defense',
     stats: { health: 150, attack: 0.7, defense: 1.5, mobility: 0.6 },
-    specialAbility: glacisAbility,
-    spriteKey: 'char_glacis',
-    avatarKey: 'avatar_glacis',
+    specialAbility: pyraAbility,
+    spriteKey: 'char_pyra',
+    avatarKey: 'avatar_pyra',
+    element: 'fire',
+    difficulty: 'hard',
+    title: 'A Mestra das Chamas',
   },
-  aeris: {
-    id: 'aeris',
-    name: 'Aeris',
-    description: 'Mestra dos ventos. Controla o campo de batalha manipulando as correntes de ar.',
+  mira: {
+    id: 'mira',
+    name: 'Mira',
+    description: 'Arqueira de precisão arcana. Seus cálculos são infalíveis.',
     role: 'wind_specialist',
     stats: { health: 80, attack: 0.9, defense: 0.8, mobility: 1.2 },
-    specialAbility: aerisAbility,
-    spriteKey: 'char_aeris',
-    avatarKey: 'avatar_aeris',
+    specialAbility: miraAbility,
+    spriteKey: 'char_mira',
+    avatarKey: 'avatar_mira',
+    element: 'arcane',
+    difficulty: 'medium',
+    title: 'A Arqueira Arcana',
   },
-  scatter: {
-    id: 'scatter',
-    name: 'Scatter',
-    description: 'Especialista em disparos múltiplos. Cada tiro libera uma rajada de projéteis que cobrem ampla área.',
+  rook: {
+    id: 'rook',
+    name: 'Rook',
+    description: 'Artilheiro pesado com defesa inabalável. Muro de poder no campo.',
     role: 'multi_shot',
     stats: { health: 75, attack: 0.8, defense: 0.7, mobility: 1.1 },
-    specialAbility: scatterAbility,
-    spriteKey: 'char_scatter',
-    avatarKey: 'avatar_scatter',
+    specialAbility: rookAbility,
+    spriteKey: 'char_rook',
+    avatarKey: 'avatar_rook',
+    element: 'artillery',
+    difficulty: 'easy',
+    title: 'O Muro de Aço',
   },
-  tactos: {
-    id: 'tactos',
-    name: 'Tactos',
-    description: 'Estrategista tático que manipula o campo de batalha com armadilhas e debuffs em área.',
+  drax: {
+    id: 'drax',
+    name: 'Drax',
+    description: 'Energia vermelha devastadora. Ofensiva pura e poder destrutivo.',
     role: 'tactical',
     stats: { health: 85, attack: 0.85, defense: 0.9, mobility: 1.0 },
-    specialAbility: tactosAbility,
-    spriteKey: 'char_tactos',
-    avatarKey: 'avatar_tactos',
+    specialAbility: draxAbility,
+    spriteKey: 'char_drax',
+    avatarKey: 'avatar_drax',
+    element: 'cosmic',
+    difficulty: 'medium',
+    title: 'O Destruidor Estelar',
   },
 };
 
@@ -263,10 +293,3 @@ export function getCharacterStats(characterId: string): CharacterStats | null {
 }
 
 export { CHARACTER_ROLES };
-
-export const LEVELS = [
-  { id: 'arena_1', name: 'Planícies de Aether' },
-  { id: 'arena_2', name: 'Cânion dos Ventos' },
-  { id: 'arena_3', name: 'Cidadela Flutuante' },
-  { id: 'boss_1', name: 'Fortaleza do Núcleo' },
-];
