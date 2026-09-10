@@ -12,7 +12,11 @@ export default defineConfig({
   timeout: 60000,
   use: {
     baseURL: `http://127.0.0.1:${E2E_PORT}`,
+    locale: 'pt-BR',
     trace: 'on-first-retry',
+    contextOptions: {
+      reducedMotion: 'reduce',
+    },
   },
   projects: [
     {
