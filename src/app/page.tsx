@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useGameStore } from '@/stores/gameStore';
 import { audioManager, initAudioFromSettings } from '@/utils/audio';
 import { useI18n } from '@/hooks/useI18n';
-import { SplashScreen } from '@/components/splash/SplashScreen';
 import styles from './page.module.css';
 
 /** Positions (top%, left%) for the twinkling star particles */
@@ -27,19 +26,11 @@ const PARTICLE_POSITIONS = [
 ];
 
 export default function HomePage() {
-  const [showSplash, setShowSplash] = useState(true);
-  const [showContent, setShowContent] = useState(false);
-  const { selectedCharacterId, settings } = useGameStore();
+  const { settings } = useGameStore();
   const { t } = useI18n();
 
   // Memoize particles to avoid re-renders
   const particles = useMemo(() => PARTICLE_POSITIONS, []);
-
-  useEffect(() => {
-    if (showSplash) return;
-    const timer = setTimeout(() => setShowContent(true), 100);
-    return () => clearTimeout(timer);
-  }, [showSplash]);
 
   useEffect(() => {
     initAudioFromSettings(settings);
@@ -52,21 +43,11 @@ export default function HomePage() {
   }, [settings.musicVolume, settings.musicEnabled, settings.sfxVolume, settings.sfxEnabled]);
 
   const handleStart = () => {
-    if (selectedCharacterId) {
-      window.location.href = '/map';
-    } else {
-      window.location.href = '/characters';
-    }
-  };
-
-  const handleSplashComplete = () => {
-    setShowSplash(false);
+    window.location.href = '/characters';
   };
 
   return (
     <div className={`${styles.titleScreen} ${settings.reduceMotion ? styles.reduceMotion : ''}`}>
-      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
-
       {/* Cover image as fullscreen background */}
       <div className={styles.coverImage} />
 
@@ -85,7 +66,7 @@ export default function HomePage() {
       </div>
 
       {/* Logo/Title - preserved for a11y/SEO */}
-      <header aria-hidden="true" className={`${styles.header} ${showContent ? styles.visible : ''}`}>
+      <header aria-hidden="true" className={styles.header}>
         <h1 className={styles.title}>
           <span className={styles.titleMain}>ASTRA</span>
           <span className={styles.titleSub}>ARTILLERY</span>
@@ -94,11 +75,11 @@ export default function HomePage() {
       </header>
 
       {/* Play button - videogame cartoon style */}
-      <main className={`${styles.main} ${showContent ? styles.visible : ''}`}>
+      <main className={styles.main}>
         <button
           className={styles.btnPlay}
           onClick={handleStart}
-          aria-label={selectedCharacterId ? t('home.continueGame') : t('home.newGame')}
+          aria-label={t('common.play').toUpperCase()}
         >
           {t('common.play').toUpperCase()}
         </button>
