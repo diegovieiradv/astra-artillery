@@ -12,48 +12,18 @@ async function forceClick(page: Page, selector: string) {
 }
 
 test.describe('Fluxo Principal do Jogo', () => {
-  test('Home carrega splash screen', async ({ page }) => {
+  test('Home carrega com título ASTRA ARTILLERY e botão JOGAR', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('[aria-label="Tap to start"] h1').first()).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('text=ASTRA').first()).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('text=ARTILLERY').first()).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('button:has-text("JOGAR")')).toBeVisible({ timeout: 10000 });
   });
 
-  test('Clicar START navega para seleção de personagem', async ({ page }) => {
-    // 1. Go to /?test=true
-    await page.goto('/?test=true');
-
-    // 2. Wait for splash screen to appear
-    await page.waitForSelector('[aria-label="Tap to start"]', { timeout: 10000 });
-
-    // 3. Invoke splash completion via React fiber (test mode auto-dismiss may not fire in headless)
-    await page.evaluate(() => {
-      const hook = (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__;
-      if (hook && hook.renderers) {
-        for (const renderer of hook.renderers.values()) {
-          const root = renderer.findFiberByHostInstance?.(document.querySelector('#__next'));
-          if (root) {
-            function findSplashFiber(fiber: any): any {
-              if (fiber.type?.name === 'SplashScreen') return fiber;
-              let child = fiber.child;
-              while (child) {
-                const found = findSplashFiber(child);
-                if (found) return found;
-                child = child.sibling;
-              }
-              return null;
-            }
-            const splashFiber = findSplashFiber(root);
-            if (splashFiber?.memoizedProps?.onComplete) {
-              splashFiber.memoizedProps.onComplete();
-            }
-          }
-        }
-      }
-    });
-
-    // 4. Wait for navigation to /characters (splash onComplete triggers home → play → /characters)
+  test('Clicar JOGAR navega para seleção de personagem', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('button:has-text("JOGAR")')).toBeVisible({ timeout: 10000 });
+    await page.locator('button:has-text("JOGAR")').click();
     await expect(page).toHaveURL(/\/characters/, { timeout: 15000 });
-
-    // 5. Verify the characters page loaded
     await page.waitForSelector('[role="listbox"]', { timeout: 10000 });
   });
 
