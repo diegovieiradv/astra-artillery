@@ -56,38 +56,23 @@ export default function MapPage() {
 
   useEffect(() => {
     let mounted = true;
-    
-    const tryHydrate = () => {
-      // Always check localStorage first — SSR hydration may have completed with default state
-      if (typeof window !== 'undefined') {
-        const stored = localStorage.getItem('astra-artillery-save');
-        if (stored) {
-          try {
-            const parsed = JSON.parse(stored);
-            if (parsed && parsed.version === 2 && parsed.selectedCharacterId) {
-              useGameStore.setState(parsed, true); // replace state with persisted data
-            }
-          } catch {
-            // ignore parse errors
-          }
-        }
-      }
-      // Then check middleware hydration status
-      if (useGameStore.persist.hasHydrated()) {
-        if (mounted) setHydrated(true);
-        return true;
-      }
-      return false;
-    };
 
-    if (!tryHydrate()) {
-      const unsub = useGameStore.persist.onFinishHydration(() => {
-        if (mounted) setHydrated(true);
-      });
-      return () => { mounted = false; unsub(); };
+    if (useGameStore.persist.hasHydrated()) {
+      if (mounted) setHydrated(true);
+      return () => { mounted = false; };
     }
-    return () => { mounted = false; };
+
+    const unsub = useGameStore.persist.onFinishHydration(() => {
+      if (mounted) setHydrated(true);
+    });
+    return () => { mounted = false; unsub(); };
   }, []);
+
+  useEffect(() => {
+    if (hydrated && !selectedCharacterId) {
+      router.replace('/characters');
+    }
+  }, [hydrated, selectedCharacterId, router]);
 
   if (!hydrated) {
     return (
@@ -101,14 +86,7 @@ export default function MapPage() {
   }
 
   if (!selectedCharacterId) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.loading}>
-          <div className={styles.spinner} />
-          <p>Selecione um personagem primeiro...</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const handleCharacterChange = () => {

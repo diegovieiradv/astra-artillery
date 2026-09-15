@@ -39,7 +39,7 @@ test.describe('Fluxo Principal do Jogo', () => {
     await page.waitForSelector('[role="option"]', { timeout: 10000 });
     await removeOverlays(page);
     await forceClick(page, '[role="option"]:first-child');
-    await expect(page.locator('button:has-text("CONFIRMAR HERÓI"):not([disabled])')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('button', { name: 'Confirmar herói' })).toBeVisible({ timeout: 10000 });
   });
 
   test('Confirmar personagem navega para mapa', async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe('Fluxo Principal do Jogo', () => {
     await page.waitForSelector('[role="option"]', { timeout: 10000 });
     await removeOverlays(page);
     await forceClick(page, '[role="option"]:first-child');
-    await forceClick(page, 'button:has-text("CONFIRMAR HERÓI")');
+    await page.getByRole('button', { name: 'Confirmar herói' }).click();
     await page.waitForURL(/\/map/, { timeout: 10000 }).catch(() => page.goto('/map'));
     await expect(page).toHaveURL(/\/map/, { timeout: 15000 });
   });
@@ -91,19 +91,21 @@ test.describe('Oficina (Workshop)', () => {
 test.describe('Golden Path - Mapa → Fase → Recompensa', () => {
   const SAVE_DATA = {
     version: 2,
-    selectedCharacterId: 'kai',
-    unlockedLevels: ['arena_1', 'arena_2'],
-    completedLevels: {},
-    settings: { musicVolume: 0.5, sfxVolume: 0.7, musicEnabled: true, sfxEnabled: true, reduceMotion: false, showDamageNumbers: true, vibrationEnabled: true },
-    tutorialCompleted: true,
-    currentLevelId: null,
-    totalPlayTime: 0,
-    currency: 100,
-    unlockedCharacters: ['kai', 'nova'],
-    ownedCosmetics: [],
-    equippedCosmetics: {},
-    upgrades: { cannon: { level: 1, stats: {} }, armor: { level: 1, stats: {} }, mobility: { level: 1, stats: {} }, special: { level: 1, stats: {} } },
-    statistics: { totalWins: 0, totalLosses: 0, totalDamageDealt: 0, totalDamageReceived: 0, specialsUsed: 0, perfectWins: 0 }
+    state: {
+      selectedCharacterId: 'kai',
+      unlockedLevels: ['arena_1', 'arena_2'],
+      completedLevels: {},
+      settings: { musicVolume: 0.5, sfxVolume: 0.7, musicEnabled: true, sfxEnabled: true, reduceMotion: false, showDamageNumbers: true, vibrationEnabled: true },
+      tutorialCompleted: true,
+      currentLevelId: null,
+      totalPlayTime: 0,
+      currency: 100,
+      unlockedCharacters: ['kai', 'nova'],
+      ownedCosmetics: [],
+      equippedCosmetics: {},
+      upgrades: { cannon: { level: 1, stats: {} }, armor: { level: 1, stats: {} }, mobility: { level: 1, stats: {} }, special: { level: 1, stats: {} } },
+      statistics: { totalWins: 0, totalLosses: 0, totalDamageDealt: 0, totalDamageReceived: 0, specialsUsed: 0, perfectWins: 0 }
+    }
   };
 
   test.beforeEach(async ({ page }) => {

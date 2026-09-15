@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'astra-artillery-save';
 const CURRENT_VERSION = 2;
+const ALL_CHARACTERS = ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'torn', 'pyra', 'mira', 'rook', 'drax'];
 
 import { GameState } from '@/stores/gameStore';
 import { createDefaultMasteryState } from '@/game/data/characterMastery';
@@ -88,7 +89,7 @@ const DEFAULT_V2_STATE: GameStateData = {
   currentLevelId: null,
   totalPlayTime: 0,
   currency: 0,
-  unlockedCharacters: ['kai'],
+  unlockedCharacters: ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'torn', 'pyra', 'mira', 'rook', 'drax'],
   ownedCosmetics: [],
   equippedCosmetics: {},
   upgrades: {
@@ -164,7 +165,7 @@ export function migrateV1toV2(v1Data: SaveDataV1): SaveDataV2 {
     state: {
       ...v1Data.state,
       currency: 0,
-      unlockedCharacters: v1Data.state.selectedCharacterId ? [v1Data.state.selectedCharacterId] : ['kai'],
+      unlockedCharacters: ['kai', 'luna', 'bolt', 'nova', 'zephyr', 'torn', 'pyra', 'mira', 'rook', 'drax'],
       ownedCosmetics: [],
       equippedCosmetics: {},
       upgrades: {
@@ -245,6 +246,11 @@ export function getStoredData(): SaveDataV2 | null {
     const parsed = JSON.parse(raw);
     
     if (isV2(parsed)) {
+      // Ensure all characters are unlocked (migration for legacy V2 saves)
+      if (!parsed.state.unlockedCharacters || !ALL_CHARACTERS.every(c => parsed.state.unlockedCharacters.includes(c))) {
+        parsed.state.unlockedCharacters = ALL_CHARACTERS;
+        saveData(parsed);
+      }
       return parsed;
     }
     
@@ -323,6 +329,10 @@ export function importSave(json: string): { success: boolean; error?: string } {
       const migrated = migrateV1toV2(parsed);
       saveData(migrated);
     } else {
+      // Ensure imported V2 save has all characters
+      if (!parsed.state.unlockedCharacters || !ALL_CHARACTERS.every(c => parsed.state.unlockedCharacters.includes(c))) {
+        parsed.state.unlockedCharacters = ALL_CHARACTERS;
+      }
       saveData(parsed);
     }
     return { success: true };

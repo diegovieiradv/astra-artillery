@@ -14,7 +14,7 @@
 .coverImage {
   position: absolute;
   inset: 0;
-  background-image: url('/images/astra-artillery-cover.png');
+  background-image: url('/images/branding/astra-artillery-cover.png');
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;

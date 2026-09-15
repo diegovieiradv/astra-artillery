@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/stores/gameStore';
 import { audioManager, initAudioFromSettings } from '@/utils/audio';
 import { useI18n } from '@/hooks/useI18n';
@@ -26,6 +27,7 @@ const PARTICLE_POSITIONS = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
   const { settings } = useGameStore();
   const { t } = useI18n();
 
@@ -43,7 +45,7 @@ export default function HomePage() {
   }, [settings.musicVolume, settings.musicEnabled, settings.sfxVolume, settings.sfxEnabled]);
 
   const handleStart = () => {
-    window.location.href = '/characters';
+    router.push('/characters');
   };
 
   return (

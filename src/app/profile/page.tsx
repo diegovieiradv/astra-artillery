@@ -433,7 +433,7 @@ export default function ProfilePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <span className={styles.cosmeticValue}>{unlockedCharacters.length}/8</span>
+              <span className={styles.cosmeticValue}>{unlockedCharacters.length}/10</span>
               <span className={styles.cosmeticLabel}>Personagens</span>
             </motion.div>
           </div>
