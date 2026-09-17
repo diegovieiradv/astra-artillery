@@ -175,5 +175,7 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Emit game-ready so usePhaserGame knows the engine is initialized
+    this.game.events.emit('game-ready');
   }
 }

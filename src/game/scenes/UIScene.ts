@@ -13,7 +13,7 @@ export class UIScene extends Phaser.Scene {
   private playerHpFill!: Phaser.GameObjects.Rectangle;
   private cpuHpBar!: Phaser.GameObjects.Rectangle;
   private cpuHpFill!: Phaser.GameObjects.Rectangle;
-  private abilityIcon!: Phaser.GameObjects.Image;
+  private abilityIcon!: Phaser.GameObjects.Text | Phaser.GameObjects.Image;
   private abilityCooldownText!: Phaser.GameObjects.Text;
   private abilityCooldownBg!: Phaser.GameObjects.Graphics;
   
@@ -98,12 +98,34 @@ export class UIScene extends Phaser.Scene {
     }).setScrollFactor(0).setOrigin(0, 0.5).setDepth(101);
     
     this.abilityCooldownBg = this.add.graphics().setScrollFactor(0).setDepth(101);
-    this.abilityIcon = this.add.image(w - 100, h - 60, 'ui_ability_icon')
-      .setScale(0.8)
+
+    // Draw ability icon as a graphics circle (no texture dependency)
+    const iconX = w - 100;
+    const iconY = h - 60;
+    const iconRadius = 24;
+
+    const iconBg = this.add.graphics().setScrollFactor(0).setDepth(101);
+    iconBg.fillStyle(0x1e293b, 0.9);
+    iconBg.fillCircle(iconX, iconY, iconRadius);
+    iconBg.lineStyle(2, 0xf97316, 1);
+    iconBg.strokeCircle(iconX, iconY, iconRadius);
+
+    // Lightning bolt symbol for ability
+    const bolt = this.add.text(iconX, iconY, '\u26A1', {
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '22px',
+      color: '#fbbf24',
+    }).setScrollFactor(0).setOrigin(0.5).setDepth(102);
+
+    // Make the whole area interactive
+    const hitArea = this.add.rectangle(iconX, iconY, iconRadius * 2, iconRadius * 2)
       .setScrollFactor(0)
-      .setDepth(101)
+      .setDepth(103)
       .setInteractive({ useHandCursor: true })
       .on('pointerdown', () => this.events.emit(GAME_EVENTS.ABILITY_USED, { requestedBy: 'player' }));
+    hitArea.setAlpha(0.001); // invisible but clickable
+
+    this.abilityIcon = bolt; // keep reference for cooldown overlay positioning
     
     this.abilityCooldownText = this.add.text(w - 100, h - 60, '', {
       fontFamily: 'system-ui, sans-serif',

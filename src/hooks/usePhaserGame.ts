@@ -43,6 +43,7 @@ export function usePhaserGame({
   const [status, setStatus] = useState<PhaserGameStatus>('idle');
   const [error, setError] = useState<Error | null>(null);
   const gameReadyFired = useRef(false);
+  const creatingRef = useRef(false);
   const mobileInputRef = useRef<MobileInputState>({
     left: false,
     right: false,
@@ -62,6 +63,8 @@ export function usePhaserGame({
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+    if (creatingRef.current) return;
+    creatingRef.current = true;
 
     gameReadyFired.current = false;
     setStatus('initializing');
@@ -115,6 +118,7 @@ export function usePhaserGame({
         try { canvas.parentNode.removeChild(canvas); } catch {}
       }
       gameReadyFired.current = false;
+      creatingRef.current = false;
       setStatus('idle');
       setError(null);
     };
