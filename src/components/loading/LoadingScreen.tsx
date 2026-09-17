@@ -47,10 +47,10 @@ export function LoadingScreen({
         >
           <div className={styles.logoContainer}>
             <svg className={styles.logo} viewBox="0 0 120 120" role="img" aria-label="Astra Artillery Logo">
-              <circle cx="60" cy="60" r="50" fill="none" stroke="#4ade80" strokeWidth="4"/>
-              <path d="M60 20 L60 55 M45 40 L60 55 L75 40" fill="none" stroke="#4ade80" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="60" cy="60" r="12" fill="#4ade80"/>
-              <circle cx="60" cy="60" r="4" fill="#0f172a"/>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#f97316" strokeWidth="4"/>
+              <path d="M60 20 L60 55 M45 40 L60 55 L75 40" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="60" cy="60" r="12" fill="#f97316"/>
+              <circle cx="60" cy="60" r="4" fill="#1a0f00"/>
             </svg>
           </div>
 
@@ -82,10 +82,10 @@ export function LoadingScreen({
               transition={{ duration: 0.4, delay: 0.2 }}
             >
               <div className="progress-bar-wrapper" style={{ width: '100%', maxWidth: 320 }}>
-                <div className="progress-bar-bg" style={{ backgroundColor: '#1e293b', borderRadius: 9999, height: 8, overflow: 'hidden' }}>
+                <div className="progress-bar-bg" style={{ backgroundColor: '#2d1b0e', borderRadius: 9999, height: 8, overflow: 'hidden' }}>
                   <motion.div
                     className="progress-bar-fill"
-                    style={{ backgroundColor: '#4ade80', height: '100%', borderRadius: 9999, width: `${Math.min(100, Math.max(0, progress))}%` }}
+                    style={{ backgroundColor: '#f97316', height: '100%', borderRadius: 9999, width: `${Math.min(100, Math.max(0, progress))}%` }}
                     initial={{ width: '0%' }}
                     animate={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}

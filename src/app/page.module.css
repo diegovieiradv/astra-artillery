@@ -76,49 +76,14 @@
   }
 }
 
-/* Header - title over the image */
+/* Header - hidden (duplicate of cover image logo) */
 .header {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  padding: 2rem;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  display: none;
 }
 
 .header.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-.title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1;
-}
-
-.titleMain {
-  font-size: clamp(3rem, 12vw, 7rem);
-  font-weight: 900;
-  color: #ffffff;
-  text-shadow:
-    3px 3px 0 #15803d,
-    6px 6px 0 rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.08em;
-}
-
-.titleSub {
-  font-size: clamp(1.5rem, 6vw, 3.5rem);
-  font-weight: 900;
-  letter-spacing: 0.25em;
-  background: linear-gradient(180deg, #fbbf24 0%, #f97316 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.3));
 }
 
 .subtitle {
@@ -141,10 +106,18 @@
   gap: 1.5rem;
   padding: 2rem;
   margin-top: auto;
-  margin-bottom: 15vh;
+  margin-bottom: 18vh;
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+}
+
+/* Tagline - positioned between cover and button */
+.tagline {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .main.visible {
@@ -252,7 +225,7 @@
   }
 
   .main {
-    margin-bottom: 12vh;
+    margin-bottom: 14vh;
   }
 
   .btnPlay {
@@ -266,12 +239,8 @@
     background-position: center 50%;
   }
 
-  .header {
-    padding: 1.5rem 1rem;
-  }
-
   .main {
-    margin-bottom: 10vh;
+    margin-bottom: 12vh;
   }
 
   .btnPlay {
@@ -288,7 +257,6 @@
   animation: none !important;
 }
 
-.reduceMotion .header,
 .reduceMotion .main {
   transition: none !important;
   opacity: 1 !important;
@@ -311,10 +279,6 @@
 
   .btnPlay::before {
     animation: none;
-  }
-
-  .header {
-    transition: none;
   }
 
   .main {

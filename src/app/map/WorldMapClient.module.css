@@ -1,74 +1,448 @@
-.page {
-  min-height: 100vh;
-  background: #0f172a;
-  display: flex;
-  flex-direction: column;
-}
-
-.gameContainer {
-  flex: 1;
+.worldMap {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  background: #1a0f00;
 }
 
-.canvasWrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.canvas {
-  width: 100%;
-  height: 100%;
+/* Map background */
+.mapImage {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  z-index: 1;
 }
 
+/* Floating clouds */
+.cloud {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.6;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.cloud1 {
+  width: 200px;
+  top: 8%;
+  left: -10%;
+  animation: floatCloud1 35s linear infinite;
+}
+
+.cloud2 {
+  width: 160px;
+  top: 20%;
+  left: -15%;
+  animation: floatCloud2 45s linear infinite;
+  animation-delay: -15s;
+  opacity: 0.4;
+}
+
+.cloud3 {
+  width: 180px;
+  top: 5%;
+  left: -12%;
+  animation: floatCloud3 55s linear infinite;
+  animation-delay: -8s;
+  opacity: 0.5;
+}
+
+@keyframes floatCloud1 {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(120vw); }
+}
+
+@keyframes floatCloud2 {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(130vw); }
+}
+
+@keyframes floatCloud3 {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(125vw); }
+}
+
+/* Level markers layer */
+.markersLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Individual marker */
+.marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: all;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: transform 0.15s ease;
+  z-index: 5;
+}
+
+.marker:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  z-index: 10;
+}
+
+.markerImage {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  transition: filter 0.15s ease;
+}
+
+.markerLocked {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.markerLocked:hover {
+  transform: translate(-50%, -50%);
+}
+
+.markerLocked .markerImage {
+  filter: grayscale(0.7) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.markerUnlocked:hover .markerImage {
+  filter: drop-shadow(0 2px 8px rgba(249, 115, 22, 0.6));
+}
+
+.markerCompleted .markerImage {
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.5));
+}
+
+.markerSelected .markerImage {
+  filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.8)) brightness(1.2);
+}
+
+.markerBoss .markerImage {
+  width: 44px;
+  height: 44px;
+}
+
+.bossIcon {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 14px;
+  color: #fbbf24;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26, 15, 0, 0.95);
+  border: 1px solid #f97316;
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 20;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.tooltipName {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.tooltipDifficulty {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #d4a574;
+}
+
+.tooltipStars {
+  font-size: 0.7rem;
+  color: #fbbf24;
+  letter-spacing: 1px;
+}
+
+/* Level popup */
+.popup {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 15, 0, 0.7);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popupContent {
+  position: relative;
+  background: linear-gradient(135deg, #2d1b0e, #1a0f00);
+  border: 2px solid #f97316;
+  border-radius: 16px;
+  padding: 2rem;
+  min-width: 280px;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.popupClose {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #d4a574;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.popupClose:hover {
+  color: #f97316;
+}
+
+.popupTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.popupInfo {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.popupRegion {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #d4a574;
+  background: rgba(212, 165, 116, 0.15);
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.popupDifficulty {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.diff_easy {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.15);
+}
+
+.diff_normal {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.15);
+}
+
+.diff_hard {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.popupStars {
+  font-size: 1.2rem;
+  color: #fbbf24;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.popupObjective {
+  font-size: 0.875rem;
+  color: #d4a574;
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+.popupStartBtn {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a0f00;
+  background: linear-gradient(180deg, #f97316, #ea580c);
+  border: 2px solid #fbbf24;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 0 #c2410c, 0 6px 16px rgba(249, 115, 22, 0.3);
+}
+
+.popupStartBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #c2410c, 0 10px 24px rgba(249, 115, 22, 0.4);
+}
+
+.popupStartBtn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #c2410c, 0 2px 8px rgba(249, 115, 22, 0.2);
+}
+
+/* Region indicators at bottom */
+.regionIndicators {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(26, 15, 0, 0.85);
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+}
+
+.regionBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 8px;
+  border-left: 2px solid;
+  font-size: 0.6rem;
+}
+
+.regionName {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.regionProgress {
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+}
+
+/* Loader */
 .loaderContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: #0f172a;
+  width: 100%;
+  height: 100vh;
+  background: #1a0f00;
 }
 
-.orientationOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.95);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  z-index: 100;
-  color: #f8fafc;
-  text-align: center;
-  padding: 2rem;
+/* Responsive */
+@media (max-width: 768px) {
+  .cloud1 { width: 140px; }
+  .cloud2 { width: 110px; }
+  .cloud3 { width: 130px; }
+
+  .markerImage {
+    width: 28px;
+    height: 28px;
+  }
+
+  .markerBoss .markerImage {
+    width: 36px;
+    height: 36px;
+  }
+
+  .regionIndicators {
+    gap: 3px;
+    padding: 6px 8px;
+  }
+
+  .regionBadge {
+    padding: 3px 5px;
+  }
+
+  .regionName {
+    font-size: 0.5rem;
+  }
+
+  .regionProgress {
+    font-size: 0.45rem;
+  }
+
+  .popupContent {
+    min-width: 240px;
+    padding: 1.5rem;
+  }
 }
 
-.orientationOverlay svg {
-  width: 80px;
-  height: 80px;
-  color: #4ade80;
-  animation: rotate 2s ease-in-out infinite;
+@media (max-width: 480px) {
+  .markerImage {
+    width: 24px;
+    height: 24px;
+  }
+
+  .markerBoss .markerImage {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tooltip {
+    display: none;
+  }
 }
 
-.orientationOverlay h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cloud1,
+  .cloud2,
+  .cloud3 {
+    animation: none;
+  }
 
-.orientationOverlay p {
-  color: #94a3b8;
-  max-width: 280px;
-}
+  .popup {
+    animation: none;
+  }
 
-@keyframes rotate {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-15deg); }
-  75% { transform: rotate(15deg); }
+  .popupContent {
+    animation: none;
+  }
+
+  .marker {
+    transition: none;
+  }
 }

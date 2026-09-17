@@ -58,10 +58,10 @@ export function GameLoader({
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
       >
         <svg className={styles.logo} viewBox="0 0 120 120" aria-hidden="true">
-          <circle cx="60" cy="60" r="50" fill="none" stroke="#4ade80" strokeWidth="4"/>
-          <path d="M60 20 L60 55 M45 40 L60 55 L75 40" fill="none" stroke="#4ade80" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-          <circle cx="60" cy="60" r="12" fill="#4ade80"/>
-          <circle cx="60" cy="60" r="4" fill="#0f172a"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#f97316" strokeWidth="4"/>
+          <path d="M60 20 L60 55 M45 40 L60 55 L75 40" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="60" cy="60" r="12" fill="#f97316"/>
+          <circle cx="60" cy="60" r="4" fill="#1a0f00"/>
         </svg>
       </motion.div>
       

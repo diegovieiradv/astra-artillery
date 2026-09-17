@@ -67,14 +67,10 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Logo/Title - preserved for a11y/SEO */}
-      <header aria-hidden="true" className={styles.header}>
-        <h1 className={styles.title}>
-          <span className={styles.titleMain}>ASTRA</span>
-          <span className={styles.titleSub}>ARTILLERY</span>
-        </h1>
+      {/* Subtitle visible below cover image */}
+      <div className={styles.tagline}>
         <p className={styles.subtitle}>{t('home.subtitle')}</p>
-      </header>
+      </div>
 
       {/* Play button - videogame cartoon style */}
       <main className={styles.main}>

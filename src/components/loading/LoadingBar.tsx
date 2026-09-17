@@ -13,7 +13,7 @@ interface LoadingBarProps {
 export function LoadingBar({ 
   progress, 
   showPercent = true, 
-  color = '#4ade80',
+  color = '#f97316',
   className = '',
 }: LoadingBarProps) {
   const clampedProgress = Math.min(100, Math.max(0, progress));
