@@ -67,11 +67,6 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Subtitle visible below cover image */}
-      <div className={styles.tagline}>
-        <p className={styles.subtitle}>{t('home.subtitle')}</p>
-      </div>
-
       {/* Play button - videogame cartoon style */}
       <main className={styles.main}>
         <button

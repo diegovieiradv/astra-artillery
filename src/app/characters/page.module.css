@@ -3,7 +3,6 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  aspect-ratio: 3 / 2;
   overflow: hidden;
   background: #0a0e1a;
 }
@@ -56,39 +55,25 @@
   height: 16px;
 }
 
-/* ─── Cards overlay ─────────────────────────────────── */
+/* ─── Cards overlay — positioned to match background art ── */
 .cardsOverlay {
   position: absolute;
-  bottom: 80px;
-  left: 0;
-  right: 0;
+  inset: 0;
   z-index: 2;
-  display: flex;
-  justify-content: center;
-  padding: 0 24px;
+  pointer-events: none;
 }
 
-.cardsGrid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 12px;
-  max-width: 900px;
-  width: 100%;
-}
-
-/* ─── Card button ───────────────────────────────────── */
+/* ─── Individual card — absolutely positioned over background card regions ── */
 .card {
-  position: relative;
+  position: absolute;
   border: none;
   background: transparent;
   padding: 0;
   cursor: pointer;
-  border-radius: 12px;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   outline: none;
-  aspect-ratio: 3 / 4;
+  pointer-events: all;
 }
 
 .card img {
@@ -113,18 +98,32 @@
   box-shadow:
     0 0 20px rgba(212, 167, 58, 0.6),
     0 0 40px rgba(212, 167, 58, 0.25);
-  border-radius: 12px;
 }
 
 .cardSelected:hover {
   transform: scale(1.08);
 }
 
-/* ─── Confirm overlay ───────────────────────────────── */
+/* ─── Card positions — aligned to background art (1536×1024 with object-fit: cover) ── */
+/* Top row: KAI, LUNA, TORN, ZEPHYR, PYRA */
+.cardKai     { left: 3%;   top: 14%; width: 11%; height: 22%; }
+.cardLuna    { left: 14.5%; top: 14%; width: 11%; height: 22%; }
+.cardTorn    { left: 26%;  top: 14%; width: 11%; height: 22%; }
+.cardZephyr  { left: 37.5%; top: 14%; width: 11%; height: 22%; }
+.cardPyra    { left: 49%;  top: 14%; width: 11%; height: 22%; }
+
+/* Bottom row: BOLT, MIRA, ROOK, NOVA, DRAX */
+.cardBolt    { left: 3%;   top: 42%; width: 11%; height: 22%; }
+.cardMira    { left: 14.5%; top: 42%; width: 11%; height: 22%; }
+.cardRook    { left: 26%;  top: 42%; width: 11%; height: 22%; }
+.cardNova    { left: 37.5%; top: 42%; width: 11%; height: 22%; }
+.cardDrax    { left: 49%;  top: 42%; width: 11%; height: 22%; }
+
+/* ─── Confirm overlay — positioned below card grid ──── */
 .confirmOverlay {
   position: absolute;
-  bottom: 16px;
   left: 50%;
+  top: 83%;
   transform: translateX(-50%);
   z-index: 5;
 }
@@ -166,31 +165,21 @@
 
 /* ─── Responsive: tablet ────────────────────────────── */
 @media (max-width: 1024px) {
-  .cardsOverlay {
-    padding: 0 16px;
-    bottom: 70px;
-  }
+  .cardKai     { left: 2%;   top: 14%; width: 11.5%; height: 22%; }
+  .cardLuna    { left: 14%;  top: 14%; width: 11.5%; height: 22%; }
+  .cardTorn    { left: 25.5%; top: 14%; width: 11.5%; height: 22%; }
+  .cardZephyr  { left: 37%;  top: 14%; width: 11.5%; height: 22%; }
+  .cardPyra    { left: 48.5%; top: 14%; width: 11.5%; height: 22%; }
 
-  .cardsGrid {
-    gap: 8px;
-    max-width: 700px;
-  }
+  .cardBolt    { left: 2%;   top: 42%; width: 11.5%; height: 22%; }
+  .cardMira    { left: 14%;  top: 42%; width: 11.5%; height: 22%; }
+  .cardRook    { left: 25.5%; top: 42%; width: 11.5%; height: 22%; }
+  .cardNova    { left: 37%;  top: 42%; width: 11.5%; height: 22%; }
+  .cardDrax    { left: 48.5%; top: 42%; width: 11.5%; height: 22%; }
 }
 
 /* ─── Responsive: mobile ────────────────────────────── */
 @media (max-width: 767px) {
-  .cardsOverlay {
-    padding: 0 12px;
-    bottom: 60px;
-  }
-
-  .cardsGrid {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 6px;
-    max-width: 420px;
-  }
-
   .backBtn {
     top: 10px;
     left: 10px;
@@ -202,6 +191,19 @@
     width: 14px;
     height: 14px;
   }
+
+  /* On mobile, cards may need to be slightly smaller/repositioned */
+  .cardKai     { left: 2%;   top: 15%; width: 12%; height: 20%; }
+  .cardLuna    { left: 14.5%; top: 15%; width: 12%; height: 20%; }
+  .cardTorn    { left: 27%;  top: 15%; width: 12%; height: 20%; }
+  .cardZephyr  { left: 39.5%; top: 15%; width: 12%; height: 20%; }
+  .cardPyra    { left: 52%;  top: 15%; width: 12%; height: 20%; }
+
+  .cardBolt    { left: 2%;   top: 40%; width: 12%; height: 20%; }
+  .cardMira    { left: 14.5%; top: 40%; width: 12%; height: 20%; }
+  .cardRook    { left: 27%;  top: 40%; width: 12%; height: 20%; }
+  .cardNova    { left: 39.5%; top: 40%; width: 12%; height: 20%; }
+  .cardDrax    { left: 52%;  top: 40%; width: 12%; height: 20%; }
 
   .confirmBtn img {
     height: 52px;

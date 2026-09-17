@@ -85,26 +85,24 @@ export default function CharactersPage() {
         <span>VOLTAR</span>
       </Link>
 
-      {/* Layer 2: Cards grid */}
-      <div className={styles.cardsOverlay}>
-        <div className={styles.cardsGrid} role="listbox" aria-label="Selecionar personagem">
-          {CHARACTER_ORDER.map((id) => (
-            <button
-              key={id}
-              onClick={() => handleSelect(id)}
-              className={`${styles.card} ${selectedId === id ? styles.cardSelected : ''}`}
-              role="option"
-              aria-selected={selectedId === id}
-              aria-label={`Personagem ${id}`}
-            >
-              <img
-                src={`/images/character-select/cards/personagem-${id}.png`}
-                alt={id}
-                draggable={false}
-              />
-            </button>
-          ))}
-        </div>
+      {/* Layer 2: Cards — individually positioned over background art */}
+      <div className={styles.cardsOverlay} role="listbox" aria-label="Selecionar personagem">
+        {CHARACTER_ORDER.map((id) => (
+          <button
+            key={id}
+            onClick={() => handleSelect(id)}
+            className={`${styles.card} ${styles[`card${id.charAt(0).toUpperCase() + id.slice(1)}`]} ${selectedId === id ? styles.cardSelected : ''}`}
+            role="option"
+            aria-selected={selectedId === id}
+            aria-label={`Personagem ${id}`}
+          >
+            <img
+              src={`/images/character-select/cards/personagem-${id}.png`}
+              alt={id}
+              draggable={false}
+            />
+          </button>
+        ))}
       </div>
 
       {/* Layer 3: Confirm button */}
