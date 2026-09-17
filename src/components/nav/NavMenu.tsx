@@ -29,6 +29,9 @@ export function NavMenu() {
   const pathname = usePathname();
   const { t } = useI18n();
 
+  // Hide nav on /map route for immersive world map view
+  if (pathname === '/map') return null;
+
   return (
     <>
       <button

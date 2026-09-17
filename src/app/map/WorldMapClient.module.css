@@ -75,7 +75,7 @@
   pointer-events: none;
 }
 
-/* Individual marker */
+/* Individual marker - LARGER and more visible */
 .marker {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -89,20 +89,21 @@
 }
 
 .marker:hover {
-  transform: translate(-50%, -50%) scale(1.15);
+  transform: translate(-50%, -50%) scale(1.2);
   z-index: 10;
 }
 
 .markerImage {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
   transition: filter 0.15s ease;
 }
 
+/* LOCKED: still visible but dimmed */
 .markerLocked {
-  opacity: 0.35;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
@@ -111,24 +112,32 @@
 }
 
 .markerLocked .markerImage {
-  filter: grayscale(0.7) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  filter: grayscale(0.5) brightness(0.7) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* UNLOCKED: full visibility with glow */
+.markerUnlocked .markerImage {
+  filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.5)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
 .markerUnlocked:hover .markerImage {
-  filter: drop-shadow(0 2px 8px rgba(249, 115, 22, 0.6));
+  filter: drop-shadow(0 0 14px rgba(249, 115, 22, 0.8)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
 }
 
+/* COMPLETED: gold glow */
 .markerCompleted .markerImage {
-  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.5));
+  filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
+/* SELECTED: bright orange glow */
 .markerSelected .markerImage {
-  filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.8)) brightness(1.2);
+  filter: drop-shadow(0 0 18px rgba(249, 115, 22, 0.9)) brightness(1.3);
 }
 
+/* BOSS: larger marker */
 .markerBoss .markerImage {
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
 }
 
 .bossIcon {
@@ -323,44 +332,6 @@
   box-shadow: 0 1px 0 #c2410c, 0 2px 8px rgba(249, 115, 22, 0.2);
 }
 
-/* Region indicators at bottom */
-.regionIndicators {
-  position: fixed;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  display: flex;
-  gap: 6px;
-  padding: 8px 12px;
-  background: rgba(26, 15, 0, 0.85);
-  border-radius: 12px;
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(249, 115, 22, 0.2);
-}
-
-.regionBadge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  padding: 4px 8px;
-  border-left: 2px solid;
-  font-size: 0.6rem;
-}
-
-.regionName {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.regionProgress {
-  font-size: 0.55rem;
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 600;
-}
-
 /* Loader */
 .loaderContainer {
   display: flex;
@@ -378,30 +349,13 @@
   .cloud3 { width: 130px; }
 
   .markerImage {
-    width: 28px;
-    height: 28px;
-  }
-
-  .markerBoss .markerImage {
     width: 36px;
     height: 36px;
   }
 
-  .regionIndicators {
-    gap: 3px;
-    padding: 6px 8px;
-  }
-
-  .regionBadge {
-    padding: 3px 5px;
-  }
-
-  .regionName {
-    font-size: 0.5rem;
-  }
-
-  .regionProgress {
-    font-size: 0.45rem;
+  .markerBoss .markerImage {
+    width: 44px;
+    height: 44px;
   }
 
   .popupContent {
@@ -412,13 +366,13 @@
 
 @media (max-width: 480px) {
   .markerImage {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
 
   .markerBoss .markerImage {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
 
   .tooltip {
